@@ -50,7 +50,9 @@ body{
 }
 
 .left:hover{
-    height: 110%;
+    height: 100%;
+    background: url("../images/bg1.jpg") center;
+    background-size: cover;
 
 }
 
@@ -58,9 +60,6 @@ body{
     padding: 25px 40px;
 }
 
-.right:hover{
-    height: 80%;
-}
 
 h2{
     position: relative;
@@ -93,11 +92,11 @@ h2:after{
 }
 
 th{
+    color: #0d3579;
     width: 50%;
     outline: none;
-    background-color: rgba(230, 230, 230, 0.6);
     padding: 5px;
-    font-size: 16px;
+    font-size: 18px;
     margin-bottom: 22px;
 }
 
@@ -106,10 +105,48 @@ td{
     outline: none;
     background-color: rgba(255, 255, 255, 0.6);
     padding: 30px;
-    font-size: 16px;
+    font-size: 18px;
     margin-bottom: 22px;
 }
 
+button {
+    border: 2px solid black;
+    background-color: white;
+    color: black;
+    padding: 10px 18px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #0d3579;
+    color: white;
+}
+
+.field{
+    width: 70%;
+    border: 2px solid rgba(0, 0, 0, 0);
+    outline: none;
+    background-color: rgba(255, 248, 248, 0);
+    padding: 0.5rem 1rem;
+    font-size: 14px;
+    margin-bottom: 10px;
+    transition: .3s;
+}
+
+.field:hover{
+    border: 2px solid rgba(30,85,250,0.47);
+    background-color: #fff;
+}
+
+textarea{
+    min-height: 150px;
+}
+
+.field:focus{
+    border: 2px solid rgba(30,85,250,0.47);
+    background-color: #fff;
+}
 
 @media screen and (max-width: 880px){
     .contact-box{

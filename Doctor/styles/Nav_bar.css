@@ -3,7 +3,6 @@
 
 }
 
-
 #menu {
     display: flex;
     justify-content: center;
@@ -40,7 +39,7 @@
 }
 
 #menu ul li a .active{
-    color: #1621B8;
+    color: #2e48cc;
 }
 #menu a.dropdown-arrow:after {
     content: "\25BE";
@@ -48,7 +47,7 @@
 }
 #menu li a:hover {
     color: #FFFFFF;
-    background: #1621B8;
+    background: #2e48cc;
 }
 #menu input {
     display: none;
@@ -92,9 +91,10 @@
     display: block
 }
 #menu ul.sub-menus a:hover{
-    background: #1621B8;
+    background: #2e48cc;
     color: #FFFFFF;
 }
+
 @media screen and (max-width: 800px){
     #menu {position:relative}
     #menu ul {background:#111;position:absolute;top:100%;right:0;left:0;z-index:3;height:auto;display:none}

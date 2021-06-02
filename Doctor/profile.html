@@ -30,16 +30,15 @@
                 </ul>
             </li>
             <li><a href='consultations.html'>Consultations</a></li>
-            <li><a href='#'  style="background:  #5d8ffc" >Profile </a></li>
+            <li><a href='#'  style="background:  #2e48cc" >Profile </a></li>
         </ul>
     </nav>
 </div>
 
 <!--Profile Stuff-->
-<div class="container">
+<div class="container"  id="profile">
     <div class="contact-box">
         <div class="left">
-            <p>MobiDoc</p>
         </div>
         <div class="right">
             <h2 id ="Name" >Name Surname</h2>
@@ -47,22 +46,49 @@
 
             <table>
                 <tr>
-                    <td>Experience</td>
+                    <th>Experience</th>
                     <td id = "experience"></td>
                 </tr>
                 <tr>
-                    <td>Specialization</td>
+                    <th>Specialization</th>
                     <td id = "specialization"></td>
                 </tr>
                 <tr>
-                    <td>Qualifications</td>
+                    <th>Qualifications</th>
                     <td id = "qualification"></td>
                 </tr>
 
             </table>
+
+            <button id="btn_edit" onclick="ChangeView()"> Edit Profile </button>
         </div>
     </div>
 </div>
+
+<!--Edit Profile -->
+<!--Profile Stuff-->
+<div class="container" id = "edit_profile" style="display: none">
+    <div class="contact-box">
+        <div class="left">
+        </div>
+        <div class="right">
+            <h2>Edit Your Profile</h2>
+            <p> You may leave fields blank  </p>
+            <br/>
+            <input id = "e_fname" type="text" class="field" placeholder="First Name">
+            <input id = "e_lname" type="text" class="field" placeholder="Last Name">
+            <input id = "e_exp" type="number" class="field" placeholder="Experience">
+            <input id = "e_ql" type="text" class="field" placeholder="Qualifications">
+            <input id = "e_spec" type="text" class="field" placeholder="Specialization">
+            <br/>
+            <button onclick="SendUpdatedInformationToFirebase()"> Update </button>
+            <p id="note"></p>
+            <br/>
+            <button onclick="ReturnToProfile()"> Return to Profile </button>
+        </div>
+    </div>
+</div>
+
 
 <script>
 
@@ -95,23 +121,50 @@
         }
     }
 
+
+
+    const UpDateInformation = (uid,value,key) => {
+        let database = firebase.database();
+        let ref = database.ref().child('Doctors');
+        switch (key) {
+            case "first_name":
+                ref.child(uid).update({"first_name":value});
+                break;
+            case "last_name":
+                ref.child(uid).update({"last_name":value});
+                break;
+            case "experience":
+                ref.child(uid).update({"experience":value});
+                break;
+            case "qualifications":
+                ref.child(uid).update({"qualifications":value});
+                break;
+            case "specialization":
+                ref.child(uid).update({"specialization":value});
+                break;
+        }
+    }
+
+
     let email = document.getElementById("email");
     let name = document.getElementById("Name");
     let Exp = document.getElementById("experience");
     let QL = document.getElementById("qualification");
     let Spec = document.getElementById("specialization");
+    let User_uid;
 
-   function GetDetails() {
-       firebase.auth().onAuthStateChanged(function (user) {
-           if (user) {
-               console.log(user);
-               UpdateDetails(user.uid);
-           }
-           else {
-               // No user is signed in.
-           }
-       });
-   }
+
+    function GetDetails() {
+        firebase.auth().onAuthStateChanged(function (user) {
+            if (user) {
+                UpdateDetails(user.uid);
+                User_uid = user.uid;
+            }
+            else {
+                // No user is signed in.
+            }
+        });
+    }
 
     const UpdateDetails = (uid) => {
         let database = firebase.database();
@@ -122,7 +175,6 @@
 
                 snapshot.forEach(function(childSnapshot) {
                     var Doctor = childSnapshot.val();
-                    console.log(Doctor)
                     name.innerText = "Dr " +  Doctor.first_name + " " + Doctor.last_name;
                     Spec.innerText = Doctor.specialization;
                     Exp.innerText = Doctor.experience;
@@ -132,6 +184,43 @@
             }
         });
     }
+
+    function CheckIfEdited(value,key){
+        if(value){
+            UpDateInformation(User_uid,value,key);
+        }
+    }
+
+    function SendUpdatedInformationToFirebase(){
+
+        let e_fname = document.getElementById("e_fname").value;
+        let e_lname = document.getElementById("e_lname").value;
+        let e_Exp = document.getElementById("e_exp").value;
+        let e_QL = document.getElementById("e_ql").value;
+        let e_Spec = document.getElementById("e_spec").value;
+
+        CheckIfEdited(e_fname,"first_name");
+        CheckIfEdited(e_lname,"last_name");
+        CheckIfEdited(e_Exp,"experience");
+        CheckIfEdited(e_QL,"qualifications");
+        CheckIfEdited(e_Spec,"specialization");
+
+        document.getElementById("note").innerText = "updating your information ...";
+
+    }
+
+    function ChangeView(){
+        document.getElementById("profile").style.display = "none";
+        document.getElementById("edit_profile").style.display = "flex";
+    }
+
+    function ReturnToProfile(){
+        document.getElementById("profile").style.display = "flex";
+        document.getElementById("edit_profile").style.display = "none";
+    }
+
+
+
 </script>
 
 </html>
