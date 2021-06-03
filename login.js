@@ -41,6 +41,7 @@ function login(){
             firebase.auth().signInWithEmailAndPassword(Email, Password)
                 .then((userCredential) => {
                     // Signed in
+                    document.getElementById("loader").style.display = "block";
                     let user = userCredential.user;
                     LoginUserAs(user.uid);
                 })

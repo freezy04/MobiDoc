@@ -169,6 +169,7 @@ function register_doctor(){
 
                 .then((userCredential) => {
                     // Signed in
+                    document.getElementById("doc_loader").style.display = "block";
                     let user = userCredential.user;
                     database.ref().child('Doctors').child(user.uid).set({
                         email: docEmail,
@@ -217,6 +218,7 @@ function register_patient(){
 
                 .then((userCredential) => {
                     // Signed in
+                    document.getElementById("pt_loader").style.display = "block";
                     let user = userCredential.user;
                     database.ref().child('Patients').child(user.uid).set({
                         age:userAge,
