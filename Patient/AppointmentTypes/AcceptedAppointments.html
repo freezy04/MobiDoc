@@ -26,6 +26,7 @@
                 <ul class='sub-menus'>
                     <li><a href='#'>Accepted Appointments</a></li>
                     <li><a href='PendingAppointments.html'>Pending Appointments</a></li>
+                    <li><a href='CompletedAppointments.html'>Completed Appointments</a></li>
                     <li><a href='RejectedAppointments.html'>Rejected Appointments</a></li>
                 </ul>
             </li>
@@ -78,12 +79,16 @@
                         // if (app.status === "accepted") {
                             appList.innerHTML +=
                             "<div class='card'>" +
-                            "<h2>Appointment with " + app.doctor_Name + "</h2>" +
+                            "<h2>Appointment with Dr " + app.doctor_Name + "</h2>" +
                             "<p>" + app.date_for_appointment + " - " + app.time_for_appointment + "</p>" +
                             "<table>" +
                             "<tr>" +
                             "<th>Reason for appointment: </th>" +
                             "<td>" + app.reason_for_appointment + "</td>" +
+                            "</tr>" +
+                            "<tr>" +
+                            "<th>Consultation Cost: </th>" +
+                            "<td>" + app.appointment_Cost + "</td>" +
                             "</tr>" +
                             "</table>"
                             +"</div>"

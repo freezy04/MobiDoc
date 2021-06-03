@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title> MobiDoc | Pending Appointments </title>
+    <title> MobiDoc | Completed Appointments </title>
     <link rel="stylesheet" href="../styles/Nav_bar.css">
 
     <!-- The core Firebase JS SDK is always required and must be listed first -->
@@ -11,7 +11,7 @@
     <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-database.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-analytics.js"></script>
     <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.8.0/firebase-ui-auth.css" />
-    <link rel="stylesheet" href="../styles/appointments.css">
+    <link rel="stylesheet" href="../styles/appointments.css" />
 
 </head>
 <body>
@@ -25,12 +25,12 @@
             <li><a class='dropdown-arrow' href='../Appointments.html' style="background: #5d8ffc" >Appointments</a>
                 <ul class='sub-menus'>
                     <li><a href='AcceptedAppointments.html'>Accepted Appointments</a></li>
-                    <li><a href='#'>Pending Appointments</a></li>
-                    <li><a href='CompletedAppointments.html'>Completed Appointments</a></li>
+                    <li><a href='PendingAppointments.html'>Pending Appointments</a></li>
+                    <li><a href='#'>Completed Appointments</a></li>
                     <li><a href='RejectedAppointments.html'>Rejected Appointments</a></li>
                 </ul>
             </li>
-            <li><a href='../booking.html'>Book Appointment</a></li>
+            <li><a href='../consultations.html'>Consultations</a></li>
             <li><a href='../profile.html'>Profile </a></li>
         </ul>
     </nav>
@@ -76,20 +76,24 @@
             if (snapshot.exists()){
                 snapshot.forEach(function(childSnapshot) {
                     let app = childSnapshot.val();
-                    if (uid === app.patientUid && app.status === "pending") {
-                       // if (app.status === "accepted") {
-                            appList.innerHTML +=
-                            "<div class='card'>" +
-                            "<h2>Appointment with Dr " + app.doctor_Name + "</h2>" +
+                    if (uid === app.patientUid && app.status === "completed") {
+                    // if (app.status === "completed") {
+                        appList.innerHTML +=
+                            "<div class='card' >"+
+                            "<h2>Appointment with " + app.doctor_Name + "</h2>" +
                             "<p>" + app.date_for_appointment + " - " + app.time_for_appointment + "</p>" +
                             "<table>" +
                             "<tr>" +
-                            "<th>Reason for appointment: </th>" +
-                            "<td>" + app.reason_for_appointment + "</td>" +
+                            "<th>Appointment notes: </th>" +
+                            "<td>" + app.notes + "</td>" +
                             "</tr>" +
                             "<tr>" +
-                            "<th>Consultation Cost: </th>" +
+                            "<th>Consulation cost: </th>" +
                             "<td>" + app.appointment_Cost + "</td>" +
+                            "</tr>" +
+                            "<tr>" +
+                            "<th>Reason for appointment: </th>" +
+                            "<td>" + app.reason_for_appointment + "</td>" +
                             "</tr>" +
                             "</table>"
                             +"</div>"
