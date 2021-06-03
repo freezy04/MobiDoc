@@ -77,9 +77,14 @@
                     let app = childSnapshot.val();
                     if (uid === app.doctorUid && app.status === "rejected") {
                         // if (app.status === "rejected") {
-                        appList.innerHTML += "<dt>Appointment with " + app.patient_Name + "</dt>\n" +
-                            "<dd>" + app.reason_for_appointment + "</dd>\n" +
-                            "<dd>" + app.date_for_appointment + "</dd>\n";
+                        appList.innerHTML += "<h2>Appointment with " + app.patient_Name + "</h2>" +
+                            "<p>" + app.date_for_appointment + " - " + app.time_for_appointment + "</p>" +
+                            "<table>" +
+                            "<tr>" +
+                            "<th>Reason for appointment: </th>" +
+                            "<td>" + app.reason_for_appointment + "</td>" +
+                            "</tr>" +
+                            "</table>";
                     }
                 });
             }
