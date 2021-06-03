@@ -1,11 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
+
+
     <meta charset="UTF-8">
     <title> MobiDoc | Profile </title>
     <link rel="stylesheet" href="styles/Nav_bar.css">
+
+    <link rel="stylesheet" href="styles/profile,.css">
+
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-analytics.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.8.0/firebase-ui-auth.css" />
+
 </head>
-<body>
+<body style="background: whitesmoke;"  onload="GetDetails()" >
 
     
 <div class = "centre">
@@ -26,10 +39,200 @@
         </ul>
     </nav>
 </div>
-
-</body>
-
 <script>
+
+    var firebaseConfig = {
+        apiKey: "AIzaSyB-ckD1wmZWj5c7RQIOyBvwFmQApBfEEMU",
+        authDomain: "mobidoc-6a3ac.firebaseapp.com",
+        databaseURL: "https://mobidoc-6a3ac-default-rtdb.firebaseio.com/",
+        projectId: "mobidoc-6a3ac",
+        storageBucket: "mobidoc-6a3ac.appspot.com",
+        messagingSenderId: "311373483549",
+        appId: "1:311373483549:web:3c840b29b14029ac4680f4",
+        measurementId: "G-JFPKMPTGZ5"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+
+</script>
+</body>
+<!--Profile Stuff-->
+<div class="container"  id="profile">
+    <div class="contact-box">
+        <div class="left">
+        </div>
+        <div class="right">
+            <h2 id ="Name" >Name Surname</h2>
+            <p id = "email"> Email Address </p>
+
+            <table>
+                <tr>
+                    <th>Gender</th>
+                    <td id = "gender"></td>
+                </tr>
+                <tr>
+                    <th>Age</th>
+                    <td id = "age"></td>
+                </tr>
+                <tr>
+                    <th>Allergies</th>
+                    <td id = "allergies"></td>
+                </tr>
+                <tr>
+                    <th>Disease History</th>
+                    <td id = "disease_history"></td>
+                </tr>
+                <tr>
+                    <th>Medical History</th>
+                    <td id = "medical_history"></td>
+                </tr>
+                <tr>
+                    <th>Current Medication</th>
+                    <td id = "current_medication"></td>
+                </tr>
+            </table>
+
+            <button id="btn_edit" onclick="ChangeView()"> Edit Profile </button>
+        </div>
+    </div>
+</div>
+
+<!--Edit Profile -->
+<!--Profile Stuff-->
+<div class="container" id = "edit_profile" style="display: none">
+    <div class="contact-box">
+        <div class="left">
+        </div>
+        <div class="right">
+            <h2>Edit Your Profile</h2>
+            <p> You may leave fields blank  </p>
+            <br/>
+            <input id = "p_fname" type="text" class="field" placeholder="First Name">
+            <input id = "p_lname" type="text" class="field" placeholder="Last Name">
+
+            <input id = "p_age" type="number" class="field" placeholder="Age">
+            <input id = "p_aller" type="text" class="field" placeholder="Allergies">
+            <input id = "p_diseaseHis" type="text" class="field" placeholder="Disease History">
+            <input id = "p_medicalHis" type="text" class="field" placeholder="Medical History">
+            <input id = "p_meds" type="text" class="field" placeholder="Current Medication">
+            <br/>
+            <button onclick="SendUpdatedInformationToFirebase()"> Update </button>
+            <p id="note"></p>
+            <br/>
+            <button onclick="ReturnToProfile()"> Return to Profile </button>
+        </div>
+    </div>
+</div>
+<script>
+    let p_email = document.getElementById("email");
+    let p_name = document.getElementById("Name");
+let p_age = document.getElementById("age")
+    let p_sex = document.getElementById("gender")
+    let p_allergies = document.getElementById("allergies");
+    let p_disHist = document.getElementById("disease_history");
+    let p_medHist = document.getElementById("medical_history");
+    let p_currMed = document.getElementById("current_medication");
+
+
+    const UpDateInformation = (uid,value,key) => {
+        let database = firebase.database();
+        let ref = database.ref().child('Patients');
+        switch (key) {
+            case "first_name":
+                ref.child(uid).update({"first_name":value});
+                break;
+            case "last_name":
+                ref.child(uid).update({"last_name":value});
+                break;
+
+            case "age":
+                ref.child(uid).update({"age":value});
+                break;
+            case "allergies":
+                ref.child(uid).update({"allergies":value});
+                break;
+            case "diseaseHistory":
+                ref.child(uid).update({"diseaseHistory":value});
+                break;
+            case "medicationHistory":
+                ref.child(uid).update({"medicationHistory":value});
+                break;
+            case "currentMedication":
+                ref.child(uid).update({"currentMedication":value});
+                break;
+        }
+    }
+    function GetDetails() {
+        firebase.auth().onAuthStateChanged(function (user) {
+            if (user) {
+                UpdatePatientDetails(user.uid);
+                User_uid = user.uid;
+            }
+            else {
+                // No user is signed in.
+            }
+        });
+    }
+    const UpdatePatientDetails = (uid) => {
+        let database = firebase.database();
+        let ref = database.ref().child('Patients');
+
+        ref.orderByKey().equalTo(uid).once("value",snapshot => {
+            if (snapshot.exists()){
+
+                snapshot.forEach(function(childSnapshot) {
+                    var Patient = childSnapshot.val();
+                    p_name.innerText = Patient.first_name + " " + Patient.last_name;
+                    p_age.innerText = Patient.age;
+                    p_sex.innerText = Patient.sex;
+                    p_allergies.innerText = Patient.allergies;
+                p_disHist.innerText = Patient.diseaseHistory;
+                p_medHist.innerText = Patient.medicationHistory;
+                p_currMed.innerText = Patient.currentMedication;
+                    p_email.innerText = Patient.email;
+                });
+            }
+        });
+    }
+    function CheckIfEdited(value,key){
+        if(value){
+            UpDateInformation(User_uid,value,key);
+        }
+    }
+    function SendUpdatedInformationToFirebase(){
+
+        let p_fname = document.getElementById("p_fname").value;
+        let p_lname = document.getElementById("p_lname").value;
+
+        let p_age = document.getElementById("p_age").value;
+        let p_aller = document.getElementById("p_aller").value;
+        let p_diseaseHis = document.getElementById("p_diseaseHis").value;
+        let p_medicalHis = document.getElementById("p_medicalHis").value;
+      let p_meds = document.getElementById("p_meds").value;
+
+
+
+        CheckIfEdited(p_fname,"first_name");
+        CheckIfEdited(p_lname,"last_name");
+        CheckIfEdited(p_age,"age");
+        CheckIfEdited(p_aller,"allergies");
+        CheckIfEdited(p_diseaseHis,"diseaseHistory");
+        CheckIfEdited(p_medicalHis,"medicationHistory");
+        CheckIfEdited(p_meds,"currentMedication");
+
+
+        document.getElementById("note").innerText = "updating your information ...";
+
+    }
+    function ChangeView(){
+        document.getElementById("profile").style.display = "none";
+        document.getElementById("edit_profile").style.display = "flex";
+    }
+    function ReturnToProfile(){
+        document.getElementById("profile").style.display = "flex";
+        document.getElementById("edit_profile").style.display = "none";
+    }
+
     function updatemenu() {
         if (document.getElementById('responsive-menu').checked === true) {
             document.getElementById('menu').style.borderBottomRightRadius = '0';
