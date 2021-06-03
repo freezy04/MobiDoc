@@ -76,14 +76,19 @@
                     let app = childSnapshot.val();
                     if (uid === app.patientUid && app.status === "accepted") {
                         // if (app.status === "accepted") {
-                        appList.innerHTML += "<h2>Appointment with " + app.doctor_Name + "</h2>" +
+                            appList.innerHTML +=
+                            "<div class='card'>" +
+                            "<h2>Appointment with " + app.doctor_Name + "</h2>" +
                             "<p>" + app.date_for_appointment + " - " + app.time_for_appointment + "</p>" +
                             "<table>" +
                             "<tr>" +
                             "<th>Reason for appointment: </th>" +
                             "<td>" + app.reason_for_appointment + "</td>" +
                             "</tr>" +
-                            "</table>";
+                            "</table>"
+                            +"</div>"
+                            +"<br/>"
+                        ;
                     }
                 });
             }

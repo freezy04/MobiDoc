@@ -11,6 +11,7 @@
     <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-database.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-analytics.js"></script>
     <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.8.0/firebase-ui-auth.css" />
+    <link rel="stylesheet" href="../styles/appointments.css">
 
 </head>
 <body>
@@ -76,14 +77,19 @@
                     let app = childSnapshot.val();
                     if (uid === app.patientUid && app.status === "rejected") {
                         // if (app.status === "rejected") {
-                        appList.innerHTML += "<h2>Appointment with " + app.doctor_Name + "</h2>" +
+                            appList.innerHTML +=
+                            "<div class='card' >" +
+                            "<h2>Appointment with " + app.doctor_Name + "</h2>" +
                             "<p>" + app.date_for_appointment + " - " + app.time_for_appointment + "</p>" +
                             "<table>" +
                             "<tr>" +
                             "<th>Reason for appointment: </th>" +
                             "<td>" + app.reason_for_appointment + "</td>" +
                             "</tr>" +
-                            "</table>";
+                            "</table>"
+                            +"</div>"
+                            +"<br/>"
+                        ;
                     }
                 });
             }
