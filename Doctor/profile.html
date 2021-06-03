@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title> MobiDoc | Profile </title>
+    <link rel="stylesheet" href="styles/Nav_bar.css">
+    <link rel="stylesheet" href="styles/profile,.css">
+
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-analytics.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.8.0/firebase-ui-auth.css" />
+
+</head>
+<body style="background: whitesmoke;"  onload="GetDetails()">
+
+<!--Nav Bar Stuff-->
+<div class = "centre">
+    <nav id='menu'>
+        <input type='checkbox' id='responsive-menu' onclick='updatemenu()'><label></label>
+        <ul>
+            <li><a class='active' href="home.html">Home</a></li>
+            <li><a class='dropdown-arrow' href='Appointments.html'>Appointments</a>
+                <ul class='sub-menus'>
+                    <li><a href='AppointmentTypes/AcceptedAppointments.html'>Upcoming Appointments</a></li>
+                    <li><a href='AppointmentTypes/PendingAppointments.html'>Pending Appointments</a></li>
+                    <li><a href='AppointmentTypes/CompletedAppointments.html'>Completed Appointments</a></li>
+                    <li><a href='AppointmentTypes/RejectedAppointments.html'>Rejected Appointments</a></li>
+                </ul>
+            </li>
+            <li><a href='consultations.html'>Consultations</a></li>
+            <li><a href='#'  style="background:  #2e48cc" >Profile </a></li>
+        </ul>
+    </nav>
+</div>
+
+<!--Profile Stuff-->
+<div class="container"  id="profile">
+    <div class="contact-box">
+        <div class="left">
+        </div>
+        <div class="right">
+            <h2 id ="Name" >Name Surname</h2>
+            <p id = "email"> Email Address </p>
+
+            <table>
+                <tr>
+                    <th>Experience</th>
+                    <td id = "experience"></td>
+                </tr>
+                <tr>
+                    <th>Specialization</th>
+                    <td id = "specialization"></td>
+                </tr>
+                <tr>
+                    <th>Qualifications</th>
+                    <td id = "qualification"></td>
+                </tr>
+
+            </table>
+
+            <button id="btn_edit" onclick="ChangeView()"> Edit Profile </button>
+        </div>
+    </div>
+</div>
+
+<!--Edit Profile -->
+<!--Profile Stuff-->
+<div class="container" id = "edit_profile" style="display: none">
+    <div class="contact-box">
+        <div class="left">
+        </div>
+        <div class="right">
+            <h2>Edit Your Profile</h2>
+            <p> You may leave fields blank  </p>
+            <br/>
+            <input id = "e_fname" type="text" class="field" placeholder="First Name">
+            <input id = "e_lname" type="text" class="field" placeholder="Last Name">
+            <input id = "e_exp" type="number" class="field" placeholder="Experience">
+            <input id = "e_ql" type="text" class="field" placeholder="Qualifications">
+            <input id = "e_spec" type="text" class="field" placeholder="Specialization">
+            <br/>
+            <button onclick="SendUpdatedInformationToFirebase()"> Update </button>
+            <p id="note"></p>
+            <br/>
+            <button onclick="ReturnToProfile()"> Return to Profile </button>
+        </div>
+    </div>
+</div>
+
+
+<script>
+
+    var firebaseConfig = {
+        apiKey: "AIzaSyB-ckD1wmZWj5c7RQIOyBvwFmQApBfEEMU",
+        authDomain: "mobidoc-6a3ac.firebaseapp.com",
+        databaseURL: "https://mobidoc-6a3ac-default-rtdb.firebaseio.com/",
+        projectId: "mobidoc-6a3ac",
+        storageBucket: "mobidoc-6a3ac.appspot.com",
+        messagingSenderId: "311373483549",
+        appId: "1:311373483549:web:3c840b29b14029ac4680f4",
+        measurementId: "G-JFPKMPTGZ5"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+
+</script>
+
+
+</body>
+
+<script>
+    function updatemenu() {
+        if (document.getElementById('responsive-menu').checked === true) {
+            document.getElementById('menu').style.borderBottomRightRadius = '0';
+            document.getElementById('menu').style.borderBottomLeftRadius = '0';
+        }
+        else{
+            document.getElementById('menu').style.borderRadius = '0px';
+        }
+    }
+
+
+
+    const UpDateInformation = (uid,value,key) => {
+        let database = firebase.database();
+        let ref = database.ref().child('Doctors');
+        switch (key) {
+            case "first_name":
+                ref.child(uid).update({"first_name":value});
+                break;
+            case "last_name":
+                ref.child(uid).update({"last_name":value});
+                break;
+            case "experience":
+                ref.child(uid).update({"experience":value});
+                break;
+            case "qualifications":
+                ref.child(uid).update({"qualifications":value});
+                break;
+            case "specialization":
+                ref.child(uid).update({"specialization":value});
+                break;
+        }
+    }
+
+
+    let email = document.getElementById("email");
+    let name = document.getElementById("Name");
+    let Exp = document.getElementById("experience");
+    let QL = document.getElementById("qualification");
+    let Spec = document.getElementById("specialization");
+    let User_uid;
+
+
+    function GetDetails() {
+        firebase.auth().onAuthStateChanged(function (user) {
+            if (user) {
+                UpdateDetails(user.uid);
+                User_uid = user.uid;
+            }
+            else {
+                // No user is signed in.
+            }
+        });
+    }
+
+    const UpdateDetails = (uid) => {
+        let database = firebase.database();
+        let ref = database.ref().child('Doctors');
+
+        ref.orderByKey().equalTo(uid).once("value",snapshot => {
+            if (snapshot.exists()){
+
+                snapshot.forEach(function(childSnapshot) {
+                    var Doctor = childSnapshot.val();
+                    name.innerText = "Dr " +  Doctor.first_name + " " + Doctor.last_name;
+                    Spec.innerText = Doctor.specialization;
+                    Exp.innerText = Doctor.experience;
+                    QL.innerText = Doctor.qualifications;
+                    email.innerText = Doctor.email;
+                });
+            }
+        });
+    }
+
+    function CheckIfEdited(value,key){
+        if(value){
+            UpDateInformation(User_uid,value,key);
+        }
+    }
+
+    function SendUpdatedInformationToFirebase(){
+
+        let e_fname = document.getElementById("e_fname").value;
+        let e_lname = document.getElementById("e_lname").value;
+        let e_Exp = document.getElementById("e_exp").value;
+        let e_QL = document.getElementById("e_ql").value;
+        let e_Spec = document.getElementById("e_spec").value;
+
+        CheckIfEdited(e_fname,"first_name");
+        CheckIfEdited(e_lname,"last_name");
+        CheckIfEdited(e_Exp,"experience");
+        CheckIfEdited(e_QL,"qualifications");
+        CheckIfEdited(e_Spec,"specialization");
+
+        document.getElementById("note").innerText = "updating your information ...";
+
+    }
+
+    function ChangeView(){
+        document.getElementById("profile").style.display = "none";
+        document.getElementById("edit_profile").style.display = "flex";
+    }
+
+    function ReturnToProfile(){
+        document.getElementById("profile").style.display = "flex";
+        document.getElementById("edit_profile").style.display = "none";
+    }
+
+
+
+</script>
+
+</html>

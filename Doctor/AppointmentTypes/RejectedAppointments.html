@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title> MobiDoc | Rejected Appointments </title>
+    <link rel="stylesheet" href="../styles/Nav_bar.css">
+
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-analytics.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.8.0/firebase-ui-auth.css" />
+
+</head>
+<body>
+
+<!--Nav bar-->
+<div class = "centre">
+    <nav id='menu'>
+        <input type='checkbox' id='responsive-menu' onclick='updatemenu()'><label></label>
+        <ul>
+            <li><a class='active' href="../home.html"   >Home</a></li>
+            <li><a class='dropdown-arrow' href='../Appointments.html' style="background: #5d8ffc" >Appointments</a>
+                <ul class='sub-menus'>
+                    <li><a href='AcceptedAppointments.html'>Upcoming Appointments</a></li>
+                    <li><a href='PendingAppointments.html'>Pending Appointments</a></li>
+                    <li><a href='CompletedAppointments.html'>Completed Appointments</a></li>
+                    <li><a href='#'>Rejected Appointments</a></li>
+                </ul>
+            </li>
+            <li><a href='../consultations.html'>Consultations</a></li>
+            <li><a href='../profile.html'>Profile </a></li>
+        </ul>
+    </nav>
+</div>
+
+<script>
+
+    let firebaseConfig = {
+        apiKey: "AIzaSyB-ckD1wmZWj5c7RQIOyBvwFmQApBfEEMU",
+        authDomain: "mobidoc-6a3ac.firebaseapp.com",
+        databaseURL: "https://mobidoc-6a3ac-default-rtdb.firebaseio.com/",
+        projectId: "mobidoc-6a3ac",
+        storageBucket: "mobidoc-6a3ac.appspot.com",
+        messagingSenderId: "311373483549",
+        appId: "1:311373483549:web:3c840b29b14029ac4680f4",
+        measurementId: "G-JFPKMPTGZ5"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+
+</script>
+
+<dl id="appList">
+</dl>
+
+</body>
+<script>
+    // Appointment list
+    let appList = document.getElementById("appList");
+    firebase.auth().onAuthStateChanged(function (user) {
+        if (user) {
+            getAppointmentDetails(user.uid);
+        }
+        else {
+            // No user is signed in.
+        }
+    });
+
+    const getAppointmentDetails = (uid) => {
+        let database = firebase.database();
+        let ref = database.ref().child('Appointments');
+        ref.orderByKey().once("value",snapshot => {
+            if (snapshot.exists()){
+                snapshot.forEach(function(childSnapshot) {
+                    let app = childSnapshot.val();
+                    if (uid === app.doctorUid && app.status === "rejected") {
+                        // if (app.status === "rejected") {
+                        appList.innerHTML += "<h2>Appointment with " + app.patient_Name + "</h2>" +
+                            "<p>" + app.date_for_appointment + " - " + app.time_for_appointment + "</p>" +
+                            "<table>" +
+                            "<tr>" +
+                            "<th>Reason for appointment: </th>" +
+                            "<td>" + app.reason_for_appointment + "</td>" +
+                            "</tr>" +
+                            "</table>";
+                    }
+                });
+            }
+        });
+    }
+
+    // nav bar
+    function updatemenu() {
+        if (document.getElementById('responsive-menu').checked === true) {
+            document.getElementById('menu').style.borderBottomRightRadius = '0';
+            document.getElementById('menu').style.borderBottomLeftRadius = '0';
+        }
+        else{
+            document.getElementById('menu').style.borderRadius = '0px';
+        }
+    }
+</script>
+</html>

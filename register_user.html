@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script
+          src="https://kit.fontawesome.com/64d58efce2.js"
+          crossorigin="anonymous"
+  ></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <!-- The core Firebase JS SDK is always required and must be listed first -->
+  <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-database.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-analytics.js"></script>
+  <link rel="stylesheet" href="style.css" />
+  <title> MobiDoc | Registration </title>
+</head>
+<body>
+<div class="container">
+  <div class="forms-container">
+    <div class="signin-signup">
+
+      <!--      Doctor Form Setup -->
+
+      <form  class="sign-in-form">
+        <h2 class="title">Doctor Registration</h2>
+        <table>
+          <tr>
+            <td>
+            <div class="input-field">
+              <i class="fas fa-user"></i>
+              <input id = "doc_name" type="text" placeholder="Name" required />
+            </div>
+            </td>
+            <td>
+              <div class="input-field">
+                <i class="fas fa-user"></i>
+                <input id = "doc_surname" type="text" placeholder="Surname" required />
+              </div>
+            </td>
+        </table>
+
+        <div class="input-field">
+          <i class="fas fa-envelope"></i>
+          <input id = "doc_email" type="email" placeholder="Email Address" required />
+        </div>
+
+              <div class="input-field">
+                <i class="fas fa-lock"></i>
+                <table>
+                  <tr>
+                    <td >
+                      <input id = "doc_password" type="password" placeholder=" Password" required minlength="8" />
+                    </td>
+
+                    <td><span class="far fa-eye" id="doc_togglePassword" onclick="toggle_doc_pass()"></span></td>
+
+                  </tr>
+                </table>
+
+              </div>
+
+              <div class="input-field">
+                <i class="fas fa-lock"></i>
+                <table>
+                  <tr>
+                    <td >
+                      <input id = "doc_confirmPassword" type="password" placeholder="Confirm Password" required minlength="8" />
+                    </td>
+
+                    <td><span class="far fa-eye" id="doc_togglePasswordC" onclick="toggle_doc_passC()"></span></td>
+
+                  </tr>
+                </table>
+
+              </div>
+
+        <div class="input-field">
+          <i class="fas fa-stethoscope"></i>
+          <!--          <input id = "doc_specialization" type="text" placeholder="Specialization" />-->
+          <select name="Specialization" id = "doc_specialization" required>
+            <option value="Surgeon"> Surgeon </option>
+            <option value="General Practitioner"> General Practitioner </option>
+            <option value="Dentist"> Dentist </option>
+            <option value="Pediatrician"> Pediatrician </option>
+            <option value="Other"> Other </option>
+          </select>
+        </div>
+        <div class="input-field">
+          <i class="fas fa-graduation-cap"></i>
+          <input id = "doc_qualifications" type="text" placeholder="Qualifications" required />
+        </div>
+        <div class="input-field">
+          <i class="fas fa-briefcase"></i>
+          <input id = "doc_experience" type="number" placeholder="Experience ( in years )" required />
+        </div>
+        <br/>
+        <button type = "button" id = "doc_register" class="n_btn"> Register </button>
+        <textarea id = "doc_error_text" ></textarea>
+
+      </form>
+
+      <!--      Patient Form Setup      -->
+
+      <form class="sign-up-form">
+        <br/>
+        <br/>
+        <br style = "height: 50px;"/>
+        <h2 class="title"> Sign Up as a Patient </h2>
+              <table>
+                <tr>
+                    <td>
+                      <div class="input-field">
+                        <i class="fas fa-user"></i>
+                        <input id = "pt_name" type="text" placeholder="Name"  required />
+                      </div>
+                    </td>
+
+                    <td>
+                      <div class="input-field">
+                        <i class="fas fa-user"></i>
+                        <input id = "pt_surname" type="text" placeholder="Surname" required />
+                      </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                      <div class="input-field">
+                        <i class="fas fa-user-ninja"></i>
+                        <input id = "pt_age" type="number" placeholder="Age" required />
+                      </div>
+                    </td>
+
+                    <td>
+
+                      <div class="input-field">
+                        <i class="fas fa-venus-mars"></i>
+                        <input id = "pt_gender" type="text" placeholder="Gender" required />
+                      </div>
+                    </td>
+
+                </tr>
+
+              </table>
+
+
+              <div class="input-field">
+                <i class="fas fa-envelope"></i>
+                <input id = "pt_email" type="email" placeholder="Email" required />
+              </div>
+              <div class="input-field">
+                <i class="fas fa-lock"></i>
+                <table>
+                  <tr>
+                    <td >
+                      <input id = "pt_password" type="password" placeholder="Password" required  minlength="8"/>
+                    </td>
+
+                    <td><span class="far fa-eye" id="pt_togglePassword" onclick="toggle_pt_pass()"></span></td>
+
+                  </tr>
+                </table>
+
+              </div>
+
+              <div class="input-field">
+                <i class="fas fa-lock"></i>
+                <table>
+                  <tr>
+                    <td >
+                      <input id = "pt_confirmPassword" type="password" placeholder="Confirm Password" required minlength="8" />
+                    </td>
+
+                    <td><span class="far fa-eye" id="pt_togglePasswordC" onclick="toggle_pt_passC()"></span></td>
+
+                  </tr>
+                </table>
+
+
+              </div>
+
+              <div class="input-field">
+                <i class="fas fa-prescription-bottle-alt"></i>
+                <input id = "pt_curr_med" type="text" placeholder="Current Medication" required />
+              </div>
+              <div class="input-field">
+                <i class="fas fa-book-medical"></i>
+                <input id = "pt_disease_historu" type="text" placeholder="Disease History" required />
+              </div>
+              <div class="input-field">
+                <i class="fas fa-diagnoses"></i>
+                <input id = "pt_allergies" type="text" placeholder="Allergies" />
+              </div>
+                <br/>
+                <button type = "button" id = "pt_register" class="n_btn"> Register </button>
+                <textarea id = "error_text" ></textarea>
+      </form>
+    </div>
+  </div>
+
+  <div class="panels-container">
+    <div class="panel left-panel">
+      <div class="content">
+        <br/>
+        <br/>
+        <h3>Not a Doctor ?</h3>
+        <p> Click here to sign up as a patient instead </p>
+        <button class="btn transparent" id="sign-up-btn">  Patient  </button>
+      </div>
+      <img src="img/doctor.svg" class="image" alt="" />
+    </div>
+    <div class="panel right-panel">
+      <div class="content">
+        <h3>Not a Patient ? </h3>
+        <p>  Click here to register as a Doctor instead.   </p>
+        <button class="btn transparent" id="sign-in-btn">  Doctor   </button>
+      </div>
+      <img src="img/patient.svg" class="image" alt="" />
+    </div>
+  </div>
+</div>
+<script>
+
+  var firebaseConfig = {
+    apiKey: "AIzaSyB-ckD1wmZWj5c7RQIOyBvwFmQApBfEEMU",
+    authDomain: "mobidoc-6a3ac.firebaseapp.com",
+    databaseURL: "https://mobidoc-6a3ac-default-rtdb.firebaseio.com/",
+    projectId: "mobidoc-6a3ac",
+    storageBucket: "mobidoc-6a3ac.appspot.com",
+    messagingSenderId: "311373483549",
+    appId: "1:311373483549:web:3c840b29b14029ac4680f4",
+    measurementId: "G-JFPKMPTGZ5"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+
+</script>
+
+<script src="app.js"></script>
+<script src ="register.js"></script>
+<script>
+  $("#pt_register").click(function () {
+    register_patient();
+  })
+  $("#doc_register").click(function () {
+    register_doctor();
+  })
+</script>
+</body>
+</html>
