@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title> MobiDoc | Appointments </title>
-    <link rel="stylesheet" href="styles/Nav_bar.css">
+    <title> MobiDoc | Rejected Appointments </title>
+    <link rel="stylesheet" href="../styles/Nav_bar.css">
 
     <!-- The core Firebase JS SDK is always required and must be listed first -->
     <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
@@ -15,28 +15,29 @@
 </head>
 <body>
 
+<!--Nav bar-->
 <div class = "centre">
     <nav id='menu'>
         <input type='checkbox' id='responsive-menu' onclick='updatemenu()'><label></label>
         <ul>
-            <li><a class='active' href="home.html"   >Home</a></li>
-            <li><a class='dropdown-arrow' href='#' style="background: #5d8ffc" >Appointments</a>
+            <li><a class='active' href="../home.html"   >Home</a></li>
+            <li><a class='dropdown-arrow' href='../Appointments.html' style="background: #5d8ffc" >Appointments</a>
                 <ul class='sub-menus'>
-                    <li><a href='AppointmentTypes/AcceptedAppointments.html'>Upcoming Appointments</a></li>
-                    <li><a href='AppointmentTypes/PendingAppointments.html'>Pending Appointments</a></li>
-                    <li><a href='AppointmentTypes/CompletedAppointments.html'>Completed Appointments</a></li>
-                    <li><a href='AppointmentTypes/RejectedAppointments.html'>Rejected Appointments</a></li>
+                    <li><a href='AcceptedAppointments.html'>Upcoming Appointments</a></li>
+                    <li><a href='PendingAppointments.html'>Pending Appointments</a></li>
+                    <li><a href='CompletedAppointments.html'>Completed Appointments</a></li>
+                    <li><a href='#'>Rejected Appointments</a></li>
                 </ul>
             </li>
-            <li><a href='consultations.html'>Consultations</a></li>
-            <li><a href='profile.html'>Profile </a></li>
+            <li><a href='../consultations.html'>Consultations</a></li>
+            <li><a href='../profile.html'>Profile </a></li>
         </ul>
     </nav>
 </div>
 
 <script>
 
-    var firebaseConfig = {
+    let firebaseConfig = {
         apiKey: "AIzaSyB-ckD1wmZWj5c7RQIOyBvwFmQApBfEEMU",
         authDomain: "mobidoc-6a3ac.firebaseapp.com",
         databaseURL: "https://mobidoc-6a3ac-default-rtdb.firebaseio.com/",
@@ -74,19 +75,18 @@
             if (snapshot.exists()){
                 snapshot.forEach(function(childSnapshot) {
                     let app = childSnapshot.val();
-                    if (uid === app.doctorUid) {
-                        //     if (app.status === "pending") {
+                    if (uid === app.doctorUid && app.status === "rejected") {
+                        // if (app.status === "rejected") {
                         appList.innerHTML += "<dt>Appointment with " + app.patient_Name + "</dt>\n" +
-                            "<dd>" + app.date_for_appointment + "</dd>\n" +
-                            "<dd>" + app.time_for_appointment + "</dd>\n" +
                             "<dd>" + app.reason_for_appointment + "</dd>\n" +
-                            "<dd>" + app.status + "</dd>\n";
+                            "<dd>" + app.date_for_appointment + "</dd>\n";
                     }
                 });
             }
         });
     }
 
+    // nav bar
     function updatemenu() {
         if (document.getElementById('responsive-menu').checked === true) {
             document.getElementById('menu').style.borderBottomRightRadius = '0';
