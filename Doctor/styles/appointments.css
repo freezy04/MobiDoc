@@ -1,0 +1,82 @@
+body{
+    margin:0;
+    padding: 10px;
+}
+
+/*Create the card effect*/
+.card{
+    padding: 10px 30px;
+    text-align: center;
+    border-collapse: collapse;
+    border-radius: 30px;
+    margin: 25px 0;
+    font-size: 0.9em;
+    font-family: sans-serif;
+    left: 50%;
+    bottom: 0;
+    transform: translateX(50%);
+    width: 50%;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+/*hover effect for the card */
+.card:hover{
+    box-shadow: 0 0 20px #0d3579;
+}
+
+
+/*Changed the font of the h2 style and sizing*/
+h2{
+    font-family: 'Quicksand', sans-serif;
+    font-size: 25px;
+    position: relative;
+    padding: 0 0 10px;
+    margin-top: 0;
+    margin-bottom: 30px;
+}
+
+h2:after{
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    height: 4px;
+    width: 50px;
+    border-radius: 2px;
+    background-color: #2e48cc;
+}
+
+/*This is for the date and time */
+
+p{
+    left: 110%;
+    color: #0d3579;
+    font-weight: bolder;
+    font-style: italic;
+}
+
+
+/*Edited the Table Layout Properties to better suit the card */
+
+table{
+    width: 100%;
+    margin: 25px 0;
+    font-size: 1em;
+    font-family: sans-serif;
+}
+
+
+th{
+    font-size: 15px;
+    height: 70px;
+    width: 50px;
+    justify-content: left;
+}
+td{
+    horiz-align: center;
+    vert-align: bottom;
+    font-size: 14px;
+    text-align: center;
+    justify-content: center;
+    padding: 15px 15px;
+}
