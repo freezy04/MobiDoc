@@ -20,6 +20,13 @@ This is the website version for the MobiDoc Android Application  : https://githu
       -  this means the doctors save more time and focus on the task at hand -- treating an ill person and saving lives
       -  when the patient arrives for a consultaion, the doctor can just quickly look up said patient's profile containing their medical history and write up the appropriate treatment
 
+# Requirements
+- #### User
+  - The user needs to have an android device and internet connection
+
+- #### Deverloper
+  - Webstorm Version: 2021.1.2, Build: 211.7442.26 (recommended)
+
 
 
 
