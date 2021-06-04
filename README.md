@@ -27,6 +27,11 @@ This is the website version for the MobiDoc Android Application  : https://githu
 - #### Deverloper
   - Webstorm Version: 2021.1.2, Build: 211.7442.26 (recommended)
 
+# Programming languages
+- Javascript
+- HTML
+- CSS
+
 
 
 
