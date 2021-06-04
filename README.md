@@ -22,7 +22,7 @@ This is the website version for the MobiDoc Android Application  : https://githu
 
 # Requirements
 - #### User
-  - The user needs to have an android device and internet connection
+  - The user needs to have a computer, tablet or mobile device and internet connection
 
 - #### Deverloper
   - Webstorm Version: 2021.1.2, Build: 211.7442.26 (recommended)
