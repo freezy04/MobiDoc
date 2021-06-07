@@ -3,6 +3,15 @@
 
 }
 
+.bottom_line{
+    height: 15px;
+    display: block;
+    margin-left:25%;
+    width: 50%;
+    box-shadow: 0px 2px #2c2c2f;
+}
+
+
 #menu {
     display: flex;
     justify-content: center;
@@ -11,6 +20,7 @@
     height: 47px;
     margin-left: 35%;
     padding-left: 18px;
+    font-family: 'Quicksand', sans-serif;
 }
 
 #menu ul, #menu li {
