@@ -16,7 +16,7 @@
     <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.8.0/firebase-ui-auth.css" />
 
 </head>
-<body style="background: whitesmoke;"  onload="GetDetails()" >
+<body  onload="GetDetails()" >
 
     
 <div class = "centre">
@@ -33,7 +33,7 @@
                 </ul>
             </li>
             <li><a href='booking.html'>Book Appointment</a></li>
-            <li><a href='#'  style="background: #5d8ffc" >Profile </a></li>
+            <li><a href='#'  style="background: #1621B8;color: white" >Profile </a></li>
         </ul>
     </nav>
 </div>
@@ -116,6 +116,8 @@
             <input id = "p_meds" type="text" class="field" placeholder="Current Medication">
             <br/>
             <button onclick="SendUpdatedInformationToFirebase()"> Update </button>
+            <div id = "spinner" class="lds-roller" style="display: none"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+            <br/>
             <p id="note"></p>
             <br/>
             <button onclick="ReturnToProfile()"> Return to Profile </button>
@@ -197,6 +199,17 @@ let p_age = document.getElementById("age")
             UpDateInformation(User_uid,value,key);
         }
     }
+    function sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    async function Toast(){
+        document.getElementById("note").innerText = "updating your information ...";
+        document.getElementById("spinner").style.display = "block";
+        await sleep(2000);
+        document.getElementById("spinner").style.display = "none";
+        document.getElementById("note").innerHTML = "<br/>" + "Information updated successfully. Please refresh the page";
+    }
     function SendUpdatedInformationToFirebase(){
 
         let p_fname = document.getElementById("p_fname").value;
@@ -218,8 +231,7 @@ let p_age = document.getElementById("age")
         CheckIfEdited(p_medicalHis,"medicationHistory");
         CheckIfEdited(p_meds,"currentMedication");
 
-
-        document.getElementById("note").innerText = "updating your information ...";
+        Toast();
 
     }
     function ChangeView(){

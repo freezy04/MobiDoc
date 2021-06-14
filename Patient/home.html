@@ -4,15 +4,20 @@
     <meta charset="UTF-8">
     <title> MobiDoc | Home </title>
     <link rel="stylesheet" href="styles/Nav_bar.css">
+    <link rel="stylesheet" href="styles/appointments.css">
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-analytics.js"></script>
 </head>
-<body style="background: whitesmoke;" >
+<body style="background: url('../img/temp.jpg');" >
 
     
 <div class = "centre">
 <nav id='menu'>
     <input type='checkbox' id='responsive-menu' onclick='updatemenu()'><label></label>
     <ul>
-        <li><a class='active' href="#" style="background: lightblue">Home</a></li>
+        <li><a class='active' href="#" style="background: #1621B8;color: white">Home</a></li>
         <li><a class='dropdown-arrow' href='appointments.html'>Appointments</a>
             <ul class='sub-menus'>
                 <li><a href='AppointmentTypes/AcceptedAppointments.html'>Accepted Appointments</a></li>
@@ -27,17 +32,95 @@
 </nav>
 </div>
 <div class="bottom_line"></div>
-</body>
+
+<dl id="appList">
+</dl>
 
 <script>
+
+let firebaseConfig = {
+apiKey: "AIzaSyB-ckD1wmZWj5c7RQIOyBvwFmQApBfEEMU",
+authDomain: "mobidoc-6a3ac.firebaseapp.com",
+databaseURL: "https://mobidoc-6a3ac-default-rtdb.firebaseio.com/",
+projectId: "mobidoc-6a3ac",
+storageBucket: "mobidoc-6a3ac.appspot.com",
+messagingSenderId: "311373483549",
+appId: "1:311373483549:web:3c840b29b14029ac4680f4",
+measurementId: "G-JFPKMPTGZ5"
+};
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+
+</script>
+</body>
+
+
+<script>
+    // Appointment list
+    let appList = document.getElementById("appList");
+    firebase.auth().onAuthStateChanged(function (user) {
+        if (user) {
+            getAppointmentDetails(user.uid);
+        } else {
+            // No user is signed in.
+        }
+    });
+
+    const getAppointmentDetails = (uid) => {
+        let database = firebase.database();
+        let ref = database.ref().child('Appointments');
+        ref.orderByChild('date_for_appointment').once("value", snapshot => {
+            if (snapshot.exists()) {
+                snapshot.forEach(function (childSnapshot) {
+                    let app = childSnapshot.val();
+                    if (uid === app.patientUid && app.status !== "completed") {
+                        let label;
+                        switch (app.status) {
+                            case "accepted":
+                                console.log(app.status)
+                                label = "<span class='accept'>" + app.status + "</span>";
+                                break;
+                            case "rejected":
+                                label = "<span class='reject'>" + app.status + "</span>";
+                                break;
+                            case "pending":
+                                label = "<span class='pending' >" + app.status + "</span>";
+                                break;
+                        }
+
+                        appList.innerHTML +=
+                            "<div class='card'>"
+                            + label +
+                            "<h2>Appointment with Dr " + app.doctor_Name + "</h2>" +
+                            "<p>" + app.date_for_appointment + " - " + app.time_for_appointment + "</p>" +
+                            "<table>" +
+                            "<tr>" +
+                            "<th>Reason for appointment: </th>" +
+                            "<td>" + app.reason_for_appointment + "</td>" +
+                            "</tr>" +
+                            "<tr>" +
+                            "<th>Consultation Cost: </th>" +
+                            "<td>" + app.appointment_Cost + "</td>" +
+                            "</tr>" +
+                            "</table>"
+                            +"</div>"
+                            +"<br/>"
+                        ;
+                    }
+                });
+            }
+        });
+    }
+
+    // nav bar
     function updatemenu() {
         if (document.getElementById('responsive-menu').checked === true) {
             document.getElementById('menu').style.borderBottomRightRadius = '0';
             document.getElementById('menu').style.borderBottomLeftRadius = '0';
-        }
-        else{
+        } else {
             document.getElementById('menu').style.borderRadius = '0px';
         }
     }
+</script>
 </script>
 </html>

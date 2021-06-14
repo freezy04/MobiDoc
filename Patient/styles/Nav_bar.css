@@ -15,7 +15,7 @@
 #menu {
     display: flex;
     justify-content: center;
-    background: rgba(255, 255, 255, 0.32);
+    background: rgba(255, 255, 255, 0);
     color: #FFF;
     height: 47px;
     margin-left: 35%;
@@ -33,6 +33,7 @@
     width: 100%;
 }
 #menu li {
+    background: lightblue;
     float: left;
     display: inline;
     position: relative;
@@ -42,9 +43,9 @@
 #menu a {
     display: inline-block;
     line-height: 45px;
-    padding: 0 14px;
+    padding: 0 16px;
     text-decoration: none;
-    color: #000000;
+    color: black;
     font-size: 16px;
     transition: all .5s ease-in;
 }
@@ -85,7 +86,7 @@
     height: auto;
     overflow: hidden;
     width: 170px;
-    background: #FFFFFF;
+    background: #070707;
     position: absolute;
     z-index: 99;
     display: none;
@@ -107,13 +108,13 @@
 }
 @media screen and (max-width: 800px){
     #menu {position:relative}
-    #menu ul {background:#111;position:absolute;top:100%;right:0;left:0;z-index:3;height:auto;display:none}
+    #menu ul {background:#1621B8;position:absolute;top:100%;right:0;left:0;z-index:3;height:auto;display:none}
     #menu ul.sub-menus {width:100%;position:static;}
     #menu ul.sub-menus a {padding-left:30px;}
     #menu li {display:block;float:none;width:auto;}
     #menu input, #menu label {position:absolute;top:0;left:0;display:block}
     #menu input {z-index:4}
-    #menu input:checked + label {color:white}
-    #menu input:checked + label:before {content:"\00d7"}
+    #menu input:checked + label {color:black}
+    #menu input:checked + label:before {content:"\00d7";color: black}
     #menu input:checked ~ ul {display:block}
 }

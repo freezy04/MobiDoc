@@ -58,7 +58,7 @@
           <form action="#" class="sign-up-form">
             <h2 class="title">Sign up</h2>
             <button class="n_btn" id="doc-sign-up" formaction="register_user.html">  Register as a Doctor    </button>
-            <button class="n_btn" id="pt-sign-up" formaction = 'register_user.html#sign-up-form'>  Register as a Patient  </button>
+            <button class="n_btn" id="pt-sign-up" formaction="register_user.html" >  Register as a Patient  </button>
           </form>
         </div>
       </div>
@@ -111,6 +111,12 @@
       login();
     })
 
+    document.getElementById("pt-sign-up").addEventListener('click',() => {
+      sessionStorage.setItem('isPatient', 'true')
+      console.log("cliked")
+      window.location.href = 'register_user.html'
+      console.log("cliked")
+    })
   </script>
   </body>
 </html>

@@ -85,6 +85,8 @@
             <input id = "e_spec" type="text" class="field" placeholder="Specialization">
             <br/>
             <button onclick="SendUpdatedInformationToFirebase()"> Update </button>
+            <div id = "spinner" class="lds-roller" style="display: none"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+            <br/>
             <p id="note"></p>
             <br/>
             <button onclick="ReturnToProfile()"> Return to Profile </button>
@@ -208,7 +210,7 @@
         CheckIfEdited(e_QL,"qualifications");
         CheckIfEdited(e_Spec,"specialization");
 
-        document.getElementById("note").innerText = "updating your information ...";
+        Toast();
 
     }
 
@@ -222,6 +224,17 @@
         document.getElementById("edit_profile").style.display = "none";
     }
 
+    function sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    async function Toast(){
+        document.getElementById("note").innerText = "updating your information ...";
+        document.getElementById("spinner").style.display = "block";
+        await sleep(2000);
+        document.getElementById("spinner").style.display = "none";
+        document.getElementById("note").innerHTML = "<br/>" + "Information updated successfully. Please refresh the page";
+    }
 
 
 </script>

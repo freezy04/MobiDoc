@@ -16,7 +16,7 @@
   <link rel="stylesheet" href="style.css" />
   <title> MobiDoc | Registration </title>
 </head>
-<body>
+<body onload="CheckIfPatient()">
 <div class="container">
   <div class="forms-container">
     <div class="signin-signup">
@@ -255,6 +255,15 @@
   $("#doc_register").click(function () {
     register_doctor();
   })
+
+  const CheckIfPatient = () =>{
+    let isPatient = sessionStorage.getItem('isPatient')
+    console.log(isPatient)
+    if(isPatient === 'true'){
+      document.getElementById("sign-up-btn").click();
+      sessionStorage.clear();
+    }
+  }
 </script>
 </body>
 </html>
