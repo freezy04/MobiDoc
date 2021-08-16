@@ -1,0 +1,25 @@
+{
+  "name": "MobiDoc",
+  "version": "1.0.0",
+  "description": "This is the website version for the MobiDoc Android Application  : https://github.com/freezy04/Runtime-Terror",
+  "main": "app.js",
+  "dependencies": {
+    "jest": "^27.0.6",
+    "jquery": "^3.6.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/freezy04/MobiDoc.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/freezy04/MobiDoc/issues"
+  },
+  "homepage": "https://github.com/freezy04/MobiDoc#readme"
+}

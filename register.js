@@ -290,5 +290,4 @@ function toggle_pt_passC(){
     pt_togglePasswordC.classList.toggle('fa-eye-slash');
 }
 
-
-
+module.exports = PasswordCheck;
