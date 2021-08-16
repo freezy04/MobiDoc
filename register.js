@@ -1,12 +1,30 @@
 let pt_email , pt_pass , pt_confirmPass , pt_age , pt_name , pt_surname , pt_gender , pt_dsHistory,pt_medCurrent,pt_allergies;
 
+// This function tests whether the passwords match
+function CheckIfPasswordsMatch(userPass,userConfirmPass){
+    return userPass === userConfirmPass;
+}
 
+const ValidateDetails = (Details) =>{
+    console.log(Details)
+    return Details === null;
+}
+
+
+
+function ValidateEmail(Email){
+    let mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    return mailformat.test(Email);
+}
+
+
+// This functions tests whether the passwords match and provide feedback to the user
 function PasswordCheck(userPass,userConfirmPass){
 
     let pass_input = document.getElementById("pt_password");
     let confirmPass_input = document.getElementById("pt_confirmPassword");
 
-    if(userPass !== userConfirmPass){
+    if(CheckIfPasswordsMatch(userPass,userConfirmPass)){
         pass_input.setCustomValidity("Passwords do not match");
         confirmPass_input.setCustomValidity("Passwords do not match");
         return false;
@@ -17,27 +35,6 @@ function PasswordCheck(userPass,userConfirmPass){
         return true;
     }
 
-}
-
-$("#pt_register").click(function () {
-    register_patient();
-})
-$("#doc_register").click(function () {
-    register_doctor();
-})
-
-let password = document.getElementById("doc_password"), confirm_password = document.getElementById("doc_confirmPassword");
-password.onchange = validatePassword;
-confirm_password.onkeyup = validatePassword;
-
-function validatePassword(){
-    if(password.value !== confirm_password.value) {
-        confirm_password.setCustomValidity("Passwords Don't Match");
-        return false;
-    } else {
-        confirm_password.setCustomValidity('');
-        return true;
-    }
 }
 
 
@@ -53,36 +50,36 @@ function CheckDoctorInfoNotNull(){
     let docExperience = document.getElementById("doc_experience");
     let docQualifications = document.getElementById("doc_qualifications")
 
-    if(!docEmail.checkValidity()){
+    if(!ValidateEmail(docEmail)){
         DocErrorMessage += "\n" + "The email is invalid";
         isValid = false;
 
     }
-    if(!docName.checkValidity()){
+    if(!ValidateDetails(docName)){
         DocErrorMessage += "\n" + "The Name is invalid";
         isValid = false;
 
     }
-    if(!docSurname.checkValidity()){
+    if(!ValidateDetails(docSurname)){
         DocErrorMessage += "\n" + "The Surname is invalid";
         isValid = false;
 
     }
-    if(!docPass.checkValidity()){
+    if(!ValidateDetails(docPass)){
         DocErrorMessage += "\n" + "The Password is invalid";
         isValid = false;
     }
 
-    if(!docConfirmPass.checkValidity()){
+    if(!ValidateDetails(docConfirmPass)){
         DocErrorMessage += "\n" + "The Confirm Password is invalid";
         isValid = false;
     }
-    if(!docExperience.checkValidity()){
+    if(!ValidateDetails(docExperience)){
         DocErrorMessage += "\n" + "The Experience is invalid";
         isValid = false;
 
     }
-    if(!docQualifications.checkValidity()){
+    if(!ValidateDetails(docQualifications)){
         DocErrorMessage += "\n" + "The Qualification Field is invalid";
         isValid = false;
 
@@ -94,6 +91,7 @@ function CheckDoctorInfoNotNull(){
 
 let Patient_errorMessage= " ";
 function CheckPatientInfoNotNull(){
+
     let isValid = true;
     let userEmail = document.getElementById("pt_email");
     let userPass = document.getElementById("pt_password");
@@ -106,48 +104,51 @@ function CheckPatientInfoNotNull(){
     let userDiseaseHistory = document.getElementById("pt_disease_historu");
 
 
-    if(!userEmail.checkValidity()){
+    if(!ValidateEmail(userEmail)){
         Patient_errorMessage += "\n" + "The email is invalid";
         isValid = false;
 
     }
-    if(!userName.checkValidity()){
+    if(!ValidateDetails(userName)){
         Patient_errorMessage += "\n" + "The Name is invalid";
         isValid = false;
 
     }
-    if(!userSurname.checkValidity()){
+    if(!ValidateDetails(userSurname)){
         Patient_errorMessage += "\n" + "The Surname is invalid";
         isValid = false;
 
     }
-    if(!userPass.checkValidity()){
+    if(!ValidateDetails(userPass)){
         Patient_errorMessage += "\n" + "The Password is invalid";
         isValid = false;
 
     }
-    if(!userConfirmPass.checkValidity()){
+    if(!ValidateDetails(userPass)){
         Patient_errorMessage += "\n" + "The Confirm Password is invalid";
         isValid = false;
     }
-    if(!userAge.checkValidity()){
+    if(!ValidateDetails(userAge)){
         Patient_errorMessage += "\n" + "The Age is invalid";
         isValid = false;
     }
-    if(!userGender.checkValidity()){
+    if(!ValidateDetails(userGender)){
         Patient_errorMessage += "\n" + "The Gender is invalid";
         isValid = false;
     }
-    if(!userDiseaseHistory.checkValidity()){
+    if(!ValidateDetails(userDiseaseHistory)){
         Patient_errorMessage += "\n" + "The Disease History is invalid";
         isValid = false;
     }
-    if(!userMedicationHistory.checkValidity()){
+    if(!ValidateDetails(userMedicationHistory)){
         Patient_errorMessage += "\n" + "The Current Medication is invalid";
         isValid = false;
     }
+
     return isValid;
 }
+
+
 
 //Register Doctor Function
 
@@ -162,40 +163,40 @@ function register_doctor(){
     let docExperience = document.getElementById("doc_experience").value;
     let docQualifications = document.getElementById("doc_qualifications").value;
 
-        if(CheckDoctorInfoNotNull() && validatePassword()) {
+    if(CheckDoctorInfoNotNull() && validatePassword()) {
 
-            let database = firebase.database();
-            firebase.auth().createUserWithEmailAndPassword(docEmail, docPass)
+        let database = firebase.database();
+        firebase.auth().createUserWithEmailAndPassword(docEmail, docPass)
 
-                .then((userCredential) => {
-                    // Signed in
-                    document.getElementById("doc_loader").style.display = "block";
-                    let user = userCredential.user;
-                    database.ref().child('Doctors').child(user.uid).set({
-                        email: docEmail,
-                        experience: docExperience,
-                        first_name: docName,
-                        last_name: docSurname,
-                        qualifications: docQualifications,
-                        specialization: docSpecialization,
-                        uid: user.uid,
-                        user_type: "Doctor"
-                    });
-                    console.log("Doctor registered");
-                    setTimeout(() => {  window.location.href = "index.html"; }, 2000);
-                })
-                .catch((error) => {
-                    let errorCode = error.code;
-                    let errorMessage = error.message;
+            .then((userCredential) => {
+                // Signed in
+                document.getElementById("doc_loader").style.display = "block";
+                let user = userCredential.user;
+                database.ref().child('Doctors').child(user.uid).set({
+                    email: docEmail,
+                    experience: docExperience,
+                    first_name: docName,
+                    last_name: docSurname,
+                    qualifications: docQualifications,
+                    specialization: docSpecialization,
+                    uid: user.uid,
+                    user_type: "Doctor"
                 });
+                console.log("Doctor registered");
+                setTimeout(() => {  window.location.href = "index.html"; }, 2000);
+            })
+            .catch((error) => {
+                let errorCode = error.code;
+                let errorMessage = error.message;
+            });
 
-        }
+    }
 
-        else{
-            let errorWindow = document.getElementById("doc_error_text");
-            errorWindow.style.display = "block";
-            errorWindow.innerHTML = DocErrorMessage;
-        }
+    else{
+        let errorWindow = document.getElementById("doc_error_text");
+        errorWindow.style.display = "block";
+        errorWindow.innerHTML = DocErrorMessage;
+    }
 }
 
 // Register Patient Function
@@ -213,32 +214,32 @@ function register_patient(){
     let userAllergies = document.getElementById("pt_allergies").value;
 
     if(CheckPatientInfoNotNull() && PasswordCheck(userPass,userConfirmPass)){
-            let database = firebase.database();
-            firebase.auth().createUserWithEmailAndPassword(userEmail,userPass)
+        let database = firebase.database();
+        firebase.auth().createUserWithEmailAndPassword(userEmail,userPass)
 
-                .then((userCredential) => {
-                    // Signed in
-                    document.getElementById("pt_loader").style.display = "block";
-                    let user = userCredential.user;
-                    database.ref().child('Patients').child(user.uid).set({
-                        age:userAge,
-                        allergies:userAllergies,
-                        diseaseHistory:userDiseaseHistory,
-                        email:userEmail,
-                        first_name:userName,
-                        last_name:userSurname,
-                        medicationHistory:userMedicationHistory,
-                        sex:userGender,
-                        uid:user.uid,
-                        user_type:"Patient"
-                    });
-                    console.log("Patient Registered");
-                    setTimeout(() => { window.location.href = "index.html"; }, 2000);
-                })
-                .catch((error) => {
-                    let errorCode = error.code;
-                    let errorMessage = error.message;
+            .then((userCredential) => {
+                // Signed in
+                document.getElementById("pt_loader").style.display = "block";
+                let user = userCredential.user;
+                database.ref().child('Patients').child(user.uid).set({
+                    age:userAge,
+                    allergies:userAllergies,
+                    diseaseHistory:userDiseaseHistory,
+                    email:userEmail,
+                    first_name:userName,
+                    last_name:userSurname,
+                    medicationHistory:userMedicationHistory,
+                    sex:userGender,
+                    uid:user.uid,
+                    user_type:"Patient"
                 });
+                console.log("Patient Registered");
+                setTimeout(() => { window.location.href = "index.html"; }, 2000);
+            })
+            .catch((error) => {
+                let errorCode = error.code;
+                let errorMessage = error.message;
+            });
 
     }
     else{
@@ -290,4 +291,4 @@ function toggle_pt_passC(){
     pt_togglePasswordC.classList.toggle('fa-eye-slash');
 }
 
-module.exports = PasswordCheck;
+module.exports = {ValidateDetails,ValidateEmail,CheckIfPasswordsMatch};
