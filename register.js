@@ -6,7 +6,6 @@ function CheckIfPasswordsMatch(userPass,userConfirmPass){
 }
 
 const ValidateDetails = (Details) =>{
-    console.log(Details)
     return Details === null;
 }
 
