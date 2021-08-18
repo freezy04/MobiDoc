@@ -12,7 +12,8 @@
     "test": "jest"
   },
   "jest": {
-    "testEnvironment": "jsdom"
+    "testEnvironment": "jsdom",
+    "testRegex": "Tests/.*\\.(js|jsx)$"
   },
   "repository": {
     "type": "git",

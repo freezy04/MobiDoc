@@ -16,10 +16,10 @@ test("Testing whether the email is badly formatted", () => {
     expect(ValidateEmail("james/@/gmail.com")).toBe(false);
 });
 
-test("Testing where the value is valid", () =>{
+test("Testing whether the value is valid", () =>{
     expect(ValidateDetails("Some_String")).toBe(false);
 })
 
-test("Testing where the value is invalid", () =>{
+test("Testing whether the value is invalid", () =>{
     expect(ValidateDetails(null)).toBe(true);
 })
