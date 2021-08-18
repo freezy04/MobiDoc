@@ -11,6 +11,7 @@ const ValidateDetails = (Details) =>{
 
 
 
+
 function ValidateEmail(Email){
     let mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
     return mailformat.test(Email);
@@ -92,54 +93,54 @@ let Patient_errorMessage= " ";
 function CheckPatientInfoNotNull(){
 
     let isValid = true;
-    let userEmail = document.getElementById("pt_email");
-    let userPass = document.getElementById("pt_password");
-    let userConfirmPass = document.getElementById("pt_confirmPassword");
-    let userAge = document.getElementById("pt_age");
-    let userGender = document.getElementById("pt_gender");
-    let userName = document.getElementById("pt_name");
-    let userSurname = document.getElementById("pt_surname");
-    let userMedicationHistory = document.getElementById("pt_curr_med");
-    let userDiseaseHistory = document.getElementById("pt_disease_historu");
+    let userEmail = document.getElementById("pt_email").innerText;
+    let userPass = document.getElementById("pt_password").innerText;
+    let userConfirmPass = document.getElementById("pt_confirmPassword").innerText;
+    let userAge = document.getElementById("pt_age").innerText;
+    let userGender = document.getElementById("pt_gender").innerText;
+    let userName = document.getElementById("pt_name").innerText;
+    let userSurname = document.getElementById("pt_surname").innerText;
+    let userMedicationHistory = document.getElementById("pt_curr_med").innerText;
+    let userDiseaseHistory = document.getElementById("pt_disease_historu").innerText;
 
-
+Patient_errorMessage += ValidateEmail(userEmail) + " " + userEmail;
     if(!ValidateEmail(userEmail)){
         Patient_errorMessage += "\n" + "The email is invalid";
         isValid = false;
 
     }
-    if(!ValidateDetails(userName)){
+    if(ValidateDetails(userName)){
         Patient_errorMessage += "\n" + "The Name is invalid";
         isValid = false;
 
     }
-    if(!ValidateDetails(userSurname)){
+    if(ValidateDetails(userSurname)){
         Patient_errorMessage += "\n" + "The Surname is invalid";
         isValid = false;
 
     }
-    if(!ValidateDetails(userPass)){
+    if(ValidateDetails(userPass)){
         Patient_errorMessage += "\n" + "The Password is invalid";
         isValid = false;
 
     }
-    if(!ValidateDetails(userPass)){
+    if(ValidateDetails(userPass)){
         Patient_errorMessage += "\n" + "The Confirm Password is invalid";
         isValid = false;
     }
-    if(!ValidateDetails(userAge)){
+    if(ValidateDetails(userAge)){
         Patient_errorMessage += "\n" + "The Age is invalid";
         isValid = false;
     }
-    if(!ValidateDetails(userGender)){
+    if(ValidateDetails(userGender)){
         Patient_errorMessage += "\n" + "The Gender is invalid";
         isValid = false;
     }
-    if(!ValidateDetails(userDiseaseHistory)){
+    if(ValidateDetails(userDiseaseHistory)){
         Patient_errorMessage += "\n" + "The Disease History is invalid";
         isValid = false;
     }
-    if(!ValidateDetails(userMedicationHistory)){
+    if(ValidateDetails(userMedicationHistory)){
         Patient_errorMessage += "\n" + "The Current Medication is invalid";
         isValid = false;
     }
@@ -290,4 +291,4 @@ function toggle_pt_passC(){
     pt_togglePasswordC.classList.toggle('fa-eye-slash');
 }
 
-module.exports = {ValidateDetails,ValidateEmail,CheckIfPasswordsMatch};
+module.exports = {ValidateDetails,ValidateEmail,CheckIfPasswordsMatch,CheckDoctorInfoNotNull,CheckPatientInfoNotNull};
