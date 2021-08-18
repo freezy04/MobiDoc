@@ -37,3 +37,4 @@ This is the website version for the MobiDoc Android Application  : https://githu
 
 [![MobiDoc CI](https://github.com/freezy04/MobiDoc/actions/workflows/main.yml/badge.svg)](https://github.com/freezy04/MobiDoc/actions/workflows/main.yml)
 [![Build](https://github.com/freezy04/MobiDoc/actions/workflows/node.js.yml/badge.svg)](https://github.com/freezy04/MobiDoc/actions/workflows/node.js.yml)
+[![codecov](https://codecov.io/gh/freezy04/MobiDoc/branch/main/graph/badge.svg?token=VRAAMSJ2WS)](https://codecov.io/gh/freezy04/MobiDoc)
