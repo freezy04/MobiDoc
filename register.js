@@ -261,34 +261,4 @@ const pt_password = document.getElementById('pt_password');
 const pt_togglePasswordC =document.getElementById('pt_togglePasswordC');
 const pt_passwordC = document.getElementById('pt_confirmPassword');
 
-function toggle_doc_pass(){
-    // toggle the type attribute
-    const type = doc_password.getAttribute('type') === 'password' ? 'text' : 'password';
-    doc_password.setAttribute('type', type);
-    // toggle the eye slash icon
-    doc_togglePassword.classList.toggle('fa-eye-slash');
-}
-function toggle_doc_passC(){
-    // toggle the type attribute
-    const type = doc_passwordC.getAttribute('type') === 'password' ? 'text' : 'password';
-    doc_passwordC.setAttribute('type', type);
-    // toggle the eye slash icon
-    doc_togglePasswordC.classList.toggle('fa-eye-slash');
-}
-function toggle_pt_pass(){
-    // toggle the type attribute
-    const type = pt_password.getAttribute('type') === 'password' ? 'text' : 'password';
-    pt_password.setAttribute('type', type);
-    // toggle the eye slash icon
-    pt_togglePassword.classList.toggle('fa-eye-slash');
-}
-
-function toggle_pt_passC(){
-    // toggle the type attribute
-    const type = pt_passwordC.getAttribute('type') === 'password' ? 'text' : 'password';
-    pt_passwordC.setAttribute('type', type);
-    // toggle the eye slash icon
-    pt_togglePasswordC.classList.toggle('fa-eye-slash');
-}
-
 module.exports = {ValidateDetails,ValidateEmail,CheckIfPasswordsMatch,CheckDoctorInfoNotNull,CheckPatientInfoNotNull};
