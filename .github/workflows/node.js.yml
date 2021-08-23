@@ -30,7 +30,10 @@ jobs:
       
     - run: npm ci
     - run: npm run build --if-present
-
+    
+    - name: Installing Firebase libraries
+      run : npm i firebase-admin
+  
     - name: Run the tests
       run: npm test -- --coverage
       
