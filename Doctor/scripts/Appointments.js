@@ -1,4 +1,4 @@
-// const firebase = require("firebase/app")
+
 
 // Appointment list
 let appList = document.getElementById("appList");
@@ -42,27 +42,6 @@ function AddtoHtml(app,appList){
 }
 
 
-const getAppointmentDetails = async (uid, appList) => {
-
-    let success = false;
-    let database = firebase.database();
-    let ref = database.ref().child('Appointments');
-
-    let test = await ref.orderByKey().once("value", snapshot => {
-        if (snapshot.exists()) {
-            success = true;
-            snapshot.forEach(function (childSnapshot) {
-                let app = childSnapshot.val();
-                if (uid === app.doctorUid) {
-                    AddtoHtml(app, appList);
-                }
-            });
-        }
-    }).then()
-
-    return success;
-}
-
 function updatemenu() {
     if (document.getElementById('responsive-menu').checked === true) {
         document.getElementById('menu').style.borderBottomRightRadius = '0';
@@ -73,4 +52,4 @@ function updatemenu() {
     }
 }
 
-module.exports = {getAppointmentDetails,AddtoHtml,updatemenu};
+module.exports = {AddtoHtml,updatemenu};

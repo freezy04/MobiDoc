@@ -35,22 +35,22 @@ beforeAll(() => {
 
 const Appoint = require("../Doctor/scripts/Appointments")
 
-test("Fetching data from Firebase", async () =>{
-    // creating the DOM Element
-    document.body.innerHTML =
-        "<div>" +
-        "<dl id='appList'>" +
-        "</dl>" + "</div>";
-    let appList = document.getElementById("appList");
-    let DocUID = "gwx5hKK8dvbqKJILWlT2qrUMoRD3";
-
-    await Appoint.getAppointmentDetails(DocUID,appList);
-    let promise = Promise.resolve(Appoint.getAppointmentDetails(DocUID,appList))
-    promise.then(function(val) {
-        expect(appList.innerHTML).toBeGreaterThan(0);
-    });
-
-});
+// test("Fetching data from Firebase", async () =>{
+//     // creating the DOM Element
+//     document.body.innerHTML =
+//         "<div>" +
+//         "<dl id='appList'>" +
+//         "</dl>" + "</div>";
+//     let appList = document.getElementById("appList");
+//     let DocUID = "gwx5hKK8dvbqKJILWlT2qrUMoRD3";
+//
+//     await Appoint.getAppointmentDetails(DocUID,appList);
+//     let promise = Promise.resolve(Appoint.getAppointmentDetails(DocUID,appList))
+//     promise.then(function(val) {
+//         expect(appList.innerHTML).toBeGreaterThan(0);
+//     });
+//
+// });
 
 test("Testing that the different appointments are sent to the HTML DOM Accepted", () =>{
     document.body.innerHTML =

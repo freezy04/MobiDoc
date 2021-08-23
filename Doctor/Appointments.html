@@ -66,6 +66,29 @@
 
 
 
+    const getAppointmentDetails = async (uid, appList) => {
+        const firebase = require("firebase/app")
+
+        let success = false;
+        let database = firebase.database();
+        let ref = database.ref().child('Appointments');
+
+        let test = await ref.orderByKey().once("value", snapshot => {
+            if (snapshot.exists()) {
+                success = true;
+                snapshot.forEach(function (childSnapshot) {
+                    let app = childSnapshot.val();
+                    if (uid === app.doctorUid) {
+                        AddtoHtml(app, appList);
+                    }
+                });
+            }
+        }).then()
+
+        return success;
+    }
+
+
     let aList = document.getElementById("appList");
 
 
