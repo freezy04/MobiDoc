@@ -43,17 +43,25 @@ test("Test whether the inputted doctor details  is valid", () =>{
         document.getElementById("pt_disease_historu").innerText = " None";
 
     expect(CheckPatientInfoNotNull()).toBe(true);
+})
 
-    /*
-     let userEmail = document.getElementById("pt_email");
-    let userPass = document.getElementById("pt_password");
-    let userConfirmPass = document.getElementById("pt_confirmPassword");
-    let userAge = document.getElementById("pt_age");
-    let userGender = document.getElementById("pt_gender");
-    let userName = document.getElementById("pt_name");
-    let userSurname = document.getElementById("pt_surname");
-    let userMedicationHistory = document.getElementById("pt_curr_med");
-    let userDiseaseHistory = document.getElementById("pt_disease_historu");
+test("Test whether the inputted doctor details  is invalid", () =>{
+    // Creating the DOM elements
 
-     */
+    document.body.innerHTML = "<p id = 'pt_email'></p>" +
+        "<div id = 'pt_password'>/div>" + "<p id='pt_confirmPassword'></p>" +
+        "<p id = 'pt_age'></p>" + "<p id = 'pt_gender'></p>" + "<p id='pt_name'></p>" +
+        "<p id = 'pt_surname'></p>" + "<p id = 'pt_curr_med'></p>" + "<p id='pt_disease_historu'></p>";
+
+    document.getElementById('pt_email').innerText = "mike/@/gmail.com";
+    document.getElementById("pt_password").innerText = null;
+    document.getElementById("pt_confirmPassword").innerText = null;
+    document.getElementById("pt_age").innerText = null;
+    document.getElementById("pt_gender").innerText = null;
+    document.getElementById("pt_name").innerText = null;
+    document.getElementById("pt_surname").innerText = null;
+    document.getElementById("pt_curr_med").innerText = null;
+    document.getElementById("pt_disease_historu").innerText = null;
+
+    expect(CheckPatientInfoNotNull()).toBe(false);
 })

@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="styles/Nav_bar.css">
 
     <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-database.js"></script>
@@ -23,7 +24,7 @@
             <li><a class='active' href="home.html"   >Home</a></li>
             <li><a class='dropdown-arrow' href='#' style="background: #5d8ffc" >Appointments</a>
                 <ul class='sub-menus'>
-<!--                    <li><a href='AppointmentTypes/AcceptedAppointments.html'>Upcoming Appointments</a></li>-->
+                    <!--                    <li><a href='AppointmentTypes/AcceptedAppointments.html'>Upcoming Appointments</a></li>-->
                     <li><a href='AppointmentTypes/PendingAppointments.html'>Pending Appointments</a></li>
                     <li><a href='AppointmentTypes/CompletedAppointments.html'>Completed Appointments</a></li>
                     <li><a href='AppointmentTypes/RejectedAppointments.html'>Rejected Appointments</a></li>
@@ -37,6 +38,10 @@
 
 <div class="bottom_line"></div>
 
+
+<dl id="appList"></dl>
+
+
 <script>
 
     var firebaseConfig = {
@@ -49,84 +54,36 @@
         appId: "1:311373483549:web:3c840b29b14029ac4680f4",
         measurementId: "G-JFPKMPTGZ5"
     };
+
     // Initialize Firebase
     firebase.initializeApp(firebaseConfig);
 
 </script>
 
-<dl id="appList">
-</dl>
-
-</body>
 <script>
+
     // Appointment list
-    let appList = document.getElementById("appList");
+
+
+
+    let aList = document.getElementById("appList");
+
+
+
     firebase.auth().onAuthStateChanged(function (user) {
         if (user) {
-            getAppointmentDetails(user.uid);
+            getAppointmentDetails(user.uid,aList);
         }
         else {
             // No user is signed in.
         }
     });
 
-    const getAppointmentDetails = (uid) => {
-        let database = firebase.database();
-        let ref = database.ref().child('Appointments');
-        ref.orderByKey().once("value",snapshot => {
-            if (snapshot.exists()){
-                snapshot.forEach(function(childSnapshot) {
-                    let app = childSnapshot.val();
-                    if (uid === app.doctorUid) {
-                        //     if (app.status === "pending") {
-                        let label;
-                        switch (app.status){
-                            case "accepted":
-                                label = "<span class='accept'>" + app.status + "</span>";
-                                break;
-                            case "rejected":
-                                label = "<span class='reject'>" + app.status + "</span>";
-                                break;
-                            case "pending":
-                                label = "<span class='pending' >" + app.status + "</span>";
-                                break;
-                            case "completed":
-                                label = "<span class='completed' >" + app.status + "</span>";
-                                break;
-                        }
 
-                        appList.innerHTML +=
-                            "<div class = 'card' >" +
-                            label +
-                            "<h2>Appointment with " + app.patient_Name + "</h2>" +
-                            "<p>" + app.date_for_appointment + " - " + app.time_for_appointment + "</p>" +
-                            "<table>" +
-                            "<tr>" +
-                            "<th>Reason for appointment: </th>" +
-                            "<td>" + app.reason_for_appointment + "</td>" +
-                            "</tr>" +
-                            "<tr>" +
-                            "<th>Appointment status: </th>" +
-                            "<td>" + app.status + "</td>" +
-                            "</tr>" +
-                            "</table>"
-                            + "<div>"
-                            +"<br/>"
-                        ;
-                    }
-                });
-            }
-        });
-    }
-
-    function updatemenu() {
-        if (document.getElementById('responsive-menu').checked === true) {
-            document.getElementById('menu').style.borderBottomRightRadius = '0';
-            document.getElementById('menu').style.borderBottomLeftRadius = '0';
-        }
-        else{
-            document.getElementById('menu').style.borderRadius = '0px';
-        }
-    }
 </script>
+
+<script src = "scripts/Appointments.js"></script>
+
+</body>
+
 </html>
