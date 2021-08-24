@@ -10,11 +10,9 @@
     <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-database.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-analytics.js"></script>
-    <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.8.0/firebase-ui-auth.css" />
 
 </head>
-<body  onload="GetDetails()">
+<body onload="Test()">
 
 <!--Nav Bar Stuff-->
 <div class = "centre">
@@ -114,20 +112,8 @@
 
 
 </body>
-
+<script  src="./scripts/profile.js"></script>
 <script>
-    function updatemenu() {
-        if (document.getElementById('responsive-menu').checked === true) {
-            document.getElementById('menu').style.borderBottomRightRadius = '0';
-            document.getElementById('menu').style.borderBottomLeftRadius = '0';
-        }
-        else{
-            document.getElementById('menu').style.borderRadius = '0px';
-        }
-    }
-
-
-
     const UpDateInformation = (uid,value,key) => {
         let database = firebase.database();
         let ref = database.ref().child('Doctors');
@@ -150,48 +136,43 @@
         }
     }
 
-
-    let email = document.getElementById("email");
-    let name = document.getElementById("Name");
-    let Exp = document.getElementById("experience");
-    let QL = document.getElementById("qualification");
-    let Spec = document.getElementById("specialization");
     let User_uid;
 
-
-    function GetDetails() {
+    function Test() {
         firebase.auth().onAuthStateChanged(function (user) {
             if (user) {
                 UpdateDetails(user.uid);
                 User_uid = user.uid;
-            }
-            else {
+            } else {
                 // No user is signed in.
             }
         });
     }
 
+
     const UpdateDetails = (uid) => {
         let database = firebase.database();
         let ref = database.ref().child('Doctors');
-
-        ref.orderByKey().equalTo(uid).once("value",snapshot => {
-            if (snapshot.exists()){
-
-                snapshot.forEach(function(childSnapshot) {
-                    var Doctor = childSnapshot.val();
-                    name.innerText = "Dr " +  Doctor.first_name + " " + Doctor.last_name;
-                    Spec.innerText = Doctor.specialization;
-                    Exp.innerText = Doctor.experience;
-                    QL.innerText = Doctor.qualifications;
-                    email.innerText = Doctor.email;
-                });
-            }
+        // t0 = performance.now();
+        ref.on("value",snapshot => {
+               if (snapshot.exists()) {
+                   snapshot.forEach(function (childSnapshot) {
+                       let Doctor = childSnapshot.val();
+                       if(Doctor.uid === uid) {
+                                SetDataFromFirebase(Doctor);
+                       }
+                   });
+               }
+            //
+            // var t1 = performance.now()
+            // console.log(((t1-t0) % 60000) / 1000);
         });
+
     }
 
+
     function CheckIfEdited(value,key){
-        if(value){
+        if(ValidateDetails(value)){
             UpDateInformation(User_uid,value,key);
         }
     }
@@ -212,16 +193,6 @@
 
         Toast();
 
-    }
-
-    function ChangeView(){
-        document.getElementById("profile").style.display = "none";
-        document.getElementById("edit_profile").style.display = "flex";
-    }
-
-    function ReturnToProfile(){
-        document.getElementById("profile").style.display = "flex";
-        document.getElementById("edit_profile").style.display = "none";
     }
 
     function sleep(ms) {

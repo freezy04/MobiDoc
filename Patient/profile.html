@@ -12,11 +12,9 @@
     <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-database.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-analytics.js"></script>
-    <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.8.0/firebase-ui-auth.css" />
 
 </head>
-<body  onload="GetDetails()" >
+<body >
 
     
 <div class = "centre">
@@ -162,24 +160,22 @@ let p_age = document.getElementById("age")
                 break;
         }
     }
-    function GetDetails() {
+
         firebase.auth().onAuthStateChanged(function (user) {
             if (user) {
                 UpdatePatientDetails(user.uid);
                 User_uid = user.uid;
-            }
-            else {
+            } else {
                 // No user is signed in.
             }
         });
-    }
+
+
     const UpdatePatientDetails = (uid) => {
         let database = firebase.database();
         let ref = database.ref().child('Patients');
-
         ref.orderByKey().equalTo(uid).once("value",snapshot => {
             if (snapshot.exists()){
-
                 snapshot.forEach(function(childSnapshot) {
                     var Patient = childSnapshot.val();
                     p_name.innerText = Patient.first_name + " " + Patient.last_name;

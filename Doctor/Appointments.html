@@ -67,8 +67,6 @@
 
 
     const getAppointmentDetails = async (uid, appList) => {
-        const firebase = require("firebase/app")
-
         let success = false;
         let database = firebase.database();
         let ref = database.ref().child('Appointments');

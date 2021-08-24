@@ -3,15 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <title> MobiDoc | Upcoming Appointments </title>
-    <link rel="stylesheet" href="styles/Nav_bar.css">
 
     <!-- The core Firebase JS SDK is always required and must be listed first -->
     <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-database.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-analytics.js"></script>
-    <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.8.0/firebase-ui-auth.css" />
     <link rel="stylesheet" href="./styles/appointments.css">
+    <link rel="stylesheet" href="styles/Nav_bar.css">
+
 
 </head>
 <body>
@@ -72,7 +71,7 @@
     const getAppointmentDetails = (uid) => {
         let database = firebase.database();
         let ref = database.ref().child('Appointments');
-        ref.orderByKey().once("value", snapshot => {
+        ref.orderByKey().once("value",snapshot => {
             if (snapshot.exists()) {
                 snapshot.forEach(function (childSnapshot) {
                     let app = childSnapshot.val();
