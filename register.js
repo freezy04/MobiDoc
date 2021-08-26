@@ -6,94 +6,79 @@ function CheckIfPasswordsMatch(userPass,userConfirmPass){
 }
 
 const ValidateDetails = (Details) =>{
-    return Details === null;
+    return Details === null || Details === "";
 }
 
 
-
-
 function ValidateEmail(Email){
-    let mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-    return mailformat.test(Email);
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(Email);
 }
 
 
 // This functions tests whether the passwords match and provide feedback to the user
-function PasswordCheck(userPass,userConfirmPass){
-
-    let pass_input = document.getElementById("pt_password");
-    let confirmPass_input = document.getElementById("pt_confirmPassword");
-
-    if(CheckIfPasswordsMatch(userPass,userConfirmPass)){
-        pass_input.setCustomValidity("Passwords do not match");
-        confirmPass_input.setCustomValidity("Passwords do not match");
-        return false;
-    }
-    else{
-        pass_input.setCustomValidity(" ");
-        confirmPass_input.setCustomValidity(" ")
-        return true;
-    }
-
-}
 
 
-let DocErrorMessage = " ";
+
+let DocErrorMessage = "";
 function CheckDoctorInfoNotNull(){
+
     let isValid = true;
-    let docEmail = document.getElementById("doc_email");
-    let docPass = document.getElementById("doc_password");
-    let docConfirmPass = document.getElementById("doc_confirmPassword");
-    let docName = document.getElementById("doc_name");
-    let docSurname = document.getElementById("doc_surname");
-    let docSpecialization = document.getElementById("doc_specialization");
-    let docExperience = document.getElementById("doc_experience");
-    let docQualifications = document.getElementById("doc_qualifications")
+    let docEmail = document.getElementById("doc_email").innerText.trim();
+    let docPass = document.getElementById("doc_password").innerText;
+    let docConfirmPass = document.getElementById("doc_confirmPassword").innerText;
+    let docName = document.getElementById("doc_name").innerText;
+    let docSurname = document.getElementById("doc_surname").innerText;
+    let docSpecialization = document.getElementById("doc_specialization").innerText;
+    let docExperience = document.getElementById("doc_experience").innerText;
+    let docQualifications = document.getElementById("doc_qualifications").innerText
+
 
     if(!ValidateEmail(docEmail)){
-        DocErrorMessage += "\n" + "The email is invalid";
+        DocErrorMessage += "The email is invalid";
         isValid = false;
 
     }
-    if(!ValidateDetails(docName)){
+    if(ValidateDetails(docName)){
         DocErrorMessage += "\n" + "The Name is invalid";
         isValid = false;
 
     }
-    if(!ValidateDetails(docSurname)){
+    if(ValidateDetails(docSurname)){
         DocErrorMessage += "\n" + "The Surname is invalid";
         isValid = false;
 
     }
-    if(!ValidateDetails(docPass)){
+    if(ValidateDetails(docPass)){
         DocErrorMessage += "\n" + "The Password is invalid";
         isValid = false;
     }
 
-    if(!ValidateDetails(docConfirmPass)){
+    if(ValidateDetails(docConfirmPass)){
         DocErrorMessage += "\n" + "The Confirm Password is invalid";
         isValid = false;
     }
-    if(!ValidateDetails(docExperience)){
+    if(ValidateDetails(docExperience)){
         DocErrorMessage += "\n" + "The Experience is invalid";
         isValid = false;
 
     }
-    if(!ValidateDetails(docQualifications)){
+    if(ValidateDetails(docQualifications)){
         DocErrorMessage += "\n" + "The Qualification Field is invalid";
         isValid = false;
 
     }
+
     return isValid;
 
 }
 
 
-let Patient_errorMessage= " ";
+let Patient_errorMessage="";
 function CheckPatientInfoNotNull(){
 
+
     let isValid = true;
-    let userEmail = document.getElementById("pt_email").innerText;
+    let userEmail = document.getElementById("pt_email").value;
     let userPass = document.getElementById("pt_password").innerText;
     let userConfirmPass = document.getElementById("pt_confirmPassword").innerText;
     let userAge = document.getElementById("pt_age").innerText;
@@ -103,12 +88,13 @@ function CheckPatientInfoNotNull(){
     let userMedicationHistory = document.getElementById("pt_curr_med").innerText;
     let userDiseaseHistory = document.getElementById("pt_disease_historu").innerText;
 
-Patient_errorMessage += ValidateEmail(userEmail) + " " + userEmail;
+
     if(!ValidateEmail(userEmail)){
-        Patient_errorMessage += "\n" + "The email is invalid";
+        Patient_errorMessage += "The email is invalid";
         isValid = false;
 
     }
+
     if(ValidateDetails(userName)){
         Patient_errorMessage += "\n" + "The Name is invalid";
         isValid = false;
@@ -147,11 +133,6 @@ Patient_errorMessage += ValidateEmail(userEmail) + " " + userEmail;
 
     return isValid;
 }
-
-
-
-//Register Doctor Function
-
 function register_doctor(){
 
     let docEmail = document.getElementById("doc_email").value;
@@ -163,7 +144,7 @@ function register_doctor(){
     let docExperience = document.getElementById("doc_experience").value;
     let docQualifications = document.getElementById("doc_qualifications").value;
 
-    if(CheckDoctorInfoNotNull() && validatePassword()) {
+    if(CheckDoctorInfoNotNull() && CheckIfPasswordsMatch(docPass,docConfirmPass)) {
 
         let database = firebase.database();
         firebase.auth().createUserWithEmailAndPassword(docEmail, docPass)
@@ -213,7 +194,7 @@ function register_patient(){
     let userDiseaseHistory = document.getElementById("pt_disease_historu").value;
     let userAllergies = document.getElementById("pt_allergies").value;
 
-    if(CheckPatientInfoNotNull() && PasswordCheck(userPass,userConfirmPass)){
+    if(CheckPatientInfoNotNull() && CheckIfPasswordsMatch(userPass,userConfirmPass)){
         let database = firebase.database();
         firebase.auth().createUserWithEmailAndPassword(userEmail,userPass)
 

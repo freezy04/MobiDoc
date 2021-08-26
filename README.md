@@ -1,6 +1,6 @@
 # MobiDoc
 
-This is the website version for the MobiDoc Android Application  : https://github.com/freezy04/Runtime-Terror
+This is the website version for the MobiDoc Android Application  : [MobiDoc Android]( https://github.com/freezy04/Runtime-Terror)
 
  # Mobile Patient Tracker
 - #### Product Scope 
@@ -24,17 +24,19 @@ This is the website version for the MobiDoc Android Application  : https://githu
 - #### User
   - The user needs to have a computer, tablet or mobile device and internet connection
 
-- #### Deverloper
+- #### Developer
   - Webstorm Version: 2021.1.2, Build: 211.7442.26 (recommended)
 
 # Programming languages
 - Javascript
+- Node.js
 - HTML
 - CSS
 
 
 
 
+[![Website shields.io](https://img.shields.io/badge/Website-MobiDoc-green?style=for-the-badge/http/shields.io.svg)](https://mobidoc-6a3ac.web.app/)
 [![MobiDoc CI](https://github.com/freezy04/MobiDoc/actions/workflows/main.yml/badge.svg)](https://github.com/freezy04/MobiDoc/actions/workflows/main.yml)
 [![Build](https://github.com/freezy04/MobiDoc/actions/workflows/node.js.yml/badge.svg)](https://github.com/freezy04/MobiDoc/actions/workflows/node.js.yml)
 [![codecov](https://codecov.io/gh/freezy04/MobiDoc/branch/main/graph/badge.svg?token=VRAAMSJ2WS)](https://codecov.io/gh/freezy04/MobiDoc)

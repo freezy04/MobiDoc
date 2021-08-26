@@ -258,7 +258,6 @@
 
   const CheckIfPatient = () =>{
     let isPatient = sessionStorage.getItem('isPatient')
-    console.log(isPatient)
     if(isPatient === 'true'){
       document.getElementById("sign-up-btn").click();
       sessionStorage.clear();
