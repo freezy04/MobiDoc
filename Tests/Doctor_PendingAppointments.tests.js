@@ -19,3 +19,20 @@ test("Update Menu where the menu is unresponsive", () => {
     expect(document.getElementById('menu').style.borderRadius).toBe("0px");
 
 });
+
+test("Testing that the different appointments are sent to the HTML DOM Pending", () =>{
+    document.body.innerHTML =
+        "<div>" +
+        "<dl id='appList'>" +
+        "</dl>" + "</div>";
+    let app = {status : "pending",
+        patient_name : "Test Patient" ,
+        date_for_appointment : "11/01/2020",
+        time_for_appointment : "10",
+        reason_for_appointment : "Sick and Tired of bad music" }
+    let appList = document.getElementById("appList");
+    Appoint.AddtoHtml(app,appList);
+    let length = document.getElementById("appList").innerHTML.length;
+
+    expect(length).toBeGreaterThan(0);
+})
