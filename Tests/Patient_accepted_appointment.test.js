@@ -5,7 +5,7 @@ test("Testing that the different appointments are sent to the HTML DOM Completed
         "<div>" +
         "<dl id='appList'>" +
         "</dl>" + "</div>";
-    let app = {status : "completed",
+    let app = {status : "accepted",
         patient_name : "Test Patient" ,
         doctor_Name : "Test Doctor",
         date_for_appointment : "11/01/2020",
