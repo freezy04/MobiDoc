@@ -1,11 +1,11 @@
-const Doc = require('../Doctor/scripts/profile')
+const Appoint = require("../Patient/scripts/PatientProfile")
 
 test("Update Menu where the menu is responsive", () => {
     // setting up the DOM elements
     document.body.innerHTML = "<div id='responsive-menu'></div>" +
         "<div id='menu'></div>"
     document.getElementById('responsive-menu').checked = true;
-    Doc.updatemenu();
+    Appoint.updatemenu();
     expect(document.getElementById('menu').style.borderBottomRightRadius).toBe("0");
 
 });
@@ -15,23 +15,23 @@ test("Update Menu where the menu is unresponsive", () => {
     document.body.innerHTML = "<div id='responsive-menu'></div>" +
         "<div id='menu'></div>"
     document.getElementById('responsive-menu').checked = false;
-    Doc.updatemenu();
+    Appoint.updatemenu();
     expect(document.getElementById('menu').style.borderRadius).toBe("0px");
 
 });
 
 test("Testing whether the value is valid", () =>{
-    expect(Doc.ValidateDetails("Some_String")).toBe(false);
+    expect(Appoint.ValidateDetails("Some_String")).toBe(false);
 })
 
 test("Testing whether the value is invalid", () =>{
-    expect(Doc.ValidateDetails(null)).toBe(true);
+    expect(Appoint.ValidateDetails(null)).toBe(true);
 })
 
 test("Testing the ChangeView Function", () => {
     document.body.innerHTML = "<div id='profile'></div>" +
         "<div id='edit_profile'></div>"
-    Doc.ChangeView();
+    Appoint.ChangeView();
     let style = document.getElementById('edit_profile').style.display;
     let style2 = document.getElementById('profile').style.display;
     expect(style).toBe("flex");
@@ -41,7 +41,7 @@ test("Testing the ChangeView Function", () => {
 test("Testing the ReturnToProfile Function", () => {
     document.body.innerHTML = "<div id='profile'></div>" +
         "<div id='edit_profile'></div>"
-    Doc.ReturnToProfile();
+    Appoint.ReturnToProfile();
     let style = document.getElementById('edit_profile').style.display;
     let style2 = document.getElementById('profile').style.display;
     expect(style).toBe("none");
