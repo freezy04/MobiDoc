@@ -1,38 +1,3 @@
-const firebase = require('firebase/app').default;
-require('firebase/auth');
-require('firebase/database');
-
-
-
-beforeAll(() => {
-
-    let firebaseConfig = {
-        apiKey: "AIzaSyB-ckD1wmZWj5c7RQIOyBvwFmQApBfEEMU",
-        authDomain: "mobidoc-6a3ac.firebaseapp.com",
-        databaseURL: "https://mobidoc-6a3ac-default-rtdb.firebaseio.com/",
-        projectId: "mobidoc-6a3ac",
-        storageBucket: "mobidoc-6a3ac.appspot.com",
-        messagingSenderId: "311373483549",
-        appId: "1:311373483549:web:3c840b29b14029ac4680f4",
-        measurementId: "G-JFPKMPTGZ5"
-    };
-
-    const firebase = require("firebase");
-    const admin = require("firebase-admin");
-
-    admin.initializeApp(firebaseConfig);
-    firebase.initializeApp(firebaseConfig);
-    //
-    firebase.auth();
-
-
-    document.body.innerHTML =
-        "<div>" +
-        "<dl id='appList'>" +
-        "</dl>" + "</div>";
-
-});
-
 const Appoint = require("../Doctor/scripts/Appointments")
 
 // test("Fetching data from Firebase", async () =>{
