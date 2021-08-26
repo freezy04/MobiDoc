@@ -75,3 +75,5 @@ const LoginUserAs = (uid) => {
 
 
 }
+
+module.exports = {isNotNull};
