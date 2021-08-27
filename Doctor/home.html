@@ -35,6 +35,14 @@
 </div>
 <div class="bottom_line"></div>
 
+<!--popup for completing an upcoming appointment - Gabe Tidy-->
+<div id="complete_app_popup" class="popup">
+    <div class="popup-content">
+        <span class="popup-close">&times;</span>
+        <p>ashasdoasdasod</p>
+    </div>
+</div>
+
 <script>
 
     let firebaseConfig = {
@@ -51,9 +59,10 @@
     firebase.initializeApp(firebaseConfig);
 
 </script>
-<script src = "../script/Home.js">
 
-</script >
+<!--Gabe Tidy removed because address was invalid, wasn't actually accessing Home.js-->
+<!--<script src = "../script/Home.js">-->
+<!--</script >-->
 
 <dl id="appList">
 </dl>
@@ -78,15 +87,19 @@
             if (snapshot.exists()) {
                 snapshot.forEach(function (childSnapshot) {
                     let app = childSnapshot.val();
-                    if (uid === app.doctorUid && ( app.status === "accepted" || app.status === "pending" )) {
+
+                    //Gabe Tidy removed pending appointments on home screen
+
+                    // if (uid === app.doctorUid && ( app.status === "accepted" || app.status === "pending" )) {
+                    if (uid === app.doctorUid && app.status === "accepted") {
                         let label;
                         switch (app.status){
                             case "accepted":
                                 label = "<span class='accept'>" + app.status + "</span>";
                                 break;
-                            case "pending":
-                                label = "<span class='pending' >" + app.status + "</span>";
-                                break;
+                            // case "pending":
+                            //     label = "<span class='pending' >" + app.status + "</span>";
+                            //     break;
                         }
                         appList.innerHTML +=
                             "<div class = 'card'>" +
@@ -97,6 +110,7 @@
                             "<tr>" +
                             "<th>Reason for appointment: </th>" +
                             "<td>" + app.reason_for_appointment + "</td>" +
+                            "<button id='confirm_app' onClick='confirmAppointment()'> Complete Appointment </button>" +
                             "</tr>" +
                             "</table>"
                             +"</div>"
@@ -106,6 +120,23 @@
                 });
             }
         });
+    }
+
+    function confirmAppointment() {
+        let popup = document.getElementById("complete_app_popup");
+        let close = document.getElementsByClassName("popup-close")[0];
+
+        popup.style.display = "block";//opens popup
+
+        //closes popup if user clicks close or outside popup
+        close.onclick = function() {
+            popup.style.display = "none";
+        }
+        window.onclick = function(event) {
+            if (event.target === popup) {
+                popup.style.display = "none";
+            }
+        }
     }
 
     function updatemenu() {
