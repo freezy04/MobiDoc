@@ -14,8 +14,8 @@ This is the website version for the MobiDoc Android Application  : [MobiDoc Andr
       - the doctors are able to accept or reject a booking request made by a patient
       
 - #### Purpose
-      -  the purpose of this web app is to help doctors see the medical history of their patients without having to search for a patients paper records
-      -  the appication will also assist patients to book appointments with an array of doctors
+      -  the purpose of this website is to help doctors see the medical history of their patients without having to search for a patients paper records
+      -  the website will also assist patients to book appointments with an array of doctors
       -  MobiDoc will also allow doctors to manage their appointment by accepting or rejecting a patient's booking request
       -  this means the doctors save more time and focus on the task at hand -- treating an ill person and saving lives
       -  when the patient arrives for a consultaion, the doctor can just quickly look up said patient's profile containing their medical history and write up the appropriate treatment
