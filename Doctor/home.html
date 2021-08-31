@@ -10,6 +10,7 @@
     <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-database.js"></script>
     <link rel="stylesheet" href="./styles/appointments.css">
     <link rel="stylesheet" href="styles/Nav_bar.css">
+    <link rel="stylesheet" href="styles/profile,.css">
 
 
 </head>
@@ -38,8 +39,18 @@
 <!--popup for completing an upcoming appointment - Gabe Tidy-->
 <div id="complete_app_popup" class="popup">
     <div class="popup-content">
-        <span class="popup-close">&times;</span>
-        <p>ashasdoasdasod</p>
+        <div class="popup-header">
+            <h2 style="text-align:center">Complete your appointment?</h2>
+            <span class="popup-close">&times;</span>
+        </div>
+        <div class="popup-body">
+            <input id = "app_notes" type="text" class="field" placeholder="Appointment notes">
+            <input id = "app_cost" type="number" class="field" placeholder="Appointment total cost">
+        </div>
+        <div class="popup-footer">
+            <button id='confirm_app' onClick='confirmAppointment()'> Complete Appointment </button>
+            <p id = "error" class = "error"></p>
+        </div>
     </div>
 </div>
 
@@ -70,10 +81,15 @@
 </body>
 
 <script>
+
+    let user_id;
+
+
     // Appointment list
     let appList = document.getElementById("appList");
     firebase.auth().onAuthStateChanged(function (user) {
         if (user) {
+            user_id = user.uid;
             getAppointmentDetails(user.uid);
         } else {
             // No user is signed in.
@@ -90,27 +106,31 @@
 
                     //Gabe Tidy removed pending appointments on home screen
 
-                    // if (uid === app.doctorUid && ( app.status === "accepted" || app.status === "pending" )) {
                     if (uid === app.doctorUid && app.status === "accepted") {
-                        let label;
-                        switch (app.status){
-                            case "accepted":
-                                label = "<span class='accept'>" + app.status + "</span>";
-                                break;
-                            // case "pending":
-                            //     label = "<span class='pending' >" + app.status + "</span>";
-                            //     break;
-                        }
+                        console.log(app.id);
+
+                    // if (uid === app.doctorUid && ( app.status === "accepted" || app.status === "pending" )) {
+                        let label = "<span class='accept'>" + app.status + "</span>";
+                        // let label;
+                        // switch (app.status){
+                        //     case "accepted":
+                        //         label = "<span class='accept'>" + app.status + "</span>";
+                        //         break;
+                        //     case "pending":
+                        //         label = "<span class='pending' >" + app.status + "</span>";
+                        //         break;
+                        // }
                         appList.innerHTML +=
-                            "<div class = 'card'>" +
+                            "<div id=" + app.id + " class = 'card'>" +
                             label +
                             "<h2>Appointment with " + app.patient_Name + "</h2>" +
+                            "<p id='app_id' style='display:none;'>" + app.id + "</p>" +
                             "<p>" + app.date_for_appointment + " - " + app.time_for_appointment + "</p>" +
                             "<table>" +
                             "<tr>" +
                             "<th>Reason for appointment: </th>" +
                             "<td>" + app.reason_for_appointment + "</td>" +
-                            "<button id='confirm_app' onClick='confirmAppointment()'> Complete Appointment </button>" +
+                            "<button id='confirm_app' onClick='openCompleteAppPopup()'> Complete Appointment </button>" +
                             "</tr>" +
                             "</table>"
                             +"</div>"
@@ -122,7 +142,9 @@
         });
     }
 
-    function confirmAppointment() {
+    function openCompleteAppPopup() {
+        let button = document.getElementById("confirm_app");
+
         let popup = document.getElementById("complete_app_popup");
         let close = document.getElementsByClassName("popup-close")[0];
 
@@ -137,6 +159,42 @@
                 popup.style.display = "none";
             }
         }
+    }
+
+    function validateDetails(notes, cost) {
+        let error = document.getElementById("error");
+        if (notes === "") {
+            error.style.display = "block";
+            error.innerHTML = "Notes cannot be empty";
+            return false;
+        } else if (cost === "") {
+            error.style.display = "block";
+            error.innerHTML = "Cost cannot be empty";
+            return false;
+        }
+        error.style.display = "none";
+        return true;
+    }
+
+    function updateAppointment(notes, cost) {
+        let database = firebase.database();
+        let ref = database.ref().child('Appointments');
+        ref.child(user_id).update({"notes":notes});
+        ref.child(user_id).update({"appointment_Cost":cost});
+        ref.child(user_id).update({"status":"completed"});
+
+    }
+
+    function confirmAppointment() {
+        let notes = document.getElementById("app_notes").value;
+        let cost = document.getElementById("app_cost").value;
+        let appID = document.getElementById("app_id").value;
+        console.log(appID);
+
+        // if (validateDetails(notes, cost)) {
+        //     updateAppointment(notes, cost);
+        // }
+
     }
 
     function updatemenu() {
