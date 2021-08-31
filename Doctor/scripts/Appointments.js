@@ -6,7 +6,9 @@ let appList = document.getElementById("appList");
 function AddtoHtml(app,appList){
 
     let label;
-
+/*
+* The following will only display pending booking requests under the Appointment tab
+* */
     if(app.status == "pending") {
         label = "<span class='pending' >" + app.status + "</span>";
 
