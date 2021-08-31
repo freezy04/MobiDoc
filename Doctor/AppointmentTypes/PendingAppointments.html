@@ -35,6 +35,7 @@
     </nav>
 </div>
 <div class="bottom_line"></div>
+
 <script>
 
     let firebaseConfig = {
@@ -51,15 +52,15 @@
     firebase.initializeApp(firebaseConfig);
 
 </script>
-<script src = "../script/PendingAppointments.js">
+<script src = "../script/PendingAppointments.js"></script >
 
-</script >
-
+</script>
 
 <dl id="appList">
 </dl>
 
 </body>
+
 <script>
     // Appointment list
     let appList = document.getElementById("appList");
@@ -82,6 +83,7 @@
                     if (uid === app.doctorUid && app.status === "pending") {
                         // if (app.status === "pending") {
                         appList.innerHTML +=
+                            
                             "<div class = 'card' >" +
                             "<h2>Appointment with " + app.patient_Name + "</h2>" +
                             "<p>" + app.date_for_appointment + " - " + app.time_for_appointment + "</p>" +
@@ -90,14 +92,26 @@
                             "<th>Reason for appointment: </th>" +
                             "<td>" + app.reason_for_appointment + "</td>" +
                             "</tr>" +
-                            "</table>"
-                            +"</div>"
+                            "</table>" +
+                            "<button id='confirm_app' onClick='rejectAppointment()'> Reject Appointment </button>" 
+                            +"</div>" 
                             + "<br/>"
+                            
                         ;
                     }
                 });
             }
         });
+    }
+
+    function rejectAppointment() {
+        let person = prompt("Please enter reason for rejecting this appointment", "I am unavailable at this time, please check with the next doctor");
+        if(confirm("Do u want to continue?")) {
+            //yet to implement the rest of the code
+        }
+        else{
+            die();
+        }
     }
 
     // nav bar
