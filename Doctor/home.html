@@ -36,24 +36,6 @@
 </div>
 <div class="bottom_line"></div>
 
-<!--popup for completing an upcoming appointment - Gabe Tidy-->
-<div id="complete_app_popup" class="popup">
-    <div class="popup-content">
-        <div class="popup-header">
-            <h2 style="text-align:center">Complete your appointment?</h2>
-            <span class="popup-close">&times;</span>
-        </div>
-        <div class="popup-body">
-            <input id = "app_notes" type="text" class="field" placeholder="Appointment notes">
-            <input id = "app_cost" type="number" class="field" placeholder="Appointment total cost">
-        </div>
-        <div class="popup-footer">
-            <button id='confirm_app' onClick='confirmAppointment()'> Complete Appointment </button>
-            <p id = "error" class = "error"></p>
-        </div>
-    </div>
-</div>
-
 <script>
 
     let firebaseConfig = {
@@ -79,6 +61,26 @@
 </dl>
 
 </body>
+
+
+<!--popup for completing an upcoming appointment - Gabe Tidy-->
+<div id="complete_app_popup" class="popup">
+    <div class="popup-content">
+        <div class="popup-header">
+            <h2 style="text-align:center">Complete your appointment?</h2>
+            <span class="popup-close">&times;</span>
+        </div>
+        <div class="popup-body">
+            <input id = "app_notes" type="text" class="field" placeholder="Appointment notes">
+            <input id = "app_cost" type="number" class="field" placeholder="Appointment total cost">
+        </div>
+        <div class="popup-footer">
+            <button id="confirm_app_btn"> Complete Appointment </button>
+            <!--            <button id="confirm_app" onClick="confirmAppointment()"> Complete Appointment </button>-->
+            <p id = "error" class = "error"></p>
+        </div>
+    </div>
+</div>
 
 <script>
 
@@ -121,7 +123,7 @@
                         //         break;
                         // }
                         appList.innerHTML +=
-                            "<div id=" + app.id + " class = 'card'>" +
+                            "<div class = 'card'>" +
                             label +
                             "<h2>Appointment with " + app.patient_Name + "</h2>" +
                             "<p id='app_id' style='display:none;'>" + app.id + "</p>" +
@@ -130,7 +132,7 @@
                             "<tr>" +
                             "<th>Reason for appointment: </th>" +
                             "<td>" + app.reason_for_appointment + "</td>" +
-                            "<button id='confirm_app' onClick='openCompleteAppPopup()'> Complete Appointment </button>" +
+                            "<button id='" + app.id + "' onClick='openCompleteAppPopup(this.id)'> Complete Appointment </button>" +
                             "</tr>" +
                             "</table>"
                             +"</div>"
@@ -140,25 +142,6 @@
                 });
             }
         });
-    }
-
-    function openCompleteAppPopup() {
-        let button = document.getElementById("confirm_app");
-
-        let popup = document.getElementById("complete_app_popup");
-        let close = document.getElementsByClassName("popup-close")[0];
-
-        popup.style.display = "block";//opens popup
-
-        //closes popup if user clicks close or outside popup
-        close.onclick = function() {
-            popup.style.display = "none";
-        }
-        window.onclick = function(event) {
-            if (event.target === popup) {
-                popup.style.display = "none";
-            }
-        }
     }
 
     function validateDetails(notes, cost) {
@@ -176,25 +159,48 @@
         return true;
     }
 
-    function updateAppointment(notes, cost) {
+    function updateAppointment(appID, notes, cost) {
         let database = firebase.database();
         let ref = database.ref().child('Appointments');
-        ref.child(user_id).update({"notes":notes});
-        ref.child(user_id).update({"appointment_Cost":cost});
-        ref.child(user_id).update({"status":"completed"});
+        ref.child(appID).update({"notes":notes});
+        ref.child(appID).update({"appointment_Cost":cost});
+        ref.child(appID).update({"status":"completed"});
+
+        let popup = document.getElementById("complete_app_popup");
+        popup.style.display = "none";
+    }
+
+    function confirmAppointment(appID) {
+        let notes = document.getElementById("app_notes").value;
+        let cost = document.getElementById("app_cost").value;
+        console.log(appID);
+
+        if (validateDetails(notes, cost)) {
+            updateAppointment(appID, notes, cost);
+        }
 
     }
 
-    function confirmAppointment() {
-        let notes = document.getElementById("app_notes").value;
-        let cost = document.getElementById("app_cost").value;
-        let appID = document.getElementById("app_id").value;
-        console.log(appID);
+    function openCompleteAppPopup(appID) {
+        let popup = document.getElementById("complete_app_popup");
+        let close = document.getElementsByClassName("popup-close")[0];
 
-        // if (validateDetails(notes, cost)) {
-        //     updateAppointment(notes, cost);
-        // }
+        let button = document.getElementById("confirm_app_btn");
+        button.addEventListener('click', function() {
+            confirmAppointment(appID);
+        })
 
+        popup.style.display = "block";//opens popup
+
+        //closes popup if user clicks close or outside popup
+        close.onclick = function() {
+            popup.style.display = "none";
+        }
+        window.onclick = function(event) {
+            if (event.target === popup) {
+                popup.style.display = "none";
+            }
+        }
     }
 
     function updatemenu() {
