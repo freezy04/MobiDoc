@@ -25,7 +25,6 @@ function AddtoHtml(app,appList){
             "<tr>" +
             "<th>Appointment status: </th>" +
             "<td>" + app.status + "</td>" +
-            "<button id='" + app.id + "' onClick='openCompleteAppPopup(this.id)'> Accept </button>" +
             "</tr>" +
             "</table>"
             + "<div>"
