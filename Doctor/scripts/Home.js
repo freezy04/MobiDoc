@@ -1,4 +1,12 @@
+var buttons = document.querySelectorAll('dl');
 
+for (var i=0; i<buttons.length; ++i) {
+    buttons[i].addEventListener('click', clickFunc);
+}
+
+function clickFunc() {
+    alert(this.id);
+}
 
 // Appointment list
 let appList = document.getElementById("appList");

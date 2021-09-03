@@ -140,15 +140,16 @@ button:hover {
     border: 2px solid rgba(30,85,250,0.47);
     background-color: #fff;
 }
+.field:focus{
+    border: 2px solid rgba(30,85,250,0.47);
+    background-color: #fff;
+}
 
 textarea{
     min-height: 150px;
 }
 
-.field:focus{
-    border: 2px solid rgba(30,85,250,0.47);
-    background-color: #fff;
-}
+
 
 @media screen and (max-width: 880px){
     .contact-box{
