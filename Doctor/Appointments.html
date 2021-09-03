@@ -70,7 +70,7 @@
             <p> Click on the button below to accept the appointment request</p>
         </div>
         <div class="popup-footer">
-            <button id="confirm_app_btn"> Accept Appointment </button>
+            <button id="accept_app_btn"> Accept Appointment </button>
             <p id = "error" class = "error"></p>
         </div>
     </div>
@@ -184,7 +184,7 @@
         let popup = document.getElementById("accept_app_popup");
         let close = document.getElementsByClassName("popup-close")[0];
 
-        let button = document.getElementById("confirm_app_btn");
+        let button = document.getElementById("accept_app_btn");
         button.addEventListener('click', function() {
             acceptAppointment(appID);
         })
