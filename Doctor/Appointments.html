@@ -11,11 +11,11 @@
     <link rel="manifest" href="../favicon/site.webmanifest">
 
     <!-- The core Firebase JS SDK is always required and must be listed first -->
-    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase.js"></script>
+    <!--    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase.js"></script>-->
     <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-database.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-analytics.js"></script>
+    <!--    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-analytics.js"></script>-->
     <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.8.0/firebase-ui-auth.css" />
     <link rel="stylesheet" href="./styles/appointments.css">
 
@@ -44,7 +44,6 @@
 <!-- end of the nav bar -->
 <div class="bottom_line"></div>
 
-<dl id="appList"></dl> <!-- refers to the space underneath the nav bar that contains all the appointments -->
 <!-- links this project to firebase -->
 
 <script>
@@ -64,6 +63,10 @@
 
 </script>
 
+<dl id="appList"></dl> <!-- refers to the space underneath the nav bar that contains all the appointments -->
+</body>
+<!--moved body tag from bottom of page to here-->
+
 <!--popup for accepting a appointment request -->
 <div id="accept_app_popup" class="popup">
     <div class="popup-content">
@@ -76,29 +79,12 @@
         </div>
         <div class="popup-footer">
             <button id="accept_app_btn"> Accept Appointment </button>
-            <p id = "error" class = "error"></p>
+            <p id = "error1" class = "error"></p>
         </div>
     </div>
 </div>
 
-<!--Step 1, add the reject popup below-->
 
-<div id="reject_app_popup" class="popup">
-    <div class="popup-content">
-        <div class="popup-header">
-            <h2 style="text-align:center">Reject the appointment?</h2>
-            <span class="popup-close">&times;</span>
-        </div>
-        <div class="popup-body">
-            <p> Click on the button below to decline the appointment request</p>
-        </div>
-        <div class="popup-footer">
-            <button id="reject_app_btn"> Reject Appointment </button>
-            <!--            <button id="confirm_app" onClick="confirmAppointment()"> Complete Appointment </button>-->
-            <p id = "error" class = "error"></p>
-        </div>
-    </div>
-</div>
 
 <script>
 
@@ -122,11 +108,11 @@
         ref.orderByKey().once("value",snapshot => {
             if (snapshot.exists()) {
                 snapshot.forEach(function (childSnapshot) {
+                    let id_app = childSnapshot.key;
                     let app = childSnapshot.val();
 
-
                     if (uid === app.doctorUid && app.status === "pending") {
-                        console.log(app.id);
+                        console.log(id_app);
 
                         let label = "<span class='pending'>" + app.status + "</span>"; // only displays the pending appointments
 
@@ -140,8 +126,8 @@
                             "<tr>" +
                             "<th>Reason for appointment: </th>" +
                             "<td>" + app.reason_for_appointment + "</td>" +
-                            "<button id='" + app.id + "' onClick='openAcceptAppPopup(this.id)'> Accept </button>" +
-                            "<button id='" + app.id + "' onClick='openRejectAppPopup(this.id)'> Reject </button>" + //Step 2: copy and paste line 119 but change to openRejectApp...
+                            "<button id='" + id_app + "' onClick='openAcceptAppPopup(this.id)'> Accept </button>" +
+                            //insert popup here to make it more dynamic (next sprint)
                             "</tr>" +
                             "</table>"
                             +"</div>"
@@ -159,31 +145,8 @@
         ref.child(appID).update({"status":"accepted"});
 
         let popup = document.getElementById("accept_app_popup");
-        popup.style.display = "none"; // edited this then the popup disappears off screen after clicking accept button
+        popup.style.display = "none"; // edited this to none then the popup disappears off screen after clicking accept button
     }
-
-    //Step 5: Have updateAcceptAppointment + updateRejectAppointment functions to call separately
-    function updateRejectAppointment(appID) {
-        let database = firebase.database();
-        let ref = database.ref().child('Appointments');
-        ref.child(appID).update({"status":"rejected"});
-
-        let popup = document.getElementById("reject_app_popup");
-        popup.style.display = "none"; // edited this then the popup disappears off screen after clicking reject button
-    }
-
-
-    function acceptAppointment(appID) {
-        console.log(appID);
-        updateAcceptAppointment(appID);
-    }
-
-    //Step 4: Add the rejectApp function from line 141
-    function rejectAppointment(appID) {
-        console.log(appID);
-        updateRejectAppointment(appID);
-    }
-
 
     function openAcceptAppPopup(appID) {
         let popup = document.getElementById("accept_app_popup");
@@ -191,31 +154,7 @@
 
         let button = document.getElementById("accept_app_btn");
         button.addEventListener('click', function() {
-            acceptAppointment(appID);
-        })
-
-        popup.style.display = "block";//opens popup
-
-        //closes popup if user clicks close (little cross upper right corner) or outside popup
-        close.onclick = function() {
-            popup.style.display = "none";
-        }
-        window.onclick = function(event) {
-            if (event.target === popup) {
-                popup.style.display = "none";
-            }
-        }
-    }
-
-    //Step 3: Add the openRejectApp from line 158 to line 178 section
-
-    function openRejectAppPopup(appID) {
-        let popup = document.getElementById("reject_app_popup");
-        let close = document.getElementsByClassName("popup-close")[0];
-
-        let button = document.getElementById("reject_app_btn");
-        button.addEventListener('click', function() {
-            rejectAppointment(appID);
+            updateAcceptAppointment(appID);
         })
 
         popup.style.display = "block";//opens popup
@@ -245,5 +184,4 @@
 <!-- links the js file to the html file under Appointments-->
 <script src = "scripts/Appointments.js"></script>
 
-</body>
 </html>
