@@ -115,11 +115,12 @@
             if (snapshot.exists()) {
                 snapshot.forEach(function (childSnapshot) {
                     let app = childSnapshot.val();
+                    let appID = childSnapshot.key;
 
                     //Gabe Tidy removed pending appointments on home screen
 
                     if (uid === app.doctorUid && app.status === "accepted") {
-                        console.log(app.id);
+                        // console.log(appID);
 
                     // if (uid === app.doctorUid && ( app.status === "accepted" || app.status === "pending" )) {
                         let label = "<span class='accept'>" + app.status + "</span>";
@@ -142,7 +143,7 @@
                             "<tr>" +
                             "<th>Reason for appointment: </th>" +
                             "<td>" + app.reason_for_appointment + "</td>" +
-                            "<button id='" + app.id + "' onClick='openCompleteAppPopup(this.id)'> Complete Appointment </button>" +
+                            "<button id='" + appID + "' onClick='openCompleteAppPopup(this.id)'> Complete Appointment </button>" +
                             "</tr>" +
                             "</table>"
                             +"</div>"
@@ -183,7 +184,7 @@
     function confirmAppointment(appID) {
         let notes = document.getElementById("app_notes").value;
         let cost = document.getElementById("app_cost").value;
-        console.log(appID);
+        // console.log(appID);
 
         if (validateDetails(notes, cost)) {
             updateAppointment(appID, notes, cost);
