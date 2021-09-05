@@ -22,6 +22,7 @@
 </head>
 <body>
 
+    
 <!-- for the nav bar -->
 <div class = "centre">
     <nav id='menu'>
@@ -78,7 +79,7 @@
             <p> Click on the button below to accept the appointment request</p>
         </div>
         <div class="popup-footer">
-            <button id="accept_app_btn"> Accept Appointment </button>
+            <button id="accept_app_btn"> Continue </button>
             <p id = "error1" class = "error"></p>
         </div>
     </div>
@@ -125,8 +126,9 @@
                             "<table>" +
                             "<tr>" +
                             "<th>Reason for appointment: </th>" +
-                            "<td>" + app.reason_for_appointment + "</td>" +
                             "<button id='" + id_app + "' onClick='openAcceptAppPopup(this.id)'> Accept </button>" +
+                            "<td>" + app.reason_for_appointment + "</td>" +
+                            "<button id='" + id_app + "' onClick='openRejectAppPopup(this.id)'> Reject </button>" +
                             //insert popup here to make it more dynamic (next sprint)
                             "</tr>" +
                             "</table>"
@@ -148,6 +150,15 @@
         popup.style.display = "none"; // edited this to none then the popup disappears off screen after clicking accept button
     }
 
+    function updateRejectAppointment(appID) {
+        let database = firebase.database();
+        let ref = database.ref().child('Appointments');
+        ref.child(appID).update({"status":"rejected"});
+
+        let popup = document.getElementById("accept_app_popup");
+        popup.style.display = "none"; // edited this to none then the popup disappears off screen after clicking accept button
+    }
+
     function openAcceptAppPopup(appID) {
         let popup = document.getElementById("accept_app_popup");
         let close = document.getElementsByClassName("popup-close")[0];
@@ -155,6 +166,28 @@
         let button = document.getElementById("accept_app_btn");
         button.addEventListener('click', function() {
             updateAcceptAppointment(appID);
+        })
+
+        popup.style.display = "block";//opens popup
+
+        //closes popup if user clicks close (little cross upper right corner) or outside popup
+        close.onclick = function() {
+            popup.style.display = "none";
+        }
+        window.onclick = function(event) {
+            if (event.target === popup) {
+                popup.style.display = "none";
+            }
+        }
+    }
+
+    function openRejectAppPopup(appID) {
+        let popup = document.getElementById("accept_app_popup");
+        let close = document.getElementsByClassName("popup-close")[0];
+
+        let button = document.getElementById("accept_app_btn");
+        button.addEventListener('click', function() {
+            updateRejectAppointment(appID);
         })
 
         popup.style.display = "block";//opens popup
