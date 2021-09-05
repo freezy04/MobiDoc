@@ -1,5 +1,3 @@
-
-
 // Appointment list
 let appList = document.getElementById("appList");
 

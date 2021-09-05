@@ -10,6 +10,8 @@
     <link rel="icon" type="image/png" sizes="16x16" href="../favicon/favicon-16x16.png">
     <link rel="manifest" href="../favicon/site.webmanifest">
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+
     <!-- The core Firebase JS SDK is always required and must be listed first -->
     <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
@@ -24,27 +26,59 @@
 
 <!-- for the nav bar -->
 <div class = "centre">
-    <nav id='menu'>
-        <input type='checkbox' id='responsive-menu' onclick='updatemenu()'><label></label>
-        <ul>
-            <li><a class='active' href="home.html"   >Home</a></li>
-            <li><a class='dropdown-arrow' href='#' style="background: #5d8ffc" >Appointments</a>
-                <ul class='sub-menus'>
-                    <!--                    <li><a href='AppointmentTypes/AcceptedAppointments.html'>Upcoming Appointments</a></li>-->
-                    <li><a href='AppointmentTypes/PendingAppointments.html'>Pending Appointments</a></li>
-                    <li><a href='AppointmentTypes/CompletedAppointments.html'>Completed Appointments</a></li>
-                    <li><a href='AppointmentTypes/RejectedAppointments.html'>Rejected Appointments</a></li>
-                </ul>
-            </li>
-            <li><a href='consultations.html'>Consultations</a></li>
-            <li><a href='profile.html'>Profile </a></li>
-        </ul>
+<!--    <nav id='menu'>-->
+<!--        <input type='checkbox' id='responsive-menu' onclick='updatemenu()'><label></label>-->
+<!--        <ul>-->
+<!--            <li><a class='active' href="home.html"   >Home</a></li>-->
+<!--            <li><a class='dropdown-arrow' href='#' style="background: #5d8ffc" >Appointments</a>-->
+<!--                <ul class='sub-menus'>-->
+<!--                    &lt;!&ndash;                    <li><a href='AppointmentTypes/AcceptedAppointments.html'>Upcoming Appointments</a></li>&ndash;&gt;-->
+<!--                    <li><a href='AppointmentTypes/PendingAppointments.html'>Pending Appointments</a></li>-->
+<!--                    <li><a href='AppointmentTypes/CompletedAppointments.html'>Completed Appointments</a></li>-->
+<!--                    <li><a href='AppointmentTypes/RejectedAppointments.html'>Rejected Appointments</a></li>-->
+<!--                </ul>-->
+<!--            </li>-->
+<!--            <li><a href='consultations.html'>Consultations</a></li>-->
+<!--            <li><a href='profile.html'>Profile </a></li>-->
+<!--        </ul>-->
+<!--    </nav>-->
+</div><div class="wrapper">
+    <nav>
+        <input type="checkbox" id="show-search">
+        <input type="checkbox" id="show-menu">
+        <label for="show-menu" class="menu-icon"><i class="fas fa-bars"></i></label>
+        <div class="content">
+            <div class="logo"><a href="#">MobiDoc</a></div>
+            <ul class="links">
+                <li><a href="home.html">Home</a></li>
+                <li>
+                    <a href="profile.html" class="desktop-link">Profile</a>
+                    <input type="checkbox" id="show-services">
+                    <label for="show-services">Profile</label>
+                </li>
+                <li><a href="Appointments.html">Accept Appointments</a></li>
+                <li><a href="Appointments.html">Reject Appointments</a></li>
+                <li><a href="consultations.html">Complete Appointment</a></li>
+                <li>
+                    <a href="#" class="desktop-link" style="padding-left: 50px">Appointments</a>
+                    <input type="checkbox" id="show-features">
+                    <label for="show-features">Appointments</label>
+                    <ul>
+                        <li><a style="padding-left: 60px" href="AppointmentTypes/RejectedAppointments.html">Rejected Appointments</a></li>
+                        <li><a style="padding-left: 60px" href="AppointmentTypes/PendingAppointments.html">Pending Appointments</a></li>
+                        <li><a style="padding-left: 60px" href="AppointmentTypes/CompletedAppointments.html">Completed Appointments</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
     </nav>
 </div>
-<!-- end of the nav bar -->
-<div class="bottom_line"></div>
 
-<dl id="appList"></dl> <!-- refers to the space underneath the nav bar that contains all the appointments -->
+
+<!-- end of the nav bar -->
+<div style="padding-bottom: 100px"></div>
+
+<dl id="appList" style="position: relative"></dl> <!-- refers to the space underneath the nav bar that contains all the appointments -->
 <!-- links this project to firebase -->
 
 <script>
@@ -75,7 +109,7 @@
             <p> Click on the button below to accept the appointment request</p>
         </div>
         <div class="popup-footer">
-            <button id="accept_app_btn"> Accept Appointment </button>
+            <button class=b" id="accept_app_btn"> Accept Appointment </button>
             <p id = "error" class = "error"></p>
         </div>
     </div>
@@ -95,7 +129,6 @@
         <div class="popup-footer">
             <button id="reject_app_btn"> Reject Appointment </button>
             <!--            <button id="confirm_app" onClick="confirmAppointment()"> Complete Appointment </button>-->
-            <p id = "error" class = "error"></p>
         </div>
     </div>
 </div>
@@ -122,12 +155,10 @@
         ref.orderByKey().once("value",snapshot => {
             if (snapshot.exists()) {
                 snapshot.forEach(function (childSnapshot) {
+                    let Test = childSnapshot.key;
                     let app = childSnapshot.val();
 
-
                     if (uid === app.doctorUid && app.status === "pending") {
-                        console.log(app.id);
-
                         let label = "<span class='pending'>" + app.status + "</span>"; // only displays the pending appointments
 
                         appList.innerHTML +=
@@ -140,7 +171,7 @@
                             "<tr>" +
                             "<th>Reason for appointment: </th>" +
                             "<td>" + app.reason_for_appointment + "</td>" +
-                            "<button id='" + app.id + "' onClick='openAcceptAppPopup(this.id)'> Accept </button>" +
+                            "<button class ='b' id='" + Test + "' onClick='openAcceptAppPopup(this.id)'> Accept </button>" +
                             "<button id='" + app.id + "' onClick='openRejectAppPopup(this.id)'> Reject </button>" + //Step 2: copy and paste line 119 but change to openRejectApp...
                             "</tr>" +
                             "</table>"
