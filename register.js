@@ -23,15 +23,14 @@ let DocErrorMessage = "";
 function CheckDoctorInfoNotNull(){
 
     let isValid = true;
-    let docEmail = document.getElementById("doc_email").innerText.trim();
-    let docPass = document.getElementById("doc_password").innerText;
-    let docConfirmPass = document.getElementById("doc_confirmPassword").innerText;
-    let docName = document.getElementById("doc_name").innerText;
-    let docSurname = document.getElementById("doc_surname").innerText;
-    let docSpecialization = document.getElementById("doc_specialization").innerText;
-    let docExperience = document.getElementById("doc_experience").innerText;
-    let docQualifications = document.getElementById("doc_qualifications").innerText
-
+    let docEmail = document.getElementById("doc_email").value;
+    let docPass = document.getElementById("doc_password").value;
+    let docConfirmPass = document.getElementById("doc_confirmPassword").value;
+    let docName = document.getElementById("doc_name").value;
+    let docSurname = document.getElementById("doc_surname").value;
+    let docSpecialization = document.getElementById("doc_specialization").value;
+    let docExperience = document.getElementById("doc_experience").value;
+    let docQualifications = document.getElementById("doc_qualifications").value
 
     if(!ValidateEmail(docEmail)){
         DocErrorMessage += "The email is invalid";
@@ -79,14 +78,14 @@ function CheckPatientInfoNotNull(){
 
     let isValid = true;
     let userEmail = document.getElementById("pt_email").value;
-    let userPass = document.getElementById("pt_password").innerText;
-    let userConfirmPass = document.getElementById("pt_confirmPassword").innerText;
-    let userAge = document.getElementById("pt_age").innerText;
-    let userGender = document.getElementById("pt_gender").innerText;
-    let userName = document.getElementById("pt_name").innerText;
-    let userSurname = document.getElementById("pt_surname").innerText;
-    let userMedicationHistory = document.getElementById("pt_curr_med").innerText;
-    let userDiseaseHistory = document.getElementById("pt_disease_historu").innerText;
+    let userPass = document.getElementById("pt_password").value;
+    let userConfirmPass = document.getElementById("pt_confirmPassword").value;
+    let userAge = document.getElementById("pt_age").value;
+    let userGender = document.getElementById("pt_gender").value;
+    let userName = document.getElementById("pt_name").value;
+    let userSurname = document.getElementById("pt_surname").value;
+    let userMedicationHistory = document.getElementById("pt_curr_med").value;
+    let userDiseaseHistory = document.getElementById("pt_disease_historu").value;
 
 
     if(!ValidateEmail(userEmail)){
