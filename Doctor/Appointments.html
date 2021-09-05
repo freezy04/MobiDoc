@@ -22,7 +22,8 @@
 </head>
 <body>
 
-    
+
+
 <!-- for the nav bar -->
 <div class = "centre">
     <nav id='menu'>
@@ -92,7 +93,7 @@
     let user_id;
 
 
-    // Appointment list
+    // This is the Appointment list
     let appList = document.getElementById("appList");
     firebase.auth().onAuthStateChanged(function (user) {
         if (user) {

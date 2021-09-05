@@ -149,9 +149,8 @@ const getAppointmentDetails = (uid) => {
         }
     }*/
     
-
     function validateDetails(rejection_reason) {
-        let error = document.getElementById("error");
+        let error = document.getElementById("Error");
         if (rejection_reason === "") {
             error.style.display = "block";
             error.innerHTML = "Reason cannot be empty";

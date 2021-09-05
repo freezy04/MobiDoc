@@ -192,6 +192,7 @@
         }
 
     }
+    
 
     function openCompleteAppPopup(appID) {
         let popup = document.getElementById("complete_app_popup");
@@ -200,6 +201,7 @@
         let button = document.getElementById("confirm_app_btn");
         button.addEventListener('click', function() {
             confirmAppointment(appID);
+
         })
 
         popup.style.display = "block";//opens popup
@@ -214,7 +216,7 @@
             }
         }
     }
-    
+
 
     function updatemenu() {
         if (document.getElementById('responsive-menu').checked === true) {
@@ -225,5 +227,6 @@
             document.getElementById('menu').style.borderRadius = '0px';
         }
     }
+
 </script>
 </html>
