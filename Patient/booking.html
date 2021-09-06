@@ -100,9 +100,9 @@
     let appList = document.getElementById("appList");
     firebase.auth().onAuthStateChanged(function (user) {
         if (user) {
-    
+
             getDoctorList(user.uid
-                
+
                 );
         } else {
             window.location.href = "../index.html"; // redirects the user to the log in page
@@ -111,83 +111,64 @@
 
     const getDoctorList = (uid) => {
         let database = firebase.database();
-        let userName;
+
         let ref = database.ref().child('Doctors');
-        let refPat = database.ref().child('Patients');
-        refPat.orderByKey().once("value",snapshot => {
-            if (snapshot.exists()) {
-                snapshot.forEach(function (childSnapshot) {
-                   // let doc_id = childSnapshot.key;
-                   
-                   let u = childSnapshot.val();
-                    userName = u.first_name;
-                     if(uid === u.uid){
-                       // console.log("This is the user's name: "+ userName)  
-                     }
-                      ;
 
-                  
-                       // console.log(doc_id);
-
-                    //    let label = "<span class='pending'>" + app.status + "</span>"; // only displays the pending appointments
-
-                    
-                       
-                            
-                });
-            }
-        });
         ref.orderByKey().once("value",snapshot => {
             if (snapshot.exists()) {
                 snapshot.forEach(function (childSnapshot) {
                     let doc_id = childSnapshot.key;
                     let app = childSnapshot.val();
-                
-                     let DocN = app.first_name   
-                     
-                
-                  
 
-            
+                     let DocN = app.first_name
+
+
+
+
+
 
                        // console.log(doc_id);
 
                     //    let label = "<span class='pending'>" + app.status + "</span>"; // only displays the pending appointments
 
-                    
+
                         appList.innerHTML +=
                             "<div class = 'card'>" +
                            // label +
-                            "<h2>Dr. " + app.first_name +" " + app.last_name + "</h2>" + 
+                            "<h2>Dr. " + app.first_name +" " + app.last_name + "</h2>" +
                             "<p>" + "Specialization: "+ app.specialization + "</p>" +
-                       
+
                             "<p id='app_id' style='display:none;'>" + app.id + "</p>" +
                            // "<p>" + app.date_for_appointment + " - " + app.time_for_appointment + "</p>" +
                             "<table>" +
                             "<tr>" +
-                            
-                         
-                            "<button id='" + doc_id + "'  name='"+ DocN +"'  onClick='openBookApp(this.id,this.name)'>Book</button>" +
+
+
+                            "<button id='" + doc_id + "'  name='"+ DocN +"'   onClick='openBookApp(this.id,this.name)'>Book</button>" +
                             //insert popup here to make it more dynamic (next sprint)
                             "</tr>" +
                             "</table>"
                             +"</div>"
                             +"<br/>"
                         ;
-                            
+
                 });
             }
         });
     }
 
     function createNewApp(doc_id,DocName) {
-      
+
         let database = firebase.database();
         let ref = database.ref().child('Appointments');
         //user id
         let user_id;
         //id for date picker
-        
+
+        let usersName="";
+
+
+
         let date = document.getElementById("id_date").value;
         var year, month, day, hours, minutes;
         year = date.substring(0,4);
@@ -199,9 +180,9 @@
         hours = time.substring(0,2)
         minutes = time.substring(3,5)
         var Actualtime = hours + ":" + minutes;
-     
-       
-        
+
+
+
        // console.log(Actualdate)
         //reason for app
         var d, d_uid;
@@ -210,55 +191,99 @@
         var costApp = "0";
         d =DocName ;
         d_uid = doc_id;
-      var patientName = "Dann";
-    
-    
-     
-      
-        
-      
-                
+        var valYear = parseInt(year);
 
 
 
-        
+
+
+
+
+
+
+
+
         firebase.auth().onAuthStateChanged(function (user) {
         if (user !=null) {
-            console.log("Doctor's name: " + d)
-      console.log("Doctor's uid: " + d_uid)
-     console.log("Patient's name: " + patientName)
-      console.log("Patient's uid: " + user.uid)
-      console.log("Reason for App: " + document.getElementById("reasonForApp").value)
-      console.log("Year: "+year )
-      console.log("Month: " + month )
-      console.log("Day: " +  day)
-      console.log("Time: " + time)
-      console.log("Doctor note's: " + docNotes)
-      console.log("App status: " + appStatus)
-      console.log("App Cost: " + costApp)
-        if(date === "" || time === ""){
-            alert("Please pick a time and date");
+            //const displayName = user.displayName;
 
-        }
-        else {
-            database.ref().child('Appointments').push({
-                appointment_Cost:costApp ,
-                date_for_appointment:Actualdate,
-                doctorUid:d_uid,
-                doctor_Name:d,
-                notes:  docNotes,
-                patientUid:user.uid,
-                patient_Name:patientName,
-                reason_for_appointment:document.getElementById("reasonForApp").value,
-                status:appStatus,
-                time_for_appointment:Actualtime
+            let refPat = database.ref().child('Patients');
+            refPat.orderByKey().once("value",snapshot => {
+                if (snapshot.exists()) {
+                    snapshot.forEach(function (childSnapshot) {
+                        let user_id = childSnapshot.key;
+
+                        let u = childSnapshot.val();
+                        usersName = u.first_name;
+                     if(user.uid === u.uid){
+
+
+                         //console.log(user.uid)
+
+                        // console.log("This is the user's name: "+ usersName)
+
+
+
+                         if(date === "" || time === ""){
+                             alert("Please pick a time and date");
+
+                         }
+                         else if(valYear < 2021){
+                             alert("Please choose the correct year");
+
+                         }
+                         else {
+
+
+
+                             database.ref().child('Appointments').push({
+                                 appointment_Cost:costApp ,
+                                 date_for_appointment:Actualdate,
+                                 doctorUid:d_uid,
+                                 doctor_Name:d,
+                                 notes:  docNotes,
+                                 patientUid:user.uid,
+                                 patient_Name:usersName,
+                                 reason_for_appointment:document.getElementById("reasonForApp").value,
+                                 status:appStatus,
+                                 time_for_appointment:Actualtime
+                             });
+                             let popup = document.getElementById("accept_app_popup");
+                             popup.style.display = "none";
+                             window.location.href = "./AppointmentTypes/PendingAppointments.html";
+                             // edited this to none then the popup disappears off screen after clicking accept button
+
+                         }
+
+                         ;
+                        }
+
+
+
+                        // console.log(doc_id);
+
+                        //    let label = "<span class='pending'>" + app.status + "</span>"; // only displays the pending appointments
+
+
+
+
+                    });
+                }
             });
-            let popup = document.getElementById("accept_app_popup");
-            popup.style.display = "none";
-            window.location.href = "./AppointmentTypes/PendingAppointments.html";
-            // edited this to none then the popup disappears off screen after clicking accept button
 
-        }
+          //  console.log("Doctor's name: " + d)
+     // console.log("Doctor's uid: " + d_uid)
+    // console.log(patientName);
+     // console.log("Patient's uid: " + user.uid)
+     // console.log("Reason for App: " + document.getElementById("reasonForApp").value)
+     // console.log("Year: "+year )
+     //  console.log("Month: " + month )
+     //  console.log("Day: " +  day)
+     //  console.log("Time: " + time)
+     //  console.log("Doctor note's: " + docNotes)
+     //  console.log("App status: " + appStatus)
+     //  console.log("App Cost: " + costApp)
+
 
 
 
@@ -289,9 +314,9 @@
         }
         );
 
-       
+
     }
-    
+
 
     function openBookApp(appID,DocName) {
         let popup = document.getElementById("accept_app_popup");
