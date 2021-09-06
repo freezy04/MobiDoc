@@ -10,12 +10,14 @@
     <link rel="icon" type="image/png" sizes="16x16" href="../favicon/favicon-16x16.png">
     <link rel="manifest" href="../favicon/site.webmanifest">
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+
     <!-- The core Firebase JS SDK is always required and must be listed first -->
-    <!--    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase.js"></script>-->
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-database.js"></script>
-    <!--    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-analytics.js"></script>-->
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-analytics.js"></script>
     <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.8.0/firebase-ui-auth.css" />
     <link rel="stylesheet" href="./styles/appointments.css">
 
@@ -26,26 +28,59 @@
 
 <!-- for the nav bar -->
 <div class = "centre">
-    <nav id='menu'>
-        <input type='checkbox' id='responsive-menu' onclick='updatemenu()'><label></label>
-        <ul>
-            <li><a class='active' href="home.html"   >Home</a></li>
-            <li><a class='dropdown-arrow' href='#' style="background: #5d8ffc" >Appointments</a>
-                <ul class='sub-menus'>
-                    <!--                    <li><a href='AppointmentTypes/AcceptedAppointments.html'>Upcoming Appointments</a></li>-->
-                    <li><a href='AppointmentTypes/PendingAppointments.html'>Pending Appointments</a></li>
-                    <li><a href='AppointmentTypes/CompletedAppointments.html'>Completed Appointments</a></li>
-                    <li><a href='AppointmentTypes/RejectedAppointments.html'>Rejected Appointments</a></li>
-                </ul>
-            </li>
-            <li><a href='consultations.html'>Consultations</a></li>
-            <li><a href='profile.html'>Profile </a></li>
-        </ul>
+<!--    <nav id='menu'>-->
+<!--        <input type='checkbox' id='responsive-menu' onclick='updatemenu()'><label></label>-->
+<!--        <ul>-->
+<!--            <li><a class='active' href="home.html"   >Home</a></li>-->
+<!--            <li><a class='dropdown-arrow' href='#' style="background: #5d8ffc" >Appointments</a>-->
+<!--                <ul class='sub-menus'>-->
+<!--                    &lt;!&ndash;                    <li><a href='AppointmentTypes/AcceptedAppointments.html'>Upcoming Appointments</a></li>&ndash;&gt;-->
+<!--                    <li><a href='AppointmentTypes/PendingAppointments.html'>Pending Appointments</a></li>-->
+<!--                    <li><a href='AppointmentTypes/CompletedAppointments.html'>Completed Appointments</a></li>-->
+<!--                    <li><a href='AppointmentTypes/RejectedAppointments.html'>Rejected Appointments</a></li>-->
+<!--                </ul>-->
+<!--            </li>-->
+<!--            <li><a href='consultations.html'>Consultations</a></li>-->
+<!--            <li><a href='profile.html'>Profile </a></li>-->
+<!--        </ul>-->
+<!--    </nav>-->
+</div><div class="wrapper">
+    <nav>
+        <input type="checkbox" id="show-search">
+        <input type="checkbox" id="show-menu">
+        <label for="show-menu" class="menu-icon"><i class="fas fa-bars"></i></label>
+        <div class="content">
+            <div class="logo"><a href="#">MobiDoc</a></div>
+            <ul class="links">
+                <li><a href="home.html">Home</a></li>
+                <li>
+                    <a href="profile.html" class="desktop-link">Profile</a>
+                    <input type="checkbox" id="show-services">
+                    <label for="show-services">Profile</label>
+                </li>
+                <li><a href="Appointments.html">Accept Appointments</a></li>
+                <li><a href="Appointments.html">Reject Appointments</a></li>
+                <li><a href="consultations.html">Complete Appointment</a></li>
+                <li>
+                    <a href="#" class="desktop-link" style="padding-left: 50px">Appointments</a>
+                    <input type="checkbox" id="show-features">
+                    <label for="show-features">Appointments</label>
+                    <ul>
+                        <li><a style="padding-left: 60px" href="AppointmentTypes/RejectedAppointments.html">Rejected Appointments</a></li>
+                        <li><a style="padding-left: 60px" href="AppointmentTypes/PendingAppointments.html">Pending Appointments</a></li>
+                        <li><a style="padding-left: 60px" href="AppointmentTypes/CompletedAppointments.html">Completed Appointments</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
     </nav>
 </div>
-<!-- end of the nav bar -->
-<div class="bottom_line"></div>
 
+
+<!-- end of the nav bar -->
+<div style="padding-bottom: 100px"></div>
+
+<dl id="appList" style="position: relative"></dl> <!-- refers to the space underneath the nav bar that contains all the appointments -->
 <!-- links this project to firebase -->
 
 <script>
@@ -65,10 +100,6 @@
 
 </script>
 
-<dl id="appList"></dl> <!-- refers to the space underneath the nav bar that contains all the appointments -->
-</body>
-<!--moved body tag from bottom of page to here-->
-
 <!--popup for accepting a appointment request -->
 <div id="accept_app_popup" class="popup">
     <div class="popup-content">
@@ -80,13 +111,16 @@
             <p> Click on the button below to accept the appointment request</p>
         </div>
         <div class="popup-footer">
+<<<<<<< HEAD
             <button id="accept_app_btn"> Continue </button>
             <p id = "error1" class = "error"></p>
+=======
+            <button class=b" id="accept_app_btn"> Accept Appointment </button>
+            <p id = "error" class = "error"></p>
+>>>>>>> 6c3845012abb3f73bcb5ffdb9252b0c4785a6961
         </div>
     </div>
 </div>
-
-
 
 <script>
 
@@ -114,9 +148,9 @@
                     let app = childSnapshot.val();
 
                     if (uid === app.doctorUid && app.status === "pending") {
-                        console.log(id_app);
-
                         let label = "<span class='pending'>" + app.status + "</span>"; // only displays the pending appointments
+
+                        console.log(id_app); // place here so that you only see the appointment IDs of the cards on screen
 
                         appList.innerHTML +=
                             "<div class = 'card'>" +
@@ -127,10 +161,15 @@
                             "<table>" +
                             "<tr>" +
                             "<th>Reason for appointment: </th>" +
+<<<<<<< HEAD
                             "<button id='" + id_app + "' onClick='openAcceptAppPopup(this.id)'> Accept </button>" +
                             "<td>" + app.reason_for_appointment + "</td>" +
                             "<button id='" + id_app + "' onClick='openRejectAppPopup(this.id)'> Reject </button>" +
                             //insert popup here to make it more dynamic (next sprint)
+=======
+                            "<td>" + app.reason_for_appointment + "</td>" +
+                            "<button class ='b' id='" + id_app + "' onClick='openAcceptAppPopup(this.id)'> Accept </button>" +
+>>>>>>> 6c3845012abb3f73bcb5ffdb9252b0c4785a6961
                             "</tr>" +
                             "</table>"
                             +"</div>"
@@ -148,7 +187,12 @@
         ref.child(appID).update({"status":"accepted"});
 
         let popup = document.getElementById("accept_app_popup");
-        popup.style.display = "none"; // edited this to none then the popup disappears off screen after clicking accept button
+        popup.style.display = "none"; // edited this then the popup disappears off screen after clicking accept button
+    }
+
+    function acceptAppointment(appID) {
+        console.log(appID);
+        updateAcceptAppointment(appID);
     }
 
     function updateRejectAppointment(appID) {
@@ -166,7 +210,7 @@
 
         let button = document.getElementById("accept_app_btn");
         button.addEventListener('click', function() {
-            updateAcceptAppointment(appID);
+            acceptAppointment(appID);
         })
 
         popup.style.display = "block";//opens popup
@@ -218,4 +262,5 @@
 <!-- links the js file to the html file under Appointments-->
 <script src = "scripts/Appointments.js"></script>
 
+</body>
 </html>

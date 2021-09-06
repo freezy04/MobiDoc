@@ -20,26 +20,39 @@
 <body onload="Test()">
 
 <!--Nav Bar Stuff-->
-<div class = "centre">
-    <nav id='menu'>
-        <input type='checkbox' id='responsive-menu' onclick='updatemenu()'><label></label>
-        <ul>
-            <li><a class='active' href="home.html">Home</a></li>
-            <li><a class='dropdown-arrow' href='Appointments.html'>Appointments</a>
-                <ul class='sub-menus'>
-<!--                    <li><a href='AppointmentTypes/AcceptedAppointments.html'>Upcoming Appointments</a></li>-->
-                    <li><a href='AppointmentTypes/PendingAppointments.html'>Pending Appointments</a></li>
-                    <li><a href='AppointmentTypes/CompletedAppointments.html'>Completed Appointments</a></li>
-                    <li><a href='AppointmentTypes/RejectedAppointments.html'>Rejected Appointments</a></li>
-                </ul>
-            </li>
-            <li><a href='consultations.html'>Consultations</a></li>
-            <li><a href='#'  style="background:  #2e48cc" >Profile </a></li>
-        </ul>
+<div class="wrapper">
+    <nav>
+        <input type="checkbox" id="show-search">
+        <input type="checkbox" id="show-menu">
+        <label for="show-menu" class="menu-icon"><i class="fas fa-bars"></i></label>
+        <div class="content">
+            <div class="logo"><a href="#">MobiDoc</a></div>
+            <ul class="links">
+                <li><a href="home.html">Home</a></li>
+                <li>
+                    <a href="profile.html" class="desktop-link">Profile</a>
+                    <input type="checkbox" id="show-services">
+                    <label for="show-services">Profile</label>
+                </li>
+                <li><a href="Appointments.html">Accept Appointments</a></li>
+                <li><a href="Appointments.html">Reject Appointments</a></li>
+                <li><a href="consultations.html">Complete Appointment</a></li>
+                <li>
+                    <a href="#" class="desktop-link" style="padding-left: 50px">Appointments</a>
+                    <input type="checkbox" id="show-features">
+                    <label for="show-features">Appointments</label>
+                    <ul>
+                        <li><a style="padding-left: 60px" href="AppointmentTypes/RejectedAppointments.html">Rejected Appointments</a></li>
+                        <li><a style="padding-left: 60px" href="AppointmentTypes/PendingAppointments.html">Pending Appointments</a></li>
+                        <li><a style="padding-left: 60px" href="AppointmentTypes/CompletedAppointments.html">Completed Appointments</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
     </nav>
 </div>
 
-<div class="bottom_line"></div>
+<div style="padding-bottom: 200px"></div>
 
 <!--Profile Stuff-->
 <div class="container"  id="profile">

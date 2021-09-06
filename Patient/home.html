@@ -17,27 +17,35 @@
 </head>
 <body style="background: url('../img/temp.jpg');" >
 
-    
-<div class = "centre">
-<nav id='menu'>
-    <input type='checkbox' id='responsive-menu' onclick='updatemenu()'><label></label>
-    <ul>
-        <li><a class='active' href="#" style="background: #1621B8;color: white">Home</a></li>
-        <li><a class='dropdown-arrow' href='appointments.html'>Appointments</a>
-            <ul class='sub-menus'>
-                <li><a href='AppointmentTypes/AcceptedAppointments.html'>Accepted Appointments</a></li>
-                <li><a href='AppointmentTypes/PendingAppointments.html'>Pending Appointments</a></li>
-                <li><a href='AppointmentTypes/CompletedAppointments.html'>Completed Appointments</a></li>
-                <li><a href='AppointmentTypes/RejectedAppointments.html'>Rejected Appointments</a></li>
-            </ul>
-        </li>
-        <li><a href='booking.html'>Book Appointment</a></li>
-        <li><a href='profile.html'>Profile </a></li>
-    </ul>
-</nav>
-</div>
-<div class="bottom_line"></div>
 
+<div class="wrapper">
+    <nav>
+        <input type="checkbox" id="show-search">
+        <input type="checkbox" id="show-menu">
+        <label for="show-menu" class="menu-icon"><i class="fas fa-bars"></i></label>
+        <div class="content">
+            <div class="logo"><a href="#">MobiDoc</a></div>
+            <ul class="links">
+                <li><a href="home.html">Home</a></li>
+                <li><a href="profile.html">Profile</a></li>
+                <li><a href="booking.html">Book Consultation</a></li>
+                <li><a href="#" style="color: transparent">some blank string for some formatting so that it looks nice</a></li>
+                <li>
+                    <a href="appointments.html" class="desktop-link">Appointments</a>
+                    <input type="checkbox" id="show-features">
+                    <label for="show-features">Appointments</label>
+                    <ul>
+                        <li><a href="AppointmentTypes/AcceptedAppointments.html">Accepted Appointments</a></li>
+                        <li><a href="AppointmentTypes/RejectedAppointments.html">Rejected Appointments</a></li>
+                        <li><a href="AppointmentTypes/PendingAppointments.html">Pending Appointment</a></li>
+                        <li><a href="AppointmentTypes/CompletedAppointments.html">Completed Appointments</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</div>
+<div style="padding-bottom: 100px"></div>
 <dl id="appList">
 </dl>
 
@@ -68,6 +76,7 @@ firebase.initializeApp(firebaseConfig);
             getAppointmentDetails(user.uid);
         } else {
             // No user is signed in.
+            window.location.href = "../index.html";
         }
     });
 

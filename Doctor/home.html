@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title> MobiDoc | Upcoming Appointments </title>
+    <title> MobiDoc | Home </title>
 
     <link rel="apple-touch-icon" sizes="180x180" href="../favicon/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="../favicon/favicon-32x32.png">
@@ -21,6 +21,7 @@
 </head>
 <body>
 
+<<<<<<< HEAD
 <div class = "centre">
     <nav id='menu'>
         <input type='checkbox' id='responsive-menu' onclick='updatemenu()'><label></label>
@@ -37,10 +38,44 @@
             <li><a href='consultations.html'>Complete Appointments</a></li>
             <li><a href='profile.html'>Profile </a></li>
         </ul>
+=======
+<div class="wrapper">
+    <nav>
+        <input type="checkbox" id="show-search">
+        <input type="checkbox" id="show-menu">
+        <label for="show-menu" class="menu-icon"><i class="fas fa-bars"></i></label>
+        <div class="content">
+            <div class="logo"><a href="#">MobiDoc</a></div>
+            <ul class="links">
+                <li><a href="home.html">Home</a></li>
+                <li>
+                    <a href="profile.html" class="desktop-link">Profile</a>
+                    <input type="checkbox" id="show-services">
+                    <label for="show-services">Profile</label>
+                </li>
+                <li><a href="Appointments.html">Accept Appointments</a></li>
+                <li><a href="Appointments.html">Reject Appointments</a></li>
+                <li><a href="consultations.html">Complete Appointment</a></li>
+                <li>
+                    <a href="#" class="desktop-link" style="padding-left: 50px">Appointments</a>
+                    <input type="checkbox" id="show-features">
+                    <label for="show-features">Appointments</label>
+                    <ul>
+                        <li><a style="padding-left: 60px" href="AppointmentTypes/RejectedAppointments.html">Rejected Appointments</a></li>
+                        <li><a style="padding-left: 60px" href="AppointmentTypes/PendingAppointments.html">Pending Appointments</a></li>
+                        <li><a style="padding-left: 60px" href="AppointmentTypes/CompletedAppointments.html">Completed Appointments</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+>>>>>>> 6c3845012abb3f73bcb5ffdb9252b0c4785a6961
     </nav>
 </div>
-<div class="bottom_line"></div>
 
+
+<div style="padding-bottom: 100px"></div>
+<dl id="appList">
+</dl>
 <script>
 
     let firebaseConfig = {
@@ -62,8 +97,7 @@
 <!--<script src = "../script/Home.js">-->
 <!--</script >-->
 
-<dl id="appList">
-</dl>
+
 
 
 </body>
@@ -116,24 +150,20 @@
             if (snapshot.exists()) {
                 snapshot.forEach(function (childSnapshot) {
                     let app = childSnapshot.val();
-                    let appID = childSnapshot.key;
 
                     //Gabe Tidy removed pending appointments on home screen
 
-                    if (uid === app.doctorUid && app.status === "accepted") {
-                        // console.log(appID);
 
-                    // if (uid === app.doctorUid && ( app.status === "accepted" || app.status === "pending" )) {
-                        let label = "<span class='accept'>" + app.status + "</span>";
-                        // let label;
-                        // switch (app.status){
-                        //     case "accepted":
-                        //         label = "<span class='accept'>" + app.status + "</span>";
-                        //         break;
-                        //     case "pending":
-                        //         label = "<span class='pending' >" + app.status + "</span>";
-                        //         break;
-                        // }
+                    if (uid === app.doctorUid && ( app.status === "accepted" || app.status === "pending" )) {
+                        let label;
+                        switch (app.status){
+                            case "accepted":
+                                label = "<span class='accept'>" + app.status + "</span>";
+                                break;
+                            case "pending":
+                                label = "<span class='pending' >" + app.status + "</span>";
+                                break;
+                        }
                         appList.innerHTML +=
                             "<div class = 'card'>" +
                             label +
@@ -144,7 +174,6 @@
                             "<tr>" +
                             "<th>Reason for appointment: </th>" +
                             "<td>" + app.reason_for_appointment + "</td>" +
-                            "<button id='" + appID + "' onClick='openCompleteAppPopup(this.id)'> Complete Appointment </button>" +
                             "</tr>" +
                             "</table>"
                             +"</div>"
@@ -185,7 +214,7 @@
     function confirmAppointment(appID) {
         let notes = document.getElementById("app_notes").value;
         let cost = document.getElementById("app_cost").value;
-        // console.log(appID);
+        console.log(appID);
 
         if (validateDetails(notes, cost)) {
             updateAppointment(appID, notes, cost);

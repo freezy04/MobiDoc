@@ -2,42 +2,232 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title> MobiDoc | Appointments </title>
-    <link rel="stylesheet" href="styles/Nav_bar.css">
+    <title> MobiDoc | Upcoming Appointments </title>
 
     <link rel="apple-touch-icon" sizes="180x180" href="../favicon/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="../favicon/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="../favicon/favicon-16x16.png">
     <link rel="manifest" href="../favicon/site.webmanifest">
 
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-database.js"></script>
+    <link rel="stylesheet" href="./styles/appointments.css">
+    <link rel="stylesheet" href="styles/Nav_bar.css">
+
+
+
 </head>
 <body>
 
-<div class = "centre">
-    <nav id='menu'>
-        <input type='checkbox' id='responsive-menu' onclick='updatemenu()'><label></label>
-        <ul>
-            <li><a class='active' href="home.html" >Home</a></li>
-            <li><a class='dropdown-arrow' href='Appointments.html'  >Appointments</a>
-                <ul class='sub-menus'>
-<!--                    <li><a href='AppointmentTypes/AcceptedAppointments.html'>Upcoming Appointments</a></li>-->
-                    <li><a href='AppointmentTypes/PendingAppointments.html'>Pending Appointments</a></li>
-                    <li><a href='AppointmentTypes/CompletedAppointments.html'>Completed Appointments</a></li>
-                    <li><a href='AppointmentTypes/RejectedAppointments.html'>Rejected Appointments</a></li>
-                </ul>
-            </li>
-            <li><a href='#' style="background: #5d8ffc">Consultations</a></li>
-            <li><a href='profile.html'>Profile </a></li>
-        </ul>
+<div class="wrapper">
+    <nav>
+        <input type="checkbox" id="show-search">
+        <input type="checkbox" id="show-menu">
+        <label for="show-menu" class="menu-icon"><i class="fas fa-bars"></i></label>
+        <div class="content">
+            <div class="logo"><a href="#">MobiDoc</a></div>
+            <ul class="links">
+                <li><a href="home.html">Home</a></li>
+                <li>
+                    <a href="profile.html" class="desktop-link">Profile</a>
+                    <input type="checkbox" id="show-services">
+                    <label for="show-services">Profile</label>
+                </li>
+                <li><a href="Appointments.html">Accept Appointments</a></li>
+                <li><a href="Appointments.html">Reject Appointments</a></li>
+                <li><a href="consultations.html">Complete Appointment</a></li>
+                <li>
+                    <a href="#" class="desktop-link" style="padding-left: 50px">Appointments</a>
+                    <input type="checkbox" id="show-features">
+                    <label for="show-features">Appointments</label>
+                    <ul>
+                        <li><a style="padding-left: 60px" href="AppointmentTypes/RejectedAppointments.html">Rejected Appointments</a></li>
+                        <li><a style="padding-left: 60px" href="AppointmentTypes/PendingAppointments.html">Pending Appointments</a></li>
+                        <li><a style="padding-left: 60px" href="AppointmentTypes/CompletedAppointments.html">Completed Appointments</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
     </nav>
 </div>
 
-<div class="bottom_line"></div>
+
+<div style="padding-bottom: 100px"></div>
+<dl id="appList">
+</dl>
+<script>
+
+    let firebaseConfig = {
+        apiKey: "AIzaSyB-ckD1wmZWj5c7RQIOyBvwFmQApBfEEMU",
+        authDomain: "mobidoc-6a3ac.firebaseapp.com",
+        databaseURL: "https://mobidoc-6a3ac-default-rtdb.firebaseio.com/",
+        projectId: "mobidoc-6a3ac",
+        storageBucket: "mobidoc-6a3ac.appspot.com",
+        messagingSenderId: "311373483549",
+        appId: "1:311373483549:web:3c840b29b14029ac4680f4",
+        measurementId: "G-JFPKMPTGZ5"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+
+</script>
+
+<!--Gabe Tidy removed because address was invalid, wasn't actually accessing Home.js-->
+<!--<script src = "../script/Home.js">-->
+<!--</script >-->
+
 
 
 </body>
 
+
+<!--popup for completing an upcoming appointment - Gabe Tidy-->
+<div id="complete_app_popup" class="popup">
+    <div class="popup-content">
+        <div class="popup-header">
+            <h2 style="text-align:center">Complete your appointment?</h2>
+            <span class="popup-close">&times;</span>
+        </div>
+        <div class="popup-body">
+            <div class="form__group field">
+                <textarea type="input" class="form__field" placeholder="Appointment notes" cols="100" 100 name="Appointment notes" id = "app_notes" required></textarea>
+                <label for="app_notes" class="form__label">Appointment Notes</label>
+            </div>
+            <!--            <input id = "app_notes" type="text" class="field" placeholder="Appointment notes">-->
+
+            <input id = "app_cost" type="number" class="field" placeholder="Appointment total cost">
+        </div>
+        <div class="popup-footer">
+            <button  class="button" id="confirm_app_btn"> Complete Appointment </button>
+            <!--            <button id="confirm_app" onClick="confirmAppointment()"> Complete Appointment </button>-->
+            <p id = "error" class = "error" style="color: darkred"></p>
+        </div>
+    </div>
+</div>
+
 <script>
+
+    let user_id;
+
+
+    // Appointment list
+    let appList = document.getElementById("appList");
+    firebase.auth().onAuthStateChanged(function (user) {
+        if (user) {
+            user_id = user.uid;
+            getAppointmentDetails(user.uid);
+        } else {
+            window.location.href = "../index.html"; // redirects the user to the log in page
+        }
+    });
+
+    const getAppointmentDetails = (uid) => {
+        let database = firebase.database();
+        let ref = database.ref().child('Appointments');
+        ref.orderByKey().once("value",snapshot => {
+            if (snapshot.exists()) {
+                snapshot.forEach(function (childSnapshot) {
+                    let app = childSnapshot.val();
+
+                    //Gabe Tidy removed pending appointments on home screen
+
+                    if (uid === app.doctorUid && app.status === "accepted") {
+                        console.log(app.id);
+
+                        // if (uid === app.doctorUid && ( app.status === "accepted" || app.status === "pending" )) {
+                        let label = "<span class='accept'>" + app.status + "</span>";
+                        // let label;
+                        // switch (app.status){
+                        //     case "accepted":
+                        //         label = "<span class='accept'>" + app.status + "</span>";
+                        //         break;
+                        //     case "pending":
+                        //         label = "<span class='pending' >" + app.status + "</span>";
+                        //         break;
+                        // }
+                        appList.innerHTML +=
+                            "<div class = 'card'>" +
+                            label +
+                            "<h2>Appointment with " + app.patient_Name + "</h2>" +
+                            "<p id='app_id' style='display:none;'>" + app.id + "</p>" +
+                            "<p>" + app.date_for_appointment + " - " + app.time_for_appointment + "</p>" +
+                            "<table>" +
+                            "<tr>" +
+                            "<th>Reason for appointment: </th>" +
+                            "<td>" + app.reason_for_appointment + "</td>" +
+                            "<button id='" + app.id + "' onClick='openCompleteAppPopup(this.id)'> Complete Appointment </button>" +
+                            "</tr>" +
+                            "</table>"
+                            +"</div>"
+                            +"<br/>"
+                        ;
+                    }
+                });
+            }
+        });
+    }
+
+    function validateDetails(notes, cost) {
+        let error = document.getElementById("error");
+        if (notes === "") {
+            error.style.display = "block";
+            error.innerHTML = "Notes cannot be empty";
+            return false;
+        } else if (cost === "") {
+            error.style.display = "block";
+            error.innerHTML = "Cost cannot be empty";
+            return false;
+        }
+        error.style.display = "none";
+        return true;
+    }
+
+    function updateAppointment(appID, notes, cost) {
+        let database = firebase.database();
+        let ref = database.ref().child('Appointments');
+        ref.child(appID).update({"notes":notes});
+        ref.child(appID).update({"appointment_Cost":cost});
+        ref.child(appID).update({"status":"completed"});
+
+        let popup = document.getElementById("complete_app_popup");
+        popup.style.display = "none";
+    }
+
+    function confirmAppointment(appID) {
+        let notes = document.getElementById("app_notes").value;
+        let cost = document.getElementById("app_cost").value;
+        console.log(appID);
+
+        if (validateDetails(notes, cost)) {
+            updateAppointment(appID, notes, cost);
+        }
+
+    }
+
+    function openCompleteAppPopup(appID) {
+        let popup = document.getElementById("complete_app_popup");
+        let close = document.getElementsByClassName("popup-close")[0];
+
+        let button = document.getElementById("confirm_app_btn");
+        button.addEventListener('click', function() {
+            confirmAppointment(appID);
+        })
+
+        popup.style.display = "block";//opens popup
+
+        //closes popup if user clicks close or outside popup
+        close.onclick = function() {
+            popup.style.display = "none";
+        }
+        window.onclick = function(event) {
+            if (event.target === popup) {
+                popup.style.display = "none";
+            }
+        }
+    }
+
     function updatemenu() {
         if (document.getElementById('responsive-menu').checked === true) {
             document.getElementById('menu').style.borderBottomRightRadius = '0';
