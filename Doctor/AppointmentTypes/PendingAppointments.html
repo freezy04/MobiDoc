@@ -53,6 +53,10 @@
     </nav>
 </div>
 
+<div style="padding-bottom: 100px"></div>
+<dl id="appList">
+</dl>
+
 <script>
 
     let firebaseConfig = {
@@ -73,9 +77,6 @@
 
 </script>
 
-<dl id="appList">
-</dl>
-
 </body>
 
 <!--popup for rejecting appointment-->
@@ -87,7 +88,7 @@
         </div>
         <div class="popup-body">
             <div class="form__group field">
-                <textarea type="input" class="form__field" placeholder="Rejection_reason" cols="100" 100 name="Rejection_reason" id = "app_rejection_reason" required></textarea>
+                <textarea type="input" class="form__field" placeholder="Rejection reason" cols="100" 100 name="Rejection reason" id = "app_rejection_reason" required></textarea>
                 <label for="app_rejection_reason" class="form__label">Rejection reason</label>
             </div>
 
@@ -100,56 +101,56 @@
 </div>
 
 <script>
-  let user_id;
+    let user_id;
 
 
-// Appointment list
-let appList = document.getElementById("appList");
-firebase.auth().onAuthStateChanged(function (user) {
-    if (user) {
-        user_id = user.uid;
-        getAppointmentDetails(user.uid);
-    } else {
-        window.location.href = "../index.html"; // redirects the user to the log in page
-    }
-});
-
-const getAppointmentDetails = (uid) => {
-    let database = firebase.database();
-    let ref = database.ref().child('Appointments');
-    ref.orderByKey().once("value",snapshot => {
-        if (snapshot.exists()) {
-            snapshot.forEach(function (childSnapshot) {
-                let id_app = childSnapshot.key;
-                let app = childSnapshot.val();
-
-                if (uid === app.doctorUid && app.status === "pending") {
-                    console.log(id_app);
-
-                    let label = "<span class='pending'>" + app.status + "</span>"; // only displays the pending appointments
-
-                    appList.innerHTML +=
-                        "<div class = 'card'>" +
-                        label +
-                        "<h2>Appointment with " + app.patient_Name + "</h2>" +
-                        "<p id='app_id' style='display:none;'>" + app.id + "</p>" +
-                        "<p>" + app.date_for_appointment + " - " + app.time_for_appointment + "</p>" +
-                        "<table>" +
-                        "<tr>" +
-                        "<th>Reason for appointment: </th>" +
-                        "<td>" + app.reason_for_appointment + "</td>" +
-                        "<button id='" + id_app + "' onClick='openRejectAppPopup(this.id)'> Reject </button>" +
-                        //insert popup here to make it more dynamic (next sprint)
-                        "</tr>" +
-                        "</table>"
-                        +"</div>"
-                        +"<br/>"
-                    ;
-                }
-            });
+    // Appointment list
+    let appList = document.getElementById("appList");
+    firebase.auth().onAuthStateChanged(function (user) {
+        if (user) {
+            user_id = user.uid;
+            getAppointmentDetails(user.uid);
+        } else {
+            window.location.href = "../index.html"; // redirects the user to the log in page
         }
     });
-}
+
+    const getAppointmentDetails = (uid) => {
+        let database = firebase.database();
+        let ref = database.ref().child('Appointments');
+        ref.orderByKey().once("value",snapshot => {
+            if (snapshot.exists()) {
+                snapshot.forEach(function (childSnapshot) {
+                    let id_app = childSnapshot.key;
+                    let app = childSnapshot.val();
+
+                    if (uid === app.doctorUid && app.status === "pending") {
+                        //console.log(id_app);
+
+                        let label = "<span class='pending'>" + app.status + "</span>"; // only displays the pending appointments
+
+                        appList.innerHTML +=
+                            "<div class = 'card'>" +
+                            label +
+                            "<h2>Appointment with " + app.patient_Name + "</h2>" +
+                            "<p id='app_id' style='display:none;'>" + app.id + "</p>" +
+                            "<p>" + app.date_for_appointment + " - " + app.time_for_appointment + "</p>" +
+                            "<table>" +
+                            "<tr>" +
+                            "<th>Reason for appointment: </th>" +
+                            "<td>" + app.reason_for_appointment + "</td>" +
+                            "<button id='" + id_app + "' onClick='openRejectAppPopup(this.id)'> Reject </button>" +
+                            //insert popup here to make it more dynamic (next sprint)
+                            "</tr>" +
+                            "</table>"
+                            +"</div>"
+                            +"<br/>"
+                        ;
+                    }
+                });
+            }
+        });
+    }
 
     /*function rejectAppointment() {
         let person = prompt("Please enter reason for rejecting this appointment", "I am unavailable at this time, please check with the next doctor");
@@ -160,31 +161,33 @@ const getAppointmentDetails = (uid) => {
             die();
         }
     }*/
-    
+
     function validateDetails(rejection_reason) {
-        let error = document.getElementById("Error");
+        //let error = document.getElementById("Error");
         if (rejection_reason === "") {
             error.style.display = "block";
             error.innerHTML = "Reason cannot be empty";
             return false;
-        } 
+        }
         error.style.display = "none";
         return true;
     }
 
-function updateAppointment(appID, rejection_reason) {
+    function updateAppointment(appID, rejection_reason) {
         let database = firebase.database();
         let ref = database.ref().child('Appointments');
-        ref.child(appID).update({"notes":notes});
+        ref.child(appID).update({"rejection reason":rejection_reason});
         ref.child(appID).update({"status":"rejected"});
+
 
         let popup = document.getElementById("reject_app_popup");
         popup.style.display = "none";
+
     }
 
-    function confirmAppointment(appID) {
-        let rejection_reason = document.getElementById("app_rejection reason").value;
-        // console.log(appID);
+    function rejectAppointment(appID) {
+        let rejection_reason = document.getElementById("app_rejection_reason").value;
+        console.log(appID);
 
         if (validateDetails(rejection_reason)) {
             updateAppointment(appID, rejection_reason);
@@ -198,7 +201,8 @@ function updateAppointment(appID, rejection_reason) {
 
         let button = document.getElementById("confirm_app_btn");
         button.addEventListener('click', function() {
-            confirmAppointment(appID);
+            rejectAppointment(appID);
+
         })
 
         popup.style.display = "block";//opens popup
