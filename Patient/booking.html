@@ -237,7 +237,7 @@
       console.log("App status: " + appStatus)
       console.log("App Cost: " + costApp)
         
-                 database.ref().child('Appointments').set({
+                 database.ref().child('Appointments').push({
                       appointment_Cost:costApp ,
                       date_for_appointment:Actualdate,
                       doctorUid:d_uid,
