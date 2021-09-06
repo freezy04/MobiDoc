@@ -51,6 +51,7 @@
             </ul>
         </div>
     </nav>
+<!--    <button  class="button" id="testbtn" onClick="testing1()"> test </button>-->
 </div>
 
 
@@ -71,6 +72,21 @@
     };
     // Initialize Firebase
     firebase.initializeApp(firebaseConfig);
+
+    // function testing1() {
+    //     let database = firebase.database();
+    //     let ref = database.ref().child('Appointments');
+    //     ref.child("b58UY3yvui7dfgdf65uh").update({"appointment_Cost":""});
+    //     ref.child("b58UY3yvui7dfgdf65uh").update({"date_for_appointment":"10/11/2021"});
+    //     ref.child("b58UY3yvui7dfgdf65uh").update({"doctorUid":"mbcFUqwFCHV0HnrfX3vxUbXfsqs2"});
+    //     ref.child("b58UY3yvui7dfgdf65uh").update({"doctor_Name":"Arty"});
+    //     ref.child("b58UY3yvui7dfgdf65uh").update({"notes":""});
+    //     ref.child("b58UY3yvui7dfgdf65uh").update({"patientUid":"XNuD7rqFa3NFeaJkfTYjMC1szBv1"});
+    //     ref.child("b58UY3yvui7dfgdf65uh").update({"patient_Name":"Moseki"});
+    //     ref.child("b58UY3yvui7dfgdf65uh").update({"reason_for_appointment":"borken arm"});
+    //     ref.child("b58UY3yvui7dfgdf65uh").update({"status":"pending"});
+    //     ref.child("b58UY3yvui7dfgdf65uh").update({"time_for_appointment":"14:30"});
+    // }
 
 </script>
 
@@ -131,10 +147,12 @@
                 snapshot.forEach(function (childSnapshot) {
                     let app = childSnapshot.val();
 
+                    let appID = childSnapshot.key;
+
                     //Gabe Tidy removed pending appointments on home screen
 
                     if (uid === app.doctorUid && app.status === "accepted") {
-                        console.log(app.id);
+                        console.log(appID);
 
                         // if (uid === app.doctorUid && ( app.status === "accepted" || app.status === "pending" )) {
                         let label = "<span class='accept'>" + app.status + "</span>";
@@ -157,7 +175,7 @@
                             "<tr>" +
                             "<th>Reason for appointment: </th>" +
                             "<td>" + app.reason_for_appointment + "</td>" +
-                            "<button id='" + app.id + "' onClick='openCompleteAppPopup(this.id)'> Complete Appointment </button>" +
+                            "<button id='" + appID + "' onClick='openCompleteAppPopup(this.id)'> Complete Appointment </button>" +
                             "</tr>" +
                             "</table>"
                             +"</div>"
