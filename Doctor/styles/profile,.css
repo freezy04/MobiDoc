@@ -6,9 +6,8 @@
 }
 
 body{
-    background: url("../../img/temp.jpg");
+    background-color: whitesmoke;
     backdrop-filter: blur(2px);
-
 }
 
 .container{
@@ -44,14 +43,16 @@ body{
 }
 
 .left{
-    width: 100%;
-    background: url("../images/bg.jpg") center;
-    background-size: cover;
+    width: 110%;
+    background: url("https://cdn.dribbble.com/users/1973278/screenshots/6998323/hospital.gif") center;
+    background-size: 100% 600px;
+    background-repeat: no-repeat;
     height: 100%;
+
 }
 
 .left:hover{
-    height: 100%;
+    height: 110%;
     background: url("../images/bg1.jpg") center;
     background-size: cover;
 
@@ -87,7 +88,7 @@ h2:after{
     background-color : #fff;
     padding : 15px;
     outline:none;
-    width: 90%;
+    width: 100%;
     height: auto;
     margin-bottom: 20px;
 }

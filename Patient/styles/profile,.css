@@ -6,7 +6,7 @@
 }
 
 body{
-    background: url("../../img/temp.jpg");
+    background-color: whitesmoke;
     backdrop-filter: blur(2px);
 }
 .container{
@@ -43,7 +43,7 @@ body{
 
 .left{
     width: 100%;
-    background: url("../images/pic.jpg") center no-repeat;
+    background: url("https://www.godfrey.com/-/media/godfrey/insights/creative/five-myths-about-b2b-creative/kb-5-myths-about-creative-p1.gif?la=en&&hasB1F300DC87927D3DA3F70A66AB877C72E69B1C19") center no-repeat;
     background-size: 100%;
     height: 100%;
 }

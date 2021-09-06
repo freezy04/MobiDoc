@@ -1,5 +1,5 @@
 // Appointment list
-let appList = document.getElementById("appList");
+// let appList = document.getElementById("appList");
 
 function AddtoHtml(app,appList){
 

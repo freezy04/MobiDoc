@@ -42,7 +42,7 @@
                     <label for="show-services">Profile</label>
                 </li>
                 <li><a href="Appointments.html">Accept Appointments</a></li>
-                <li><a href="Appointments.html">Reject Appointments</a></li>
+                <li><a href="AppointmentTypes/PendingAppointments.html">Reject Appointments</a></li>
                 <li><a href="consultations.html">Complete Appointment</a></li>
                 <li>
                     <a href="#" class="desktop-link" style="padding-left: 50px">Appointments</a>
@@ -59,7 +59,8 @@
     </nav>
 </div>
 <!-- end of the nav bar -->
-<div style="padding-bottom: 100px"></div>
+<div style="padding-bottom: 200px"></div>
+<!--<button onclick="testing1()">Add</button>-->
 
 <dl id="appList" style="position: relative"></dl> <!-- refers to the space underneath the nav bar that contains all the appointments -->
 <!-- links this project to firebase -->
@@ -80,8 +81,8 @@
     firebase.initializeApp(firebaseConfig);
 
 </script>
+<!--<button onclick="AddAppointments()">Add</button>-->
 
-<dl id="appList"></dl> <!-- refers to the space underneath the nav bar that contains all the appointments -->
 </body>
 <!--moved body tag from bottom of page to here-->
 
@@ -103,6 +104,22 @@
 </div>
 
 <script>
+    // function testing1() {
+    //     let database = firebase.database();
+    //     let ref = database.ref().child('Appointments');
+    //     ref.child("b58UY3yvui7dfgdf65uh52asef2278").update({
+    //         "appointment_Cost": "",
+    //         "date_for_appointment": "15/11/2021",
+    //         "doctorUid": "mbcFUqwFCHV0HnrfX3vxUbXfsqs2",
+    //         "doctor_Name": "Arty",
+    //         "notes": "",
+    //         "patientUid": "XNuD7rqFa3NFeaJkfTYjMC1szBv1",
+    //         "patient_Name": "Moseki",
+    //         "reason_for_appointment": "Throat is sore",
+    //         "status": "pending",
+    //         "time_for_appointment": "14:30"
+    //     });
+    // }
 
     let user_id;
 
@@ -142,6 +159,7 @@
                             "<tr>" +
                             "<th>Reason for appointment: </th>" +
                             "<td>" + app.reason_for_appointment + "</td>" +
+                            "</br>"+
                             "<button class ='b' id='" + id_app + "' onClick='openAcceptAppPopup(this.id)'> Accept </button>" +
                             "</tr>" +
                             "</table>"

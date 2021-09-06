@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title> MobiDoc | Booking </title>
     <link rel="stylesheet" href="styles/Nav_bar.css">
-   
+
     <link rel="apple-touch-icon" sizes="180x180" href="../favicon/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="../favicon/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="../favicon/favicon-16x16.png">
@@ -23,26 +23,34 @@
 <body>
 
 <!-- for the nav bar -->
-<div class = "centre">
-    <nav id='menu'>
-        <input type='checkbox' id='responsive-menu' onclick='updatemenu()'><label></label>
-        <ul>
-            <li><a class='active' href="home.html"   >Home</a></li>
-            <li><a class='dropdown-arrow' href='#' >Appointments</a>
-                <ul class='sub-menus'>
-                    <!--                    <li><a href='AppointmentTypes/AcceptedAppointments.html'>Upcoming Appointments</a></li>-->
-                    <li><a href='AppointmentTypes/PendingAppointments.html'>Pending Appointments</a></li>
-                    <li><a href='AppointmentTypes/CompletedAppointments.html'>Completed Appointments</a></li>
-                    <li><a href='AppointmentTypes/RejectedAppointments.html'>Rejected Appointments</a></li>
-                </ul>
-            </li>
-            <li><a href='booking.html'>Book Appointment</a></li>
-            <li><a href='profile.html'>Profile </a></li>
-        </ul>
+<div class="wrapper">
+    <nav>
+        <input type="checkbox" id="show-search">
+        <input type="checkbox" id="show-menu">
+        <label for="show-menu" class="menu-icon"><i class="fas fa-bars"></i></label>
+        <div class="content">
+            <div class="logo"><a href="#">MobiDoc</a></div>
+            <ul class="links">
+                <li><a href="home.html">Home</a></li>
+                <li><a href="profile.html">Profile</a></li>
+                <li><a href="booking.html" class="active">Book Consultation</a></li>
+                <li><a href="#" style="color: transparent">some blank string for some formatting so that it looks nice</a></li>
+                <li>
+                    <a href="appointments.html" class="desktop-link">Appointments</a>
+                    <input type="checkbox" id="show-features">
+                    <label for="show-features">Appointments</label>
+                    <ul>
+                        <li><a href="AppointmentTypes/AcceptedAppointments.html">Accepted Appointments</a></li>
+                        <li><a href="AppointmentTypes/RejectedAppointments.html">Rejected Appointments</a></li>
+                        <li><a href="AppointmentTypes/PendingAppointments.html">Pending Appointment</a></li>
+                        <li><a href="AppointmentTypes/CompletedAppointments.html">Completed Appointments</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
     </nav>
 </div>
-<!-- end of the nav bar -->
-<div class="bottom_line"></div>
+<div style="padding-bottom: 200px"></div>
 
 <!-- links this project to firebase -->
 
@@ -76,14 +84,14 @@
         </div>
         <div class="popup-body">
             <p>Please pick a date</p>
-            <p> <input id="id_date" type="date" name="datePicker" formtarget="01/01/2021" ></p>
+            <p> <input class="form__group field" style="width: 30%" id="id_date" type="date" name="datePicker" formtarget="01/01/2021" ></p>
             <p>Please pick a Time</p>
-            <p> <input   id="id_time" type="time" name="timePicker"></p>
+            <p> <input class="form__group field" style="width: 30%"  id="id_time" type="time" name="timePicker"></p>
             <p>Reason for Appointment</p>
-            <p > <input id="reasonForApp" type="text" name="reason_for_appointment" value=" " ></p>
+            <textarea type="input" class="form__field" placeholder="reason for appointments" cols="100" 100 name="reason_for_appointment" id = "reasonForApp" required></textarea>
         </div>
         <div class="popup-footer">
-            <button id="accept_app_btn">  Confirm  </button>
+            <button id="accept_app_btn" style="width: 50%">  Confirm  </button>
             <p id = "error1" class = "error"></p>
         </div>
     </div>
@@ -103,7 +111,7 @@
 
             getDoctorList(user.uid
 
-                );
+            );
         } else {
             window.location.href = "../index.html"; // redirects the user to the log in page
         }
@@ -120,37 +128,38 @@
                     let doc_id = childSnapshot.key;
                     let app = childSnapshot.val();
 
-                     let DocN = app.first_name
+                    let DocN = app.first_name
 
 
 
 
 
 
-                       // console.log(doc_id);
+                    // console.log(doc_id);
 
                     //    let label = "<span class='pending'>" + app.status + "</span>"; // only displays the pending appointments
 
 
-                        appList.innerHTML +=
-                            "<div class = 'card'>" +
-                           // label +
-                            "<h2>Dr. " + app.first_name +" " + app.last_name + "</h2>" +
-                            "<p>" + "Specialization: "+ app.specialization + "</p>" +
+                    appList.innerHTML +=
+                        "<div class = 'card'>" +
+                        // label +
+                        "<h2>Dr. " + app.first_name +" " + app.last_name + "</h2>" +
+                        "<p>" + "Specialization: "+ app.specialization + "</p>" +
+                        "<img src='https://i.pinimg.com/originals/68/fe/a2/68fea2a012cdd49ac888cbe9e95a7b6b.jpg' width='30%' height='50%' " +
+                        "    alt='Doctors'>" +
+                        "<p id='app_id' style='display:none;'>" + app.id + "</p>" +
+                        // "<p>" + app.date_for_appointment + " - " + app.time_for_appointment + "</p>" +
+                        "<table>" +
+                        "<tr>" +
+                        "<br/>" +
 
-                            "<p id='app_id' style='display:none;'>" + app.id + "</p>" +
-                           // "<p>" + app.date_for_appointment + " - " + app.time_for_appointment + "</p>" +
-                            "<table>" +
-                            "<tr>" +
-
-
-                            "<button id='" + doc_id + "'  name='"+ DocN +"'   onClick='openBookApp(this.id,this.name)'>Book</button>" +
-                            //insert popup here to make it more dynamic (next sprint)
-                            "</tr>" +
-                            "</table>"
-                            +"</div>"
-                            +"<br/>"
-                        ;
+                        "<button id='" + doc_id + "'  name='"+ DocN +"'   onClick='openBookApp(this.id,this.name)'>Book</button>" +
+                        //insert popup here to make it more dynamic (next sprint)
+                        "</tr>" +
+                        "</table>"
+                        +"</div>"
+                        +"<br/>"
+                    ;
 
                 });
             }
@@ -183,7 +192,7 @@
 
 
 
-       // console.log(Actualdate)
+        // console.log(Actualdate)
         //reason for app
         var d, d_uid;
         var docNotes =" ";
@@ -204,114 +213,114 @@
 
 
         firebase.auth().onAuthStateChanged(function (user) {
-        if (user !=null) {
-            //const displayName = user.displayName;
+                if (user !=null) {
+                    //const displayName = user.displayName;
 
-            let refPat = database.ref().child('Patients');
-            refPat.orderByKey().once("value",snapshot => {
-                if (snapshot.exists()) {
-                    snapshot.forEach(function (childSnapshot) {
-                        let user_id = childSnapshot.key;
+                    let refPat = database.ref().child('Patients');
+                    refPat.orderByKey().once("value",snapshot => {
+                        if (snapshot.exists()) {
+                            snapshot.forEach(function (childSnapshot) {
+                                let user_id = childSnapshot.key;
 
-                        let u = childSnapshot.val();
-                        usersName = u.first_name;
-                     if(user.uid === u.uid){
-
-
-                         //console.log(user.uid)
-
-                        // console.log("This is the user's name: "+ usersName)
+                                let u = childSnapshot.val();
+                                usersName = u.first_name;
+                                if(user.uid === u.uid){
 
 
+                                    //console.log(user.uid)
 
-                         if(date === "" || time === ""){
-                             alert("Please pick a time and date");
-
-                         }
-                         else if(valYear < 2021){
-                             alert("Please choose the correct year");
-
-                         }
-                         else {
+                                    // console.log("This is the user's name: "+ usersName)
 
 
 
-                             database.ref().child('Appointments').push({
-                                 appointment_Cost:costApp ,
-                                 date_for_appointment:Actualdate,
-                                 doctorUid:d_uid,
-                                 doctor_Name:d,
-                                 notes:  docNotes,
-                                 patientUid:user.uid,
-                                 patient_Name:usersName,
-                                 reason_for_appointment:document.getElementById("reasonForApp").value,
-                                 status:appStatus,
-                                 time_for_appointment:Actualtime
-                             });
-                             let popup = document.getElementById("accept_app_popup");
-                             popup.style.display = "none";
-                             window.location.href = "./AppointmentTypes/PendingAppointments.html";
-                             // edited this to none then the popup disappears off screen after clicking accept button
+                                    if(date === "" || time === ""){
+                                        alert("Please pick a time and date");
 
-                         }
+                                    }
+                                    else if(valYear < 2021){
+                                        alert("Please choose the correct year");
 
-                         ;
+                                    }
+                                    else {
+
+
+
+                                        database.ref().child('Appointments').push({
+                                            appointment_Cost:costApp ,
+                                            date_for_appointment:Actualdate,
+                                            doctorUid:d_uid,
+                                            doctor_Name:d,
+                                            notes:  docNotes,
+                                            patientUid:user.uid,
+                                            patient_Name:usersName,
+                                            reason_for_appointment:document.getElementById("reasonForApp").value,
+                                            status:appStatus,
+                                            time_for_appointment:Actualtime
+                                        });
+                                        let popup = document.getElementById("accept_app_popup");
+                                        popup.style.display = "none";
+                                        window.location.href = "./AppointmentTypes/PendingAppointments.html";
+                                        // edited this to none then the popup disappears off screen after clicking accept button
+
+                                    }
+
+                                    ;
+                                }
+
+
+
+                                // console.log(doc_id);
+
+                                //    let label = "<span class='pending'>" + app.status + "</span>"; // only displays the pending appointments
+
+
+
+
+                            });
                         }
-
-
-
-                        // console.log(doc_id);
-
-                        //    let label = "<span class='pending'>" + app.status + "</span>"; // only displays the pending appointments
-
-
-
-
                     });
+
+                    //  console.log("Doctor's name: " + d)
+                    // console.log("Doctor's uid: " + d_uid)
+                    // console.log(patientName);
+                    // console.log("Patient's uid: " + user.uid)
+                    // console.log("Reason for App: " + document.getElementById("reasonForApp").value)
+                    // console.log("Year: "+year )
+                    //  console.log("Month: " + month )
+                    //  console.log("Day: " +  day)
+                    //  console.log("Time: " + time)
+                    //  console.log("Doctor note's: " + docNotes)
+                    //  console.log("App status: " + appStatus)
+                    //  console.log("App Cost: " + costApp)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    //Do al the magic
+                    //ref.child(appID).update({"status":"accepted"});
+
+
                 }
-            });
 
-          //  console.log("Doctor's name: " + d)
-     // console.log("Doctor's uid: " + d_uid)
-    // console.log(patientName);
-     // console.log("Patient's uid: " + user.uid)
-     // console.log("Reason for App: " + document.getElementById("reasonForApp").value)
-     // console.log("Year: "+year )
-     //  console.log("Month: " + month )
-     //  console.log("Day: " +  day)
-     //  console.log("Time: " + time)
-     //  console.log("Doctor note's: " + docNotes)
-     //  console.log("App status: " + appStatus)
-     //  console.log("App Cost: " + costApp)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            //Do al the magic
-            //ref.child(appID).update({"status":"accepted"});
-
-
-        }
-
-        else {
-            window.location.href = "../index.html"; // redirects the user to the log in page
+                else {
+                    window.location.href = "../index.html"; // redirects the user to the log in page
                 }
-        }
+            }
         );
 
 

@@ -53,6 +53,11 @@ nav .content .links{
 .content .links li label:hover{
     background: #323c4e;
 }
+.content .links li a .active,.content .links li label .active{
+    border-bottom: 10px burlywood;
+    background: #323c4e;
+}
+
 .wrapper .search-icon,
 .wrapper .menu-icon{
     color: #fff;
@@ -122,6 +127,7 @@ nav .content .links{
     opacity: 0;
     visibility: hidden;
 }
+
 .content .links li:hover > ul{
     top: 70px;
     opacity: 1;

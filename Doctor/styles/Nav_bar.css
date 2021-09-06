@@ -1,4 +1,3 @@
-
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
 *{
     margin: 0;
@@ -31,7 +30,7 @@ nav .content .links{
 }
 .content .logo a{
     color: #fff;
-    font-size: 30px;
+    font-size: 25px;
     font-weight: 600;
 }
 .content .links li{
@@ -41,7 +40,7 @@ nav .content .links{
 .content .links li a,
 .content .links li label{
     color: #fff;
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 500;
     padding: 9px 17px;
     border-radius: 5px;
