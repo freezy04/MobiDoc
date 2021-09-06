@@ -2,34 +2,309 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title> MobiDoc | Booking  </title>
+    <title> MobiDoc | Booking </title>
     <link rel="stylesheet" href="styles/Nav_bar.css">
-</head>
-<body style="background: whitesmoke;">
+   
+    <link rel="apple-touch-icon" sizes="180x180" href="../favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../favicon/favicon-16x16.png">
+    <link rel="manifest" href="../favicon/site.webmanifest">
 
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <!--    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase.js"></script>-->
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-database.js"></script>
+    <!--    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-analytics.js"></script>-->
+    <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.8.0/firebase-ui-auth.css" />
+    <link rel="stylesheet" href="./styles/bookAppointments.css">
+
+</head>
+<body>
+
+<!-- for the nav bar -->
 <div class = "centre">
     <nav id='menu'>
         <input type='checkbox' id='responsive-menu' onclick='updatemenu()'><label></label>
         <ul>
-            <li><a class='active' href="home.html">Home</a></li>
-            <li><a class='dropdown-arrow' href='appointments.html'>Appointments</a>
+            <li><a class='active' href="home.html"   >Home</a></li>
+            <li><a class='dropdown-arrow' href='#' >Appointments</a>
                 <ul class='sub-menus'>
-                    <li><a href='AppointmentTypes/AcceptedAppointments.html'>Accepted Appointments</a></li>
+                    <!--                    <li><a href='AppointmentTypes/AcceptedAppointments.html'>Upcoming Appointments</a></li>-->
                     <li><a href='AppointmentTypes/PendingAppointments.html'>Pending Appointments</a></li>
                     <li><a href='AppointmentTypes/CompletedAppointments.html'>Completed Appointments</a></li>
                     <li><a href='AppointmentTypes/RejectedAppointments.html'>Rejected Appointments</a></li>
                 </ul>
             </li>
-            <li><a href='#'  style="background: #1621B8;color: white">Book Appointment</a></li>
+            <li><a href='booking.html'>Book Appointment</a></li>
             <li><a href='profile.html'>Profile </a></li>
         </ul>
     </nav>
 </div>
+<!-- end of the nav bar -->
 <div class="bottom_line"></div>
 
-</body>
+<!-- links this project to firebase -->
 
 <script>
+
+    let firebaseConfig = {
+        apiKey: "AIzaSyB-ckD1wmZWj5c7RQIOyBvwFmQApBfEEMU",
+        authDomain: "mobidoc-6a3ac.firebaseapp.com",
+        databaseURL: "https://mobidoc-6a3ac-default-rtdb.firebaseio.com/",
+        projectId: "mobidoc-6a3ac",
+        storageBucket: "mobidoc-6a3ac.appspot.com",
+        messagingSenderId: "311373483549",
+        appId: "1:311373483549:web:3c840b29b14029ac4680f4",
+        measurementId: "G-JFPKMPTGZ5"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+
+</script>
+
+<dl id="appList"></dl> <!-- refers to the space underneath the nav bar that contains all the appointments -->
+</body>
+<!--moved body tag from bottom of page to here-->
+
+<!--popup for accepting a appointment request -->
+<div id="accept_app_popup" class="popup">
+    <div class="popup-content">
+        <div class="popup-header">
+            <h2 style="text-align:center">Request Appointment</h2>
+            <span class="popup-close">&times;</span>
+        </div>
+        <div class="popup-body">
+            <p>Please pick a date</p>
+            <p> <input id="id_date" type="date" name="datePicker" formtarget="01/01/2021" ></p>
+            <p>Please pick a Time</p>
+            <p> <input   id="id_time" type="time" name="timePicker"></p>
+            <p>Reason for Appointment</p>
+            <p > <input id="reasonForApp" type="text" name="reason_for_appointment" value=" " ></p>
+        </div>
+        <div class="popup-footer">
+            <button id="accept_app_btn">  Confirm  </button>
+            <p id = "error1" class = "error"></p>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+
+    let user_id;
+
+
+    // Appointment list
+    let appList = document.getElementById("appList");
+    firebase.auth().onAuthStateChanged(function (user) {
+        if (user) {
+    
+            getDoctorList(user.uid
+                
+                );
+        } else {
+            window.location.href = "../index.html"; // redirects the user to the log in page
+        }
+    });
+
+    const getDoctorList = (uid) => {
+        let database = firebase.database();
+        let userName;
+        let ref = database.ref().child('Doctors');
+        let refPat = database.ref().child('Patients');
+        refPat.orderByKey().once("value",snapshot => {
+            if (snapshot.exists()) {
+                snapshot.forEach(function (childSnapshot) {
+                   // let doc_id = childSnapshot.key;
+                   
+                   let u = childSnapshot.val();
+                    userName = u.first_name;
+                     if(uid === u.uid){
+                       // console.log("This is the user's name: "+ userName)  
+                     }
+                      ;
+
+                  
+                       // console.log(doc_id);
+
+                    //    let label = "<span class='pending'>" + app.status + "</span>"; // only displays the pending appointments
+
+                    
+                       
+                            
+                });
+            }
+        });
+        ref.orderByKey().once("value",snapshot => {
+            if (snapshot.exists()) {
+                snapshot.forEach(function (childSnapshot) {
+                    let doc_id = childSnapshot.key;
+                    let app = childSnapshot.val();
+                
+                     let DocN = app.first_name   
+                     
+                
+                  
+
+            
+
+                       // console.log(doc_id);
+
+                    //    let label = "<span class='pending'>" + app.status + "</span>"; // only displays the pending appointments
+
+                    
+                        appList.innerHTML +=
+                            "<div class = 'card'>" +
+                           // label +
+                            "<h2>Dr. " + app.first_name +" " + app.last_name + "</h2>" + 
+                            "<p>" + "Specialization: "+ app.specialization + "</p>" +
+                       
+                            "<p id='app_id' style='display:none;'>" + app.id + "</p>" +
+                           // "<p>" + app.date_for_appointment + " - " + app.time_for_appointment + "</p>" +
+                            "<table>" +
+                            "<tr>" +
+                            
+                         
+                            "<button id='" + doc_id + "'  name='"+ DocN +"'  onClick='openBookApp(this.id,this.name)'>Book</button>" +
+                            //insert popup here to make it more dynamic (next sprint)
+                            "</tr>" +
+                            "</table>"
+                            +"</div>"
+                            +"<br/>"
+                        ;
+                            
+                });
+            }
+        });
+    }
+
+    function createNewApp(doc_id,DocName) {
+      
+        let database = firebase.database();
+        let ref = database.ref().child('Appointments');
+        //user id
+        let user_id;
+        //id for date picker
+        
+        let date = document.getElementById("id_date").value;
+        var year, month, day, hours, minutes;
+        year = date.substring(0,4);
+        month = date.substring(5,7);
+        day = date.substring(8,11);
+        var Actualdate = day + "/" +month +"/" +year
+        //id for time picker
+        let time =  document.getElementById("id_time").value;
+        hours = time.substring(0,2)
+        minutes = time.substring(3,5)
+        var Actualtime = hours + ":" + minutes;
+     
+       
+        
+       // console.log(Actualdate)
+        //reason for app
+        var d, d_uid;
+        var docNotes =" ";
+        var appStatus = "pending";
+        var costApp = "0";
+        d =DocName ;
+        d_uid = doc_id;
+      var patientName = "Dann";
+    
+    
+     
+      
+        
+      
+                
+
+
+
+        
+        firebase.auth().onAuthStateChanged(function (user) {
+        if (user !=null) {
+            console.log("Doctor's name: " + d)
+      console.log("Doctor's uid: " + d_uid)
+     console.log("Patient's name: " + patientName)
+      console.log("Patient's uid: " + user.uid)
+      console.log("Reason for App: " + document.getElementById("reasonForApp").value)
+      console.log("Year: "+year )
+      console.log("Month: " + month )
+      console.log("Day: " +  day)
+      console.log("Time: " + time)
+      console.log("Doctor note's: " + docNotes)
+      console.log("App status: " + appStatus)
+      console.log("App Cost: " + costApp)
+        
+                 database.ref().child('Appointments').set({
+                      appointment_Cost:costApp ,
+                      date_for_appointment:Actualdate,
+                      doctorUid:d_uid,
+                      doctor_Name:d,
+                      notes:  docNotes, 
+                      patientUid:user.uid,
+                      patient_Name:patientName,
+                      reason_for_appointment:document.getElementById("reasonForApp").value,
+                      status:appStatus,
+                      time_for_appointment:Actualtime
+                 });
+        
+
+      
+      
+
+
+
+
+
+
+
+
+
+
+
+            
+            //Do al the magic
+            //ref.child(appID).update({"status":"accepted"});
+            let popup = document.getElementById("accept_app_popup");
+            popup.style.display = "none"; // edited this to none then the popup disappears off screen after clicking accept button
+        
+        
+        } 
+        
+        else {
+            window.location.href = "../index.html"; // redirects the user to the log in page
+                }
+        }
+        );
+
+       
+    }
+    
+
+    function openBookApp(appID,DocName) {
+        let popup = document.getElementById("accept_app_popup");
+        let close = document.getElementsByClassName("popup-close")[0];
+
+        let button = document.getElementById("accept_app_btn");
+        button.addEventListener('click', function() {
+            createNewApp(appID,DocName);
+        })
+
+        popup.style.display = "block";//opens popup
+
+        //closes popup if user clicks close (little cross upper right corner) or outside popup
+        close.onclick = function() {
+            popup.style.display = "none";
+        }
+        window.onclick = function(event) {
+            if (event.target === popup) {
+                popup.style.display = "none";
+            }
+        }
+    }
+
     function updatemenu() {
         if (document.getElementById('responsive-menu').checked === true) {
             document.getElementById('menu').style.borderBottomRightRadius = '0';
@@ -40,4 +315,7 @@
         }
     }
 </script>
+
+<!-- links the js file to the html file under Appointments-->
+
 </html>
