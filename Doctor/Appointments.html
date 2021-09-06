@@ -24,25 +24,10 @@
 </head>
 <body>
 
+
+
 <!-- for the nav bar -->
-<div class = "centre">
-    <!--    <nav id='menu'>-->
-    <!--        <input type='checkbox' id='responsive-menu' onclick='updatemenu()'><label></label>-->
-    <!--        <ul>-->
-    <!--            <li><a class='active' href="home.html"   >Home</a></li>-->
-    <!--            <li><a class='dropdown-arrow' href='#' style="background: #5d8ffc" >Appointments</a>-->
-    <!--                <ul class='sub-menus'>-->
-    <!--                    &lt;!&ndash;                    <li><a href='AppointmentTypes/AcceptedAppointments.html'>Upcoming Appointments</a></li>&ndash;&gt;-->
-    <!--                    <li><a href='AppointmentTypes/PendingAppointments.html'>Pending Appointments</a></li>-->
-    <!--                    <li><a href='AppointmentTypes/CompletedAppointments.html'>Completed Appointments</a></li>-->
-    <!--                    <li><a href='AppointmentTypes/RejectedAppointments.html'>Rejected Appointments</a></li>-->
-    <!--                </ul>-->
-    <!--            </li>-->
-    <!--            <li><a href='consultations.html'>Consultations</a></li>-->
-    <!--            <li><a href='profile.html'>Profile </a></li>-->
-    <!--        </ul>-->
-    <!--    </nav>-->
-</div><div class="wrapper">
+<div class="wrapper">
     <nav>
         <input type="checkbox" id="show-search">
         <input type="checkbox" id="show-menu">
@@ -73,8 +58,6 @@
         </div>
     </nav>
 </div>
-
-
 <!-- end of the nav bar -->
 <div style="padding-bottom: 100px"></div>
 
@@ -97,6 +80,10 @@
     firebase.initializeApp(firebaseConfig);
 
 </script>
+
+<dl id="appList"></dl> <!-- refers to the space underneath the nav bar that contains all the appointments -->
+</body>
+<!--moved body tag from bottom of page to here-->
 
 <!--popup for accepting a appointment request -->
 <div id="accept_app_popup" class="popup">
@@ -141,9 +128,9 @@
                     let app = childSnapshot.val();
 
                     if (uid === app.doctorUid && app.status === "pending") {
-                        let label = "<span class='pending'>" + app.status + "</span>"; // only displays the pending appointments
+                        console.log(id_app);
 
-                        console.log(id_app); // place here so that you only see the appointment IDs of the cards on screen
+                        let label = "<span class='pending'>" + app.status + "</span>"; // only displays the pending appointments
 
                         appList.innerHTML +=
                             "<div class = 'card'>" +

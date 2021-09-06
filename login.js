@@ -12,8 +12,6 @@ function toggle_pass_show(){
 
 }
 
-
-
 function isNotNull(email,pass){
 
     let validEmail = true;
