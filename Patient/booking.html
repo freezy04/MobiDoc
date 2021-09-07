@@ -100,18 +100,10 @@
 
 
 <script>
-
-    let user_id;
-
-
-    // Appointment list
     let appList = document.getElementById("appList");
     firebase.auth().onAuthStateChanged(function (user) {
         if (user) {
-
-            getDoctorList(user.uid
-
-            );
+            getDoctorList(user.uid);
         } else {
             window.location.href = "../index.html"; // redirects the user to the log in page
         }
@@ -119,42 +111,25 @@
 
     const getDoctorList = (uid) => {
         let database = firebase.database();
-
         let ref = database.ref().child('Doctors');
-
         ref.orderByKey().once("value",snapshot => {
             if (snapshot.exists()) {
                 snapshot.forEach(function (childSnapshot) {
                     let doc_id = childSnapshot.key;
                     let app = childSnapshot.val();
-
                     let DocN = app.first_name
-
-
-
-
-
-
-                    // console.log(doc_id);
-
-                    //    let label = "<span class='pending'>" + app.status + "</span>"; // only displays the pending appointments
-
-
                     appList.innerHTML +=
                         "<div class = 'card'>" +
-                        // label +
                         "<h2>Dr. " + app.first_name +" " + app.last_name + "</h2>" +
                         "<p>" + "Specialization: "+ app.specialization + "</p>" +
                         "<img src='https://i.pinimg.com/originals/68/fe/a2/68fea2a012cdd49ac888cbe9e95a7b6b.jpg' width='30%' height='50%' " +
                         "    alt='Doctors'>" +
                         "<p id='app_id' style='display:none;'>" + app.id + "</p>" +
-                        // "<p>" + app.date_for_appointment + " - " + app.time_for_appointment + "</p>" +
                         "<table>" +
                         "<tr>" +
                         "<br/>" +
 
                         "<button id='" + doc_id + "'  name='"+ DocN +"'   onClick='openBookApp(this.id,this.name)'>Book</button>" +
-                        //insert popup here to make it more dynamic (next sprint)
                         "</tr>" +
                         "</table>"
                         +"</div>"
@@ -169,87 +144,68 @@
     function createNewApp(doc_id,DocName) {
 
         let database = firebase.database();
-        let ref = database.ref().child('Appointments');
-        //user id
-        let user_id;
-        //id for date picker
-
-        let usersName="";
-
-
-
         let date = document.getElementById("id_date").value;
         var year, month, day, hours, minutes;
         year = date.substring(0,4);
         month = date.substring(5,7);
         day = date.substring(8,11);
         var Actualdate = day + "/" +month +"/" +year
-        //id for time picker
+
         let time =  document.getElementById("id_time").value;
         hours = time.substring(0,2)
         minutes = time.substring(3,5)
         var Actualtime = hours + ":" + minutes;
 
-
-
-        // console.log(Actualdate)
-        //reason for app
-        var d, d_uid;
+        let usersName="";
+        var doctorName, doctorUid;
         var docNotes =" ";
         var appStatus = "pending";
-        var costApp = "0";
-        d =DocName ;
-        d_uid = doc_id;
+        var costApp = "-";
+        doctorName =DocName ;
+        doctorUid = doc_id;
+
+        const currDate = new Date();
         var valYear = parseInt(year);
-
-
-
-
-
-
-
-
-
-
+        var valMonth = parseInt(month);
+        var valDay = parseInt(day);
+        var valHours = parseInt(hours);
+        var valMinutes = parseInt(minutes);
 
         firebase.auth().onAuthStateChanged(function (user) {
                 if (user !=null) {
-                    //const displayName = user.displayName;
-
                     let refPat = database.ref().child('Patients');
                     refPat.orderByKey().once("value",snapshot => {
                         if (snapshot.exists()) {
                             snapshot.forEach(function (childSnapshot) {
-                                let user_id = childSnapshot.key;
-
                                 let u = childSnapshot.val();
                                 usersName = u.first_name;
                                 if(user.uid === u.uid){
-
-
-                                    //console.log(user.uid)
-
-                                    // console.log("This is the user's name: "+ usersName)
-
-
-
                                     if(date === "" || time === ""){
                                         alert("Please pick a time and date");
 
                                     }
-                                    else if(valYear < 2021){
+                                    else if(valYear < currDate.getFullYear()){
                                         alert("Please choose the correct year");
 
                                     }
+                                    else if(valMonth < currDate.getMonth()){
+                                        alert("Please choose the correct month. You can't book for earlier months");
+
+                                    }
+                                    else if(valDay < currDate.getDate()){
+                                        alert("You can only book from today onwards");
+
+                                    }
+                                    else if((valHours < currDate.getHours()) || (valMinutes < currDate.getMinutes())){
+                                        alert("It's too late to book at this time. Please book an appropriate time");
+
+                                    }
                                     else {
-
-
-
                                         database.ref().child('Appointments').push({
                                             appointment_Cost:costApp ,
                                             date_for_appointment:Actualdate,
-                                            doctorUid:d_uid,
-                                            doctor_Name:d,
+                                            doctorUid:doctorUid,
+                                            doctor_Name:doctorName,
                                             notes:  docNotes,
                                             patientUid:user.uid,
                                             patient_Name:usersName,
@@ -266,55 +222,9 @@
 
                                     ;
                                 }
-
-
-
-                                // console.log(doc_id);
-
-                                //    let label = "<span class='pending'>" + app.status + "</span>"; // only displays the pending appointments
-
-
-
-
                             });
                         }
                     });
-
-                    //  console.log("Doctor's name: " + d)
-                    // console.log("Doctor's uid: " + d_uid)
-                    // console.log(patientName);
-                    // console.log("Patient's uid: " + user.uid)
-                    // console.log("Reason for App: " + document.getElementById("reasonForApp").value)
-                    // console.log("Year: "+year )
-                    //  console.log("Month: " + month )
-                    //  console.log("Day: " +  day)
-                    //  console.log("Time: " + time)
-                    //  console.log("Doctor note's: " + docNotes)
-                    //  console.log("App status: " + appStatus)
-                    //  console.log("App Cost: " + costApp)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                    //Do al the magic
-                    //ref.child(appID).update({"status":"accepted"});
-
-
                 }
 
                 else {
