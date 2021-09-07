@@ -1,3 +1,4 @@
+let appList = document.getElementById("appList");
 
 function AddtoHtml(app,appList) {
 

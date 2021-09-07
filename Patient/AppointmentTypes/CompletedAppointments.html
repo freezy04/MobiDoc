@@ -74,7 +74,7 @@
 </body>
 <script>
     // Appointment list
-    let appList = document.getElementById("appList");
+
     firebase.auth().onAuthStateChanged(function (user) {
         if (user) {
             getAppointmentDetails(user.uid);
@@ -86,6 +86,7 @@
     });
 
     const getAppointmentDetails = (uid) => {
+        let appList = document.getElementById("appList");
         let database = firebase.database();
         let ref = database.ref().child('Appointments');
         ref.orderByKey().once("value",snapshot => {

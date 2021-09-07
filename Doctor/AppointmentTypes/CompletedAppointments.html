@@ -17,8 +17,8 @@
     <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-analytics.js"></script>
     <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.8.0/firebase-ui-auth.css" />
     <link rel="stylesheet" href="../styles/appointments.css" />
-
 </head>
+
 <body >
 
 <!--Nav bar-->
@@ -53,6 +53,11 @@
         </div>
     </nav>
 </div>
+
+<div style="padding-bottom: 200px"></div>
+
+<dl id="appList"></dl>
+
 <script>
 
     let firebaseConfig = {
@@ -70,17 +75,11 @@
 
 </script>
 
-<script src="../scripts/CompleteAppointment.js">
-
-</script>
-<div style="padding-bottom: 200px"></div>
-<dl id="appList">
-</dl>
+<script src="../scripts/CompleteAppointment.js"></script>
 
 </body>
 <script>
     // Appointment list
-    let appList = document.getElementById("appList");
     firebase.auth().onAuthStateChanged(function (user) {
         if (user) {
             getAppointmentDetails(user.uid);
@@ -91,12 +90,15 @@
     });
 
     const getAppointmentDetails = (uid) => {
+        let appList = document.getElementById("appList");
         let database = firebase.database();
         let ref = database.ref().child('Appointments');
         ref.orderByKey().once("value",snapshot => {
             if (snapshot.exists()){
                 snapshot.forEach(function(childSnapshot) {
                     let app = childSnapshot.val();
+
+                    console.log(app);
                     if (uid === app.doctorUid && app.status === "completed") {
                     // if (app.status === "completed") {
                         appList.innerHTML +=
