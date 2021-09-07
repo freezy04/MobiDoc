@@ -93,10 +93,12 @@
             if (snapshot.exists()){
                 snapshot.forEach(function(childSnapshot) {
                     let app = childSnapshot.val();
+                    let label = "<span class='pending'>" + app.status + "</span>";
                     if (uid === app.patientUid && app.status === "pending") {
                        // if (app.status === "accepted") {
                             appList.innerHTML +=
                             "<div class='card'>" +
+                                label +
                             "<h2>Appointment with Dr " + app.doctor_Name + "</h2>" +
                             "<p>" + app.date_for_appointment + " - " + app.time_for_appointment + "</p>" +
                             "<table>" +
