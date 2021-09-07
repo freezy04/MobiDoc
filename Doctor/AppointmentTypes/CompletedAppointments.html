@@ -98,7 +98,6 @@
                 snapshot.forEach(function(childSnapshot) {
                     let app = childSnapshot.val();
 
-                    console.log(app);
                     if (uid === app.doctorUid && app.status === "completed") {
                     // if (app.status === "completed") {
                         appList.innerHTML +=

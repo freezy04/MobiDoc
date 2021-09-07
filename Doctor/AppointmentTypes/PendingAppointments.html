@@ -180,7 +180,7 @@
     function updateAppointment(appID, rejection_reason) {
         let database = firebase.database();
         let ref = database.ref().child('Appointments');
-        ref.child(appID).update({"rejection reason":rejection_reason});
+        ref.child(appID).update({"rejection_reason":rejection_reason});
         ref.child(appID).update({"status":"rejected"});
 
 
