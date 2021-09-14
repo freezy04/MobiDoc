@@ -132,52 +132,7 @@ function CheckPatientInfoNotNull(){
 
     return isValid;
 }
-function register_doctor(){
 
-    let docEmail = document.getElementById("doc_email").value;
-    let docPass = document.getElementById("doc_password").value;
-    let docConfirmPass = document.getElementById("doc_confirmPassword").value;
-    let docName = document.getElementById("doc_name").value;
-    let docSurname = document.getElementById("doc_surname").value;
-    let docSpecialization = document.getElementById("doc_specialization").value;
-    let docExperience = document.getElementById("doc_experience").value;
-    let docQualifications = document.getElementById("doc_qualifications").value;
-
-    if(CheckDoctorInfoNotNull() && CheckIfPasswordsMatch(docPass,docConfirmPass)) {
-
-        let database = firebase.database();
-        firebase.auth().createUserWithEmailAndPassword(docEmail, docPass)
-
-            .then((userCredential) => {
-                // Signed in
-                document.getElementById("doc_loader").style.display = "block";
-                let user = userCredential.user;
-                database.ref().child('Doctors').child(user.uid).set({
-                    email: docEmail,
-                    experience: docExperience,
-                    first_name: docName,
-                    last_name: docSurname,
-                    qualifications: docQualifications,
-                    specialization: docSpecialization,
-                    uid: user.uid,
-                    user_type: "Doctor"
-                });
-                console.log("Doctor registered");
-                setTimeout(() => {  window.location.href = "index.html"; }, 2000);
-            })
-            .catch((error) => {
-                let errorCode = error.code;
-                let errorMessage = error.message;
-            });
-
-    }
-
-    else{
-        let errorWindow = document.getElementById("doc_error_text");
-        errorWindow.style.display = "block";
-        errorWindow.innerHTML = DocErrorMessage;
-    }
-}
 
 // Register Patient Function
 function register_patient(){
