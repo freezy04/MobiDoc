@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title> MobiDoc | Home </title>
+
+    <link rel="apple-touch-icon" sizes="180x180" href="../favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../favicon/favicon-16x16.png">
+    <link rel="manifest" href="../favicon/site.webmanifest">
+
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-database.js"></script>
+    <link rel="stylesheet" href="./styles/appointments.css">
+    <link rel="stylesheet" href="styles/Nav_bar.css">
+
+</head>
+<body>
+
+
+<!--<div class="wrapper">-->
+<!--    <nav>-->
+<!--        <input type="checkbox" id="show-search">-->
+<!--        <input type="checkbox" id="show-menu">-->
+<!--        <label for="show-menu" class="menu-icon"><i class="fas fa-bars"></i></label>-->
+<!--        <div class="content">-->
+<!--            <div class="logo"><a href="#">MobiDoc</a></div>-->
+<!--            <ul class="links">-->
+<!--                <li><a href="home.html">Home</a></li>-->
+<!--                <li>-->
+<!--                    <a href="profile.html" class="desktop-link">Profile</a>-->
+<!--                    <input type="checkbox" id="show-services">-->
+<!--                    <label for="show-services">Profile</label>-->
+<!--                </li>-->
+<!--                <li><a href="Calendar.html">Calendar Testing</a></li>-->
+<!--                <li><a href="Appointments.html">Accept Appointments</a></li>-->
+<!--                <li><a href="AppointmentTypes/PendingAppointments.html">Reject Appointments</a></li>-->
+<!--                <li><a href="consultations.html">Complete Appointment</a></li>-->
+<!--                <li>-->
+<!--                    <a href="#" class="desktop-link" style="padding-left: 50px">Appointments</a>-->
+<!--                    <input type="checkbox" id="show-features">-->
+<!--                    <label for="show-features">Appointments</label>-->
+<!--                    <ul>-->
+<!--                        <li><a style="padding-left: 60px" href="AppointmentTypes/RejectedAppointments.html">Rejected Appointments</a></li>-->
+<!--                        <li><a style="padding-left: 60px" href="AppointmentTypes/PendingAppointments.html">Pending Appointments</a></li>-->
+<!--                        <li><a style="padding-left: 60px" href="AppointmentTypes/CompletedAppointments.html">Completed Appointments</a></li>-->
+<!--                    </ul>-->
+<!--                </li>-->
+<!--            </ul>-->
+<!--        </div>-->
+<!--    </nav>-->
+<!--</div>-->
+
+<script src="scripts/calendar.js" async=""></script>
+<div id="calendar"></div>
+
+<script>
+
+    let firebaseConfig = {
+        apiKey: "AIzaSyB-ckD1wmZWj5c7RQIOyBvwFmQApBfEEMU",
+        authDomain: "mobidoc-6a3ac.firebaseapp.com",
+        databaseURL: "https://mobidoc-6a3ac-default-rtdb.firebaseio.com/",
+        projectId: "mobidoc-6a3ac",
+        storageBucket: "mobidoc-6a3ac.appspot.com",
+        messagingSenderId: "311373483549",
+        appId: "1:311373483549:web:3c840b29b14029ac4680f4",
+        measurementId: "G-JFPKMPTGZ5"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+
+</script>
+</body>
+</html>
