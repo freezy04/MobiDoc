@@ -1,12 +1,12 @@
 #calendar {
     width: 80%;
     margin-left: 10%;
-    margin-top: 60px;
 }
 
 .calendarTable {
     width: 100%;
     border: 1px solid black;
+
 }
 
 .calendarTable thead tr th {
@@ -27,6 +27,7 @@
 .calendarBtn {
     padding: 10px 0px;
     width: 100%;
+
 }
 
 .calendarBtn button {
@@ -34,12 +35,13 @@
     font-size: 18px;
     border-radius: 6px;
     cursor:pointer;
+    margin-top: 100px;
 }
 
 .calendarDiv {
     display: none;
 }
 
-#calendarTable_1 {
+#calendarTable_0 {
     display: block;
 }

@@ -43,7 +43,7 @@ function getDatesBetween(startDate, endDate) {
     for (let i = 0; i < dates.length; i++) {
         lastDate = dates[i];
         firstDate = new Date(lastDate.getFullYear(), lastDate.getMonth(), 1);
-        content += "<div id='calendarTable_" + (i+1) + "' class='calendarDiv'>";
+        content += "<div id='calendarTable_" + i + "' class='calendarDiv'>";
         content += "<h2>" + firstDate.toString().split(" ")[1] + "-" + firstDate.getFullYear() + "</h2>";
         content += "<table class='calendarTable'>";
         content += "<thead >";
@@ -53,14 +53,14 @@ function getDatesBetween(startDate, endDate) {
         content += "</thead>";
         content += "<tbody>";
         let j = 1;
-        let displayNum, idMonth;
+        let displayNum;
         while (j <= lastDate.getDate()) {
             content += "<tr>";
             for (let k = 0; k < 7; k++) {
                 displayNum = (j < 10) ? "0" + j : j;
                 if (j === 1) {
                     if (firstDate.toString().split(" ")[0] === weekDays[k].shortDay) {
-                        content += "<td>" + displayNum + "</td>";
+                        content += "<td id='calendarDay_" + i + "_" + j + "' onclick='changeDay(this.id)'>" + displayNum + "</td>";
                         j++;
                     }
                     else {
@@ -69,7 +69,7 @@ function getDatesBetween(startDate, endDate) {
                 } else if (j > lastDate.getDate()) {
                     content += "<td></td>";
                 } else {
-                    content += "<td>" + displayNum + "</td>";
+                    content += "<td id='calendarDay_" + i + "_" + j + "' onclick='changeDay(this.id)'>" + displayNum + "</td>";
                     j++;
                 }
 
@@ -81,6 +81,10 @@ function getDatesBetween(startDate, endDate) {
         content += "</div>";
     }
     return content;
+}
+
+function changeDay(dayID) {
+    document.getElementById(dayID).style.backgroundColor = "green";
 }
 
 function prevMonth() {
