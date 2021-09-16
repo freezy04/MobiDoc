@@ -5,6 +5,53 @@ function settingDate(date, day) {
     date.setHours(23);
     return date;
 }
+var  events = [];
+//var events2 = [];
+
+const getDoctorList = () => {
+    let database = firebase.database();
+    let ref = database.ref().child('DocSetADT');
+    ref.orderByKey().once("value",snapshot => {
+        if (snapshot.exists()) {
+            snapshot.forEach(function (childSnapshot) {
+                let doc_id = childSnapshot.key;
+                let app = childSnapshot.val();
+
+                let docUid = app.doctorUid
+                let docName = app.doctorName
+                let DocSurname = app.doctorSurname
+                let docSpec = app. doctorSpecialization
+                let docAD = app.doctorAvailableDay
+                let docSDate = app.doctorStartDate
+                let docEDate = app.doctorEndDate
+                let docStartTime = app.doctorAvailableStartTime
+                let docEndTime = app.doctorAvailableEndTime
+                let docApptInterval = app.doctorAppointmentInterval
+                var Allouputs =docUid +"," + docName +","+ DocSurname +","+ docSpec +","+ docAD +","+ docSDate +"," + docEDate +"," + docStartTime+"," + docEndTime+"," + docApptInterval;
+
+
+                events.push({docUid,docName,DocSurname,docSpec,docAD,docSDate,docEDate,docStartTime,docEndTime,docApptInterval}); // opt1
+                //events2.push(Allouputs); // opt2
+                // opt1 uses a array with sets within and those sets are comprised of the doctors details
+                // opt2 uses concatenations of all doctors information
+
+
+
+
+
+
+
+            });
+
+
+            console.log(events)
+            //console.log(events2)
+
+        }
+    });
+
+
+}
 
 function getDatesBetween(startDate, endDate) {
     let startRange = new Date(startDate);

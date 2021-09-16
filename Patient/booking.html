@@ -76,17 +76,17 @@
 <!--moved body tag from bottom of page to here-->
 
 <!--popup for accepting a appointment request -->
-<div id="accept_app_popup" class="popup">
+<div id="accept_app_popup" class="popup" >
     <div class="popup-content">
         <div class="popup-header">
             <h2 style="text-align:center">Request Appointment</h2>
             <span class="popup-close">&times;</span>
         </div>
         <div class="popup-body">
-            <p>Please pick a date</p>
-            <p> <input class="form__group field" style="width: 30%" id="id_date" type="date" name="datePicker" formtarget="01/01/2021" ></p>
-            <p>Please pick a Time</p>
-            <p> <input class="form__group field" style="width: 30%"  id="id_time" type="time" name="timePicker"></p>
+<!--            <p>Please pick a time</p>-->
+<!--            <p> <input class="form__group field" style="width: 30%" id="id_Stime" type="time" name="timePicker2" formtarget="01/01/2021" ></p>-->
+           <p>Please pick the time of your appointment</p>
+            <p> <input class="form__group field" style="width: 30%"  id="id_Etime" type="time" name="timePicker"></p>
             <p>Reason for Appointment</p>
             <textarea type="input" class="form__field" placeholder="reason for appointments" cols="100" 100 name="reason_for_appointment" id = "reasonForApp" required></textarea>
         </div>
@@ -101,35 +101,54 @@
 
 <script>
     let appList = document.getElementById("appList");
+
     firebase.auth().onAuthStateChanged(function (user) {
         if (user) {
             getDoctorList(user.uid);
+
         } else {
             window.location.href = "../index.html"; // redirects the user to the log in page
         }
     });
 
+
+
+
     const getDoctorList = (uid) => {
         let database = firebase.database();
-        let ref = database.ref().child('Doctors');
+        let ref = database.ref().child('DocSetADT');
         ref.orderByKey().once("value",snapshot => {
             if (snapshot.exists()) {
                 snapshot.forEach(function (childSnapshot) {
                     let doc_id = childSnapshot.key;
                     let app = childSnapshot.val();
-                    let DocN = app.first_name
+
+                    let DocN = app.doctorName
+                    let docAvailDate = app.doctorAvailableDate
+                    let docStartTime = app.doctorAvailableStartTime
+                    let docEndTime = app.doctorAvailableEndTime
+                    let all = DocN + " " + docAvailDate + " " +docStartTime+ " " +docEndTime
                     appList.innerHTML +=
-                        "<div class = 'card'>" +
-                        "<h2>Dr. " + app.first_name +" " + app.last_name + "</h2>" +
-                        "<p>" + "Specialization: "+ app.specialization + "</p>" +
+                        "<div class = 'card' id='docCard' >" +
+
+                        "<h2>Dr. " + app.doctorName +" " + app.doctorSurname + "</h2>" +
+                    "<p>" + "Speciliazation:      "+ app.doctorSpecialization + "</p>" +
+                        "<p>" + "Available on Day:      "+ app.doctorAvailableDate + "</p>" +
                         "<img src='https://i.pinimg.com/originals/68/fe/a2/68fea2a012cdd49ac888cbe9e95a7b6b.jpg' width='30%' height='50%' " +
                         "    alt='Doctors'>" +
-                        "<p id='app_id' style='display:none;'>" + app.id + "</p>" +
+
                         "<table>" +
                         "<tr>" +
                         "<br/>" +
-
-                        "<button id='" + doc_id + "'  name='"+ DocN +"'   onClick='openBookApp(this.id,this.name)'>Book</button>" +
+                        "<p>"+ "From: " + app.doctorAvailableStartTime  +"</p>"+
+                       " </tr>" +
+                        "<tr>" +
+                        "<br/>" +
+                        "<p>"+ "To: " + app.doctorAvailableEndTime  +"</p>"+
+                        " </tr>" +
+                        "<tr>" +
+                        "<br/>" +
+                        "<button id='" + app.doctorUid + "'  name='"+ all +"'   onClick='openBookApp(this.id,this.name)'>Book</button>" +
                         "</tr>" +
                         "</table>"
                         +"</div>"
@@ -143,18 +162,27 @@
 
     function createNewApp(doc_id,DocName) {
 
-        let database = firebase.database();
-        let date = document.getElementById("id_date").value;
-        var year, month, day, hours, minutes;
-        year = date.substring(0,4);
-        month = date.substring(5,7);
-        day = date.substring(8,11);
-        var Actualdate = day + "/" +month +"/" +year
+        // let database = firebase.database();
+        // let date = document.getElementById("id_date").value;
+       let hours, minutes;
+       let S_hours, S_minutes;
+        // year = date.substring(0,4);
+        // month = date.substring(5,7);
+        // day = date.substring(8,11);
+        // var Actualdate = day + "/" +month +"/" +year
 
-        let time =  document.getElementById("id_time").value;
-        hours = time.substring(0,2)
-        minutes = time.substring(3,5)
-        var Actualtime = hours + ":" + minutes;
+
+
+        let Etime =  document.getElementById("id_Etime").value;
+        hours = Etime.substring(0,2)
+        minutes = Etime.substring(3,5)
+        var ActualEtime = hours + ":" + minutes;
+
+
+        // let Stime =  document.getElementById("id_Stime").value;
+        // S_hours = Stime.substring(0,2)
+        // S_minutes = Stime.substring(3,5)
+        // var ActualStime = S_hours + ":" + S_minutes;
 
         let usersName="";
         var doctorName, doctorUid;
@@ -162,76 +190,126 @@
         var appStatus = "pending";
         var costApp = "-";
         doctorName =DocName ;
-        doctorUid = doc_id;
+        let AdoctorName= doctorName.substring(0,3)
+        let date = doctorName.substring(doctorName.length-22)
+            doctorUid = doc_id;
+        let year, month, day, Shours, Sminutes, Ehours, Eminutes;
+        year = date.substring(6,10)
+        month = date.substring(3,5)
+        day = date.substring(0,2)
+        let Adate =  day + "/" +month +"/" +year
+
+        Shours = date.substring(11,13)
+        Sminutes = date.substring(14,16)
+        Ehours = date.substring(17,19)
+        Eminutes = date.substring(20,22)
+
+        let docStime = Shours + ":" + Sminutes;
+        let docEtime = Ehours + ":" + Eminutes;
 
         const currDate = new Date();
-        var valYear = parseInt(year);
-        var valMonth = parseInt(month);
-        var valDay = parseInt(day);
+        // var valYear = parseInt(year);
+        // var valMonth = parseInt(month);
+        // var valDay = parseInt(day);
+         var valSHours = parseInt(Shours);
+        var valSMinutes = parseInt(Sminutes);
+
+        var valEHours = parseInt(Ehours);
+        var valEMinutes = parseInt(Eminutes);
+
         var valHours = parseInt(hours);
         var valMinutes = parseInt(minutes);
 
-        firebase.auth().onAuthStateChanged(function (user) {
-                if (user !=null) {
-                    let refPat = database.ref().child('Patients');
-                    refPat.orderByKey().once("value",snapshot => {
-                        if (snapshot.exists()) {
-                            snapshot.forEach(function (childSnapshot) {
-                                let u = childSnapshot.val();
-                                usersName = u.first_name;
-                                if(user.uid === u.uid){
-                                    if(date === "" || time === ""){
-                                        alert("Please pick a time and date");
+        //console.log(doctorName)
+        // console.log(doctorUid)
+        // console.log(date)
+        // console.log(Shours)
+        // console.log(Sminutes)
+       // console.log("End time "+ ActualEtime)
+        //console.log("Start time "+ActualStime)
+if(valHours<valSHours){
+    alert("Your selected time should be between: " + docStime + "  and  " + docEtime );
 
-                                    }
-                                    else if(valYear < currDate.getFullYear()){
-                                        alert("Please choose the correct year");
+}
+     else   if(valHours>valEHours){
+            alert("Your selected time should be between: " + docStime + "  and  " + docEtime );
 
-                                    }
-                                    else if(valMonth < currDate.getMonth()){
-                                        alert("Please choose the correct month. You can't book for earlier months");
+        }
+     else if(valMinutes>0){
+    alert("He.e chief");
 
-                                    }
-                                    else if(valDay < currDate.getDate()){
-                                        alert("You can only book from today onwards");
+}
 
-                                    }
-                                    else if((valHours < currDate.getHours()) || (valMinutes < currDate.getMinutes())){
-                                        alert("It's too late to book at this time. Please book an appropriate time");
+else {
+    firebase.auth().onAuthStateChanged(function (user) {
+            if (user !=null) {
+                let refPat = database.ref().child('Patients');
+                refPat.orderByKey().once("value",snapshot => {
+                    if (snapshot.exists()) {
+                        snapshot.forEach(function (childSnapshot) {
+                            let u = childSnapshot.val();
+                            usersName = u.first_name;
+                            if(user.uid === u.uid){
+                                if(date === "" || time === ""){
+                                    alert("Please pick a time and date");
 
-                                    }
-                                    else {
-                                        database.ref().child('Appointments').push({
-                                            appointment_Cost:costApp ,
-                                            date_for_appointment:Actualdate,
-                                            doctorUid:doctorUid,
-                                            doctor_Name:doctorName,
-                                            notes:  docNotes,
-                                            patientUid:user.uid,
-                                            patient_Name:usersName,
-                                            reason_for_appointment:document.getElementById("reasonForApp").value,
-                                            status:appStatus,
-                                            time_for_appointment:Actualtime
-                                        });
-                                        let popup = document.getElementById("accept_app_popup");
-                                        popup.style.display = "none";
-                                        window.location.href = "./AppointmentTypes/PendingAppointments.html";
-                                        // edited this to none then the popup disappears off screen after clicking accept button
-
-                                    }
-
-                                    ;
                                 }
-                            });
-                        }
-                    });
-                }
+                                // else if(valYear < currDate.getFullYear()){
+                                //     alert("Please choose the correct year");
+                                //
+                                // }
+                                // else if(valMonth < currDate.getMonth()){
+                                //     alert("Please choose the correct month. You can't book for earlier months");
+                                //
+                                // }
+                                // else if(valDay < currDate.getDate()){
+                                //     alert("You can only book from today onwards");
+                                //
+                                // }
+                                // else if((valHours < currDate.getHours()) || (valMinutes < currDate.getMinutes())){
+                                //     alert("It's too late to book at this time. Please book an appropriate time");
+                                //
+                                // }
+                                else {
+                                    database.ref().child('Appointments').push({
+                                        appointment_Cost:costApp ,
+                                        //date_for_appointment:Adate,
+                                        doctorUid:doctorUid,
+                                       // doctor_Name:doctorName,
+                                        notes:  docNotes,
+                                        patientUid:user.uid,
+                                        patient_Name:usersName,
+                                        reason_for_appointment:document.getElementById("reasonForApp").value,
+                                        status:appStatus,
+                                        //time_for_appointment:Actualtime
+                                    });
+                                    let popup = document.getElementById("accept_app_popup");
+                                    popup.style.display = "none";
+                                    window.location.href = "./AppointmentTypes/PendingAppointments.html";
+                                    // edited this to none then the popup disappears off screen after clicking accept button
 
-                else {
-                    window.location.href = "../index.html"; // redirects the user to the log in page
-                }
+                                }
+
+                                ;
+                            }
+                        });
+                    }
+                });
             }
-        );
+
+            else {
+                window.location.href = "../index.html"; // redirects the user to the log in page
+            }
+        }
+    );
+}
+
+        // console.log(AdoctorName)
+        // console.log(year)
+        // console.log(month)
+        // console.log(day)
+
+
 
 
     }
