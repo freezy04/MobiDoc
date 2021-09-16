@@ -1,4 +1,6 @@
 
+let calendarShow = 0;
+
 function settingDate(date, day) {
     date = new Date(date);
     date.setDate(day);
@@ -77,9 +79,9 @@ function getDatesBetween(startDate, endDate) {
             startDate.setMonth(startDate.getMonth() + 1);
         }
     }
-    console.log(dates);
+    // console.log(dates);
 
-    let content = "";
+    let content = "<div class='calendarBtn'><button id='calendarPrev' onclick='prevMonth()' disabled>Prev</button> | <button id='calendarNext' onclick='nextMonth()'>Next</button></div>";
     let weekDays = [{shortDay:"Mon", fullDay:"Monday"}, {shortDay:"Tue", fullDay:"Tuesday"},
         {shortDay:"Wed", fullDay:"Wednesday"}, {shortDay:"Thu", fullDay:"Thursday"}, {shortDay:"Fri", fullDay:"Friday"},
         {shortDay:"Sat", fullDay:"Saturday"}, {shortDay:"Sun", fullDay:"Sunday"}];
@@ -88,9 +90,9 @@ function getDatesBetween(startDate, endDate) {
     for (let i = 0; i < dates.length; i++) {
         lastDate = dates[i];
         firstDate = new Date(lastDate.getFullYear(), lastDate.getMonth(), 1);
-        content += "<div id='calendarTable_" + (i+1) + "'>";
+        content += "<div id='calendarTable_" + i + "' class='calendarDiv'>";
         content += "<h2>" + firstDate.toString().split(" ")[1] + "-" + firstDate.getFullYear() + "</h2>";
-        content += "<table >";
+        content += "<table class='calendarTable'>";
         content += "<thead >";
         weekDays.map(item=>{
             content += "<th>" + item.fullDay + "</th>";
@@ -98,14 +100,14 @@ function getDatesBetween(startDate, endDate) {
         content += "</thead>";
         content += "<tbody>";
         let j = 1;
-        let displayNum, idMonth;
+        let displayNum;
         while (j <= lastDate.getDate()) {
             content += "<tr>";
             for (let k = 0; k < 7; k++) {
                 displayNum = (j < 10) ? "0" + j : j;
                 if (j === 1) {
                     if (firstDate.toString().split(" ")[0] === weekDays[k].shortDay) {
-                        content += "<td>" + displayNum + "</td>";
+                        content += "<td id='calendarDay_" + i + "_" + j + "' onclick='changeDay(this.id)'>" + displayNum + "</td>";
                         j++;
                     }
                     else {
@@ -114,7 +116,7 @@ function getDatesBetween(startDate, endDate) {
                 } else if (j > lastDate.getDate()) {
                     content += "<td></td>";
                 } else {
-                    content += "<td>" + displayNum + "</td>";
+                    content += "<td id='calendarDay_" + i + "_" + j + "' onclick='changeDay(this.id)'>" + displayNum + "</td>";
                     j++;
                 }
 
@@ -126,6 +128,39 @@ function getDatesBetween(startDate, endDate) {
         content += "</div>";
     }
     return content;
+}
+
+function changeDay(dayID) {
+    document.getElementById(dayID).style.backgroundColor = "green";
+}
+
+function prevMonth() {
+    let allMonths = document.getElementsByClassName("calendarDiv");
+    document.getElementById("calendarNext").disabled = false;
+    allMonths[calendarShow].style.display = "none";
+    calendarShow--;
+    if (calendarShow >= 0) {
+        allMonths[calendarShow].style.display = "block";
+        if (calendarShow === 0) {
+            document.getElementById("calendarPrev").disabled = true;
+        }
+    }
+}
+
+function  nextMonth() {
+    let allMonths = document.getElementsByClassName("calendarDiv");
+    document.getElementById("calendarPrev").disabled = false;
+    allMonths[calendarShow].style.display = "none";
+    calendarShow++;
+    if (calendarShow < allMonths.length) {
+        allMonths[calendarShow].style.display = "block";
+        if (calendarShow === allMonths.length - 1) {
+            document.getElementById("calendarNext").disabled = true;
+        }
+    }
+    // for (let i = 0; i < allMonths.length; i++) {
+    //     allMonths[i].style.display = "none";
+    // }
 }
 
 
