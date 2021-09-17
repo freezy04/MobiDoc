@@ -45,7 +45,7 @@ const getDoctorList = (docID) => {
             console.log(eventsDict);
             //console.log(events2);
         }
-        //todo: Gabe - auto manage dates
+        //todo: Gabe - auto manage dates + display upcoming apps
         let content = getDatesBetween("01/01/2021", "01/01/2022");
         document.getElementById("calendar").innerHTML = content;
     });
@@ -136,19 +136,15 @@ function getDatesBetween(startDate, endDate) {
 }
 
 function changeSlotAvailability(slotID) {//doctor func
-    let slot = document.getElementById(slotID)
+    let slot = document.getElementById(slotID);
     if (window.getComputedStyle(slot).backgroundColor === "rgb(240, 128, 128)") {//use firebase logic instead?
         slot.style.backgroundColor = "greenyellow";
-
     } else {
         slot.style.backgroundColor = "lightcoral";
     }
     //todo: firebase update
 }
 
-function bookAppointmentPopup(slotID) {//patient func
-    //todo: Gabe - func + manage doc vs patient
-}
 
 function openDayPopup(dayID) {
     // document.getElementById(dayID).style.backgroundColor = "green";
@@ -160,7 +156,7 @@ function openDayPopup(dayID) {
     let content = "<tbody>";
     for (let i = 0; i < 28; i++) {
         let slotColour = (slots !== undefined && slots.charAt(i) === '1') ? "style='background-color: greenyellow'" : "";
-        content += "<tr><td id='" + (i+1) + dayID + "' onclick='changeSlotAvailability(this.id)'" + slotColour + ">" + times[i] + " - " + times[i+1] + "</td></tr>";
+        content += "<tr><td id='" + (i+1) + "#" + dayID + "' onclick='changeSlotAvailability(this.id)'" + slotColour + ">" + times[i] + " - " + times[i+1] + "</td></tr>";
     }
     content += "</tbody>";
     document.getElementById("dayTable").innerHTML = content;

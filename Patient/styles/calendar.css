@@ -1,0 +1,110 @@
+#calendar {
+    width: 80%;
+    margin-left: 10%;
+}
+
+.calendarTable {
+    width: 100%;
+    border: 1px solid black;
+
+}
+
+.calendarTable thead tr th {
+    background-color: black;
+    border-bottom: 1px solid black;
+    padding: 20px 0px;
+    color: white;
+}
+
+.calendarTable tr td {
+    text-align: center;
+    padding: 20px 0px;
+    border: 1px solid lightblue;
+    cursor:pointer;
+    background-color: lightgray;
+}
+
+.calendarBtn {
+    padding: 10px 0px;
+    width: 100%;
+
+}
+
+.calendarBtn button {
+    padding: 6px 12px;
+    font-size: 18px;
+    border-radius: 6px;
+    cursor:pointer;
+    margin-top: 100px;
+}
+
+.calendarDiv {
+    display: none;
+}
+
+#calendarTable_0 {
+    display: block;
+}
+
+.dayTable {
+    width: 100%;
+    border: 1px solid black;
+}
+
+.dayTable tr td {
+    text-align: center;
+    padding: 3px 0px;
+    border: 1px solid lightblue;
+    background-color: lightcoral;
+}
+
+
+
+
+
+.form-popup {
+    display: none;
+    position: fixed;
+    bottom: 0;
+    right: 15px;
+    border: 3px solid #f1f1f1;
+    z-index: 9;
+}
+
+.form-container {
+    max-width: 300px;
+    padding: 10px;
+    background-color: white;
+}
+
+.form-container input[type=text], .form-container input[type=password] {
+    width: 100%;
+    padding: 15px;
+    margin: 5px 0 22px 0;
+    border: none;
+    background: #f1f1f1;
+}
+
+.form-container input[type=text]:focus, .form-container input[type=password]:focus {
+    background-color: #ddd;
+    outline: none;
+}
+
+.form-container .btn {
+    background-color: #04AA6D;
+    color: white;
+    padding: 16px 20px;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    margin-bottom:10px;
+    opacity: 0.8;
+}
+
+.form-container .cancel {
+    background-color: red;
+}
+
+.form-container .btn:hover, .open-button:hover {
+    opacity: 1;
+}

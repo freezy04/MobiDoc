@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title> MobiDoc | Booking </title>
+
+  <link rel="apple-touch-icon" sizes="180x180" href="../favicon/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="../favicon/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="../favicon/favicon-16x16.png">
+  <link rel="manifest" href="../favicon/site.webmanifest">
+
+  <!-- The core Firebase JS SDK is always required and must be listed first -->
+  <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-database.js"></script>
+  <link rel="stylesheet" href="styles/Nav_bar.css">
+  <link rel="stylesheet" href="styles/calendar.css">
+
+  <style>
+    body {font-family: Arial, Helvetica, sans-serif;}
+
+    /* The Modal (background) */
+    .modal {
+      display: none; /* Hidden by default */
+      position: fixed; /* Stay in place */
+      z-index: 1; /* Sit on top */
+      left: 0;
+      top: 0;
+      width: 100%; /* Full width */
+      height: 100%; /* Full height */
+      overflow: auto; /* Enable scroll if needed */
+      background-color: rgb(0,0,0); /* Fallback color */
+      background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+      -webkit-animation-name: fadeIn; /* Fade in the background */
+      -webkit-animation-duration: 0.4s;
+      animation-name: fadeIn;
+      animation-duration: 0.4s
+    }
+
+    /* Modal Content */
+    .modal-content {
+      position: fixed;
+      bottom: 0;
+      background-color: #fefefe;
+      width: 100%;
+      -webkit-animation-name: slideIn;
+      -webkit-animation-duration: 0.4s;
+      animation-name: slideIn;
+      animation-duration: 0.4s
+    }
+
+    /* The Close Button */
+    .close {
+      color: white;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+      color: #000;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .modal-header {
+      padding: 2px 16px;
+      background-color: #5cb85c;
+      color: white;
+    }
+
+    .modal-body {padding: 2px 16px;}
+
+    .modal-footer {
+      padding: 2px 16px;
+      background-color: #5cb85c;
+      color: white;
+    }
+
+    /* Add Animation */
+    @-webkit-keyframes slideIn {
+      from {bottom: -300px; opacity: 0}
+      to {bottom: 0; opacity: 1}
+    }
+
+    @keyframes slideIn {
+      from {bottom: -300px; opacity: 0}
+      to {bottom: 0; opacity: 1}
+    }
+
+    @-webkit-keyframes fadeIn {
+      from {opacity: 0}
+      to {opacity: 1}
+    }
+
+    @keyframes fadeIn {
+      from {opacity: 0}
+      to {opacity: 1}
+    }
+  </style>
+
+</head>
+<body>
+
+
+<div class="wrapper">
+  <nav>
+    <input type="checkbox" id="show-search">
+    <input type="checkbox" id="show-menu">
+    <label for="show-menu" class="menu-icon"><i class="fas fa-bars"></i></label>
+    <div class="content">
+      <div class="logo"><a href="#">MobiDoc</a></div>
+      <ul class="links">
+        <li><a href="home.html">Home</a></li>
+        <li><a href="profile.html">Profile</a></li>
+        <li><a href="booking.html">Book Consultation</a></li>
+        <li><a href="#" style="color: transparent">some blank string for some formatting so that it looks nice</a></li>
+        <li>
+          <a href="appointments.html" class="desktop-link">Appointments</a>
+          <input type="checkbox" id="show-features">
+          <label for="show-features">Appointments</label>
+          <ul>
+            <li><a href="AppointmentTypes/AcceptedAppointments.html">Accepted Appointments</a></li>
+            <li><a href="AppointmentTypes/RejectedAppointments.html">Rejected Appointments</a></li>
+            <li><a href="AppointmentTypes/PendingAppointments.html">Pending Appointment</a></li>
+            <li><a href="AppointmentTypes/CompletedAppointments.html">Completed Appointments</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</div>
+
+<script src="scripts/patient_calendar.js" async=""></script>
+<div id="calendar"></div>
+
+<script>
+
+  let firebaseConfig = {
+    apiKey: "AIzaSyB-ckD1wmZWj5c7RQIOyBvwFmQApBfEEMU",
+    authDomain: "mobidoc-6a3ac.firebaseapp.com",
+    databaseURL: "https://mobidoc-6a3ac-default-rtdb.firebaseio.com/",
+    projectId: "mobidoc-6a3ac",
+    storageBucket: "mobidoc-6a3ac.appspot.com",
+    messagingSenderId: "311373483549",
+    appId: "1:311373483549:web:3c840b29b14029ac4680f4",
+    measurementId: "G-JFPKMPTGZ5"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+
+</script>
+
+<div id="dayPopup" class="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <span class="close">&times;</span>
+      <h2 id="dayPopupHeader">Jan 1st 2021</h2>
+    </div>
+    <div class="modal-body">
+      <table id='dayTable' class="dayTable"></table>
+    </div>
+    <div class="modal-footer">
+      <h3>Click on a slot to book!</h3>
+    </div>
+  </div>
+</div>
+
+
+<div class="form-popup" id="bookingPopup">
+  <form class="form-container">
+    <h1>Book</h1>
+
+    <label for="text"><b>Notes</b></label>
+    <input id="notesField" type="text" placeholder="Enter notes" name="notes" required>
+
+    <button type="button" id="book-btn" class="btn">Book</button>
+    <button type="button" id="cancel-btn" class="cancel">Close</button>
+  </form>
+</div>
+
+
+</body>
+</html>
