@@ -45,3 +45,16 @@
 #calendarTable_0 {
     display: block;
 }
+
+.dayTable {
+    width: 100%;
+    border: 1px solid black;
+}
+
+.dayTable tr td {
+    text-align: center;
+    padding: 3px 0px;
+    border: 1px solid lightblue;
+    cursor:pointer;
+    background-color: lightcoral;
+}
