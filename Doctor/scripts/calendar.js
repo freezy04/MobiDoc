@@ -127,7 +127,7 @@ function getDatesBetween(startDate, endDate) {
 
 //todo: Gabe - function to fill in all availability details from firebase
 
-function changeSlotAvailability(slotID) {
+function changeSlotAvailability(slotID) {//doctory func
     let slot = document.getElementById(slotID)
     if (window.getComputedStyle(slot).backgroundColor === "rgb(240, 128, 128)") {//use firebase logic instead?
         slot.style.backgroundColor = "green";
@@ -135,6 +135,10 @@ function changeSlotAvailability(slotID) {
         slot.style.backgroundColor = "lightcoral";
     }
     //todo: firebase update
+}
+
+function bookAppointmentPopup(slotID) {//patient func
+    //todo: Gabe - func + manage doc vs patient
 }
 
 function openDayPopup(dayID) {
