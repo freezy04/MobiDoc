@@ -175,6 +175,22 @@
     <label for="text"><b>Notes</b></label>
     <input id="notesField" type="text" placeholder="Enter notes" name="notes" required>
 
+    <p>Duration:</p>
+    <form>
+      <label class="radio-inline">
+        <input id="radio1" type="radio" name="optradio" checked>30M
+      </label>
+      <label class="radio-inline">
+        <input id="radio2" type="radio" name="optradio" disabled>1H
+      </label>
+      <label class="radio-inline">
+        <input id="radio3" type="radio" name="optradio" disabled>1H:30M
+      </label>
+      <label class="radio-inline">
+        <input id="radio4" type="radio" name="optradio" disabled>2H
+      </label>
+    </form>
+
     <button type="button" id="book-btn" class="btn">Book</button>
     <button type="button" id="cancel-btn" class="cancel">Close</button>
   </form>
