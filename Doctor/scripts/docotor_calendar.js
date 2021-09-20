@@ -310,8 +310,12 @@ function changeSlotAvailability(slotID) {//doctor func
         slot.style.backgroundColor = "lightcoral";
     }
     console.log(slotID);
+    let ids = slotID.split("#");
+    let slotNum = ids[0];
+    let date = ids[1];
+    console.log(slotNum + ", " + date);
     //todo: firebase update - Naledi + Neo
-setADT();
+// setADT();
 
 }
 
