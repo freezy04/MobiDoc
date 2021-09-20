@@ -45,9 +45,13 @@ const getDoctorList = (docID) => {
             console.log(eventsDict);
             //console.log(events2);
         }
-        //todo: Gabe - auto manage dates + display upcoming apps
-        let content = getDatesBetween("01/01/2021", "01/01/2022");
-        document.getElementById("calendar").innerHTML = content;
+        //todo: Gabe - display upcoming apps?
+        let curDate = new Date();
+        let curMonth = curDate.getMonth() + 1;
+        curMonth = (curMonth < 10) ? "0" + curMonth : curMonth;
+        let curYear = curDate.getFullYear();
+        let nextYear = curYear + 1;
+        document.getElementById("calendar").innerHTML = getDatesBetween(curMonth + "/01/" + curYear, curMonth + "/01/" + nextYear);
     });
 
 }
@@ -211,4 +215,3 @@ firebase.auth().onAuthStateChanged(function (user) {
         window.location.href = "../index.html"; // redirects the user to the log in page
     }
 });
-// getDoctorList("4CTDmVZnTnRpRqqQGEn684O8o102");

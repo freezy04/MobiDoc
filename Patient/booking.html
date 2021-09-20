@@ -316,25 +316,28 @@ else {
 
 
     function openBookApp(appID,DocName) {
-        let popup = document.getElementById("accept_app_popup");
-        let close = document.getElementsByClassName("popup-close")[0];
+        // let popup = document.getElementById("accept_app_popup");
+        // let close = document.getElementsByClassName("popup-close")[0];
+        //
+        // let button = document.getElementById("accept_app_btn");
+        // button.addEventListener('click', function() {
+        //     createNewApp(appID,DocName);
+        // })
+        //
+        // popup.style.display = "block";//opens popup
+        //
+        // //closes popup if user clicks close (little cross upper right corner) or outside popup
+        // close.onclick = function() {
+        //     popup.style.display = "none";
+        // }
+        // window.onclick = function(event) {
+        //     if (event.target === popup) {
+        //         popup.style.display = "none";
+        //     }
+        // }
 
-        let button = document.getElementById("accept_app_btn");
-        button.addEventListener('click', function() {
-            createNewApp(appID,DocName);
-        })
-
-        popup.style.display = "block";//opens popup
-
-        //closes popup if user clicks close (little cross upper right corner) or outside popup
-        close.onclick = function() {
-            popup.style.display = "none";
-        }
-        window.onclick = function(event) {
-            if (event.target === popup) {
-                popup.style.display = "none";
-            }
-        }
+        // Gabe modified function to open calendar booking system instead of the popup
+        window.location.href = "PatientCalendar.html?doc=" + appID;
     }
 
     function updatemenu() {

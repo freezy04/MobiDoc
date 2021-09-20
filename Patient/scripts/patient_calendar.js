@@ -45,9 +45,12 @@ const getDoctorList = (docID) => {
             console.log(eventsDict);
             //console.log(events2);
         }
-        //todo: Gabe - auto manage dates
-        let content = getDatesBetween("01/01/2021", "01/01/2022");
-        document.getElementById("calendar").innerHTML = content;
+        let curDate = new Date();
+        let curMonth = curDate.getMonth() + 1;
+        curMonth = (curMonth < 10) ? "0" + curMonth : curMonth;
+        let curYear = curDate.getFullYear();
+        let nextYear = curYear + 1;
+        document.getElementById("calendar").innerHTML = getDatesBetween(curMonth + "/01/" + curYear, curMonth + "/01/" + nextYear);
     });
 
 }
@@ -134,17 +137,6 @@ function getDatesBetween(startDate, endDate) {
     }
     return content;
 }
-
-// function changeSlotAvailability(slotID) {//doctor func
-//     let slot = document.getElementById(slotID)
-//     if (window.getComputedStyle(slot).backgroundColor === "rgb(240, 128, 128)") {//use firebase logic instead?
-//         slot.style.backgroundColor = "greenyellow";
-//
-//     } else {
-//         slot.style.backgroundColor = "lightcoral";
-//     }
-//     //todo: firebase update
-// }
 
 function bookAppointmentPopup(slotID) {//patient func
     console.log(slotID);
@@ -233,6 +225,12 @@ function popupInit() {
         }
     }
 }
-//todo:gabe user check
-popupInit();
-getDoctorList("mbcFUqwFCHV0HnrfX3vxUbXfsqs2");
+
+firebase.auth().onAuthStateChanged(function (user) {
+    if (user) {
+        popupInit();
+        getDoctorList(new URL(window.location.href).searchParams.get("doc"));
+    } else {
+        window.location.href = "../index.html"; // redirects the user to the log in page
+    }
+});
