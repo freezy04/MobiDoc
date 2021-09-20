@@ -43,6 +43,7 @@ const getDoctorList = (docID) => {
                 }
             });
             console.log(eventsDict);
+
             //console.log(events2);
         }
         //todo: Gabe - display upcoming apps?
@@ -137,6 +138,163 @@ function getDatesBetween(startDate, endDate) {
         content += "</div>";
     }
     return content;
+
+}
+
+function setADT() {
+    let slotNum = "11";
+    let date = "24/9/2021";
+    let database = firebase.database();
+    firebase.auth().onAuthStateChanged(function (user) {
+            if (user !=null) {
+                let ref = database.ref().child('Doctors');
+                ref.orderByKey().once("value",snapshot => {
+                    if (snapshot.exists()) {
+                        snapshot.forEach(function (childSnapshot) {
+                            let u = childSnapshot.val();
+                            let usersName = u.first_name;
+                            if(user.uid === u.uid){
+                                let time_app;
+                                if(parseInt(slotNum)=== 1 ){
+                                    time_app = "1000000000000000000000000000"
+                                }
+                                else if(parseInt(slotNum)=== 2){
+                                    time_app = "0100000000000000000000000000"
+                                }
+                                else if(parseInt(slotNum)=== 3){
+                                    time_app = "0010000000000000000000000000"
+                                }
+                                else if(parseInt(slotNum)=== 4){
+                                    time_app = "0001000000000000000000000000"
+                                }
+                                else if(parseInt(slotNum)=== 5){
+                                    time_app = "0000100000000000000000000000"
+                                }
+                                else if(parseInt(slotNum)=== 6){
+                                    time_app = "0000010000000000000000000000"
+                                }
+                                else if(parseInt(slotNum)=== 7){
+                                    time_app = "0000001000000000000000000000"
+                                }
+                                else if(parseInt(slotNum)=== 8){
+                                    time_app = "0000000100000000000000000000"
+                                }
+                                else if(parseInt(slotNum)=== 9){
+                                    time_app = "0000000010000000000000000000"
+                                }
+                                else if(parseInt(slotNum)=== 10){
+                                    time_app = "0000000001000000000000000000"
+                                }
+                                else if(parseInt(slotNum)=== 11 ){
+                                    time_app = "0000000000100000000000000000"
+                                }
+                                else if(parseInt(slotNum)=== 12){
+                                    time_app = "0000000000010000000000000000"
+                                }
+                                else if(parseInt(slotNum)=== 13){
+                                    time_app = "0000000000001000000000000000"
+                                }
+                                else if(parseInt(slotNum)=== 14){
+                                    time_app = "0000000000000100000000000000"
+                                }
+                                else if(parseInt(slotNum)=== 15){
+                                    time_app = "0000000000000010000000000000"
+                                }
+                                else if(parseInt(slotNum)=== 16){
+                                    time_app = "0000000000000001000000000000"
+                                }
+                                else if(parseInt(slotNum)=== 17){
+                                    time_app = "0000000000000000100000000000"
+                                }
+                                else if(parseInt(slotNum)=== 18){
+                                    time_app = "0000000000000000010000000000"
+                                }
+                                else if(parseInt(slotNum)=== 19){
+                                    time_app = "0000000000000000001000000000"
+                                }
+                                else if(parseInt(slotNum)=== 20){
+                                    time_app = "0000000000000000000100000000"
+                                }
+                                else if(parseInt(slotNum)=== 21 ){
+                                    time_app = "0000000000000000000010000000"
+                                }
+
+                                else if(parseInt(slotNum)=== 22){
+                                    time_app = "0000000000000000000001000000"
+                                }
+                                else if(parseInt(slotNum)=== 23){
+                                    time_app = "0000000000000000000000100000"
+                                }
+                                else if(parseInt(slotNum)=== 24){
+                                    time_app = "0000000000000000000000010000"
+                                }
+                                else if(parseInt(slotNum)=== 25){
+                                    time_app = "0000000000000000000000001000"
+                                }
+                                else if(parseInt(slotNum)=== 26){
+                                    time_app = "0000000000000000000000000100"
+                                }
+                                else if(parseInt(slotNum)=== 27){
+                                    time_app = "0000000000000000000000000010"
+                                }
+                                else if(parseInt(slotNum)=== 28)
+                                {
+                                    time_app = "0000000000000000000000000001"
+                                }
+
+
+                                //console.log(time_app)
+                                // if(date === "" || time === ""){
+                                //     alert("Please pick a time and date");
+                                //
+                                // }
+                                //     // else if(valYear < currDate.getFullYear()){
+                                //     //     alert("Please choose the correct year");
+                                //     //
+                                //     // }
+                                //     // else if(valMonth < currDate.getMonth()){
+                                //     //     alert("Please choose the correct month. You can't book for earlier months");
+                                //     //
+                                //     // }
+                                //     // else if(valDay < currDate.getDate()){
+                                //     //     alert("You can only book from today onwards");
+                                //     //
+                                //     // }
+                                //     // else if((valHours < currDate.getHours()) || (valMinutes < currDate.getMinutes())){
+                                //     //     alert("It's too late to book at this time. Please book an appropriate time");
+                                //     //
+                                // // }
+                                // else {
+                                //
+                                database.ref().child('DocSetADT').push({
+
+                                    date: date,
+                                    docUID:user.uid,
+                                    slots:time_app,
+
+                                });
+
+                                // let popup = document.getElementById("accept_app_popup");
+                                // popup.style.display = "none";
+                                window.location.href = "./AppointmentTypes/PendingAppointments.html";
+
+                                // edited this to none then the popup disappears off screen after clicking accept button
+
+                                // }
+
+                                ;
+                            }
+                        });
+                    }
+                });
+            }
+
+            else {
+                window.location.href = "../index.html"; // redirects the user to the log in page
+            }
+        }
+    );
+
 }
 
 function changeSlotAvailability(slotID) {//doctor func
@@ -147,6 +305,8 @@ function changeSlotAvailability(slotID) {//doctor func
         slot.style.backgroundColor = "lightcoral";
     }
     //todo: firebase update - Naledi + Neo
+setADT();
+
 }
 
 
