@@ -4,7 +4,7 @@ This is the website version for the MobiDoc Android Application  : [MobiDoc Andr
 
  # Mobile Patient Tracker
 - #### Product Scope 
-      - develop a website version of the mobile application for viewing and managing patient data
+      - develop a website version of the mobile application for viewing and managing patient data as well as booking appointments
       - data comprises of, patient name, disease history, medication administered, date of arrival, date of appointment, consultation and treatment cost, etc
       - once the data is saved onto the system it will be stored for the doctor's perusal
        
