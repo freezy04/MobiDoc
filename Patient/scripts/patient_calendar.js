@@ -159,7 +159,7 @@ function bookApp(slotNum, date) {
     console.log(slotNum + ", " + date + ", " + notes);
 
 
-    //todo: firebase update
+    //todo: firebase update - Kgosi + Mpho
 
 
 

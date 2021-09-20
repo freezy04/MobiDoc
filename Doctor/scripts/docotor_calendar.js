@@ -146,7 +146,7 @@ function changeSlotAvailability(slotID) {//doctor func
     } else {
         slot.style.backgroundColor = "lightcoral";
     }
-    //todo: firebase update
+    //todo: firebase update - Naledi + Neo
 }
 
 
