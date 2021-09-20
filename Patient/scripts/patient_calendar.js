@@ -113,9 +113,14 @@ function getDatesBetween(startDate, endDate) {
             for (let k = 0; k < 7; k++) {
                 displayNum = (j < 10) ? "0" + j : j;
                 let dayID = j + "/" + (firstDate.getMonth()+1) + "/" + firstDate.getFullYear();
+                let colour = "#cd5c5c";
+                let slots = eventsDict[dayID];
+                if (slots !== undefined && slots !== "0000000000000000000000000000") {
+                    colour =  (slots.split("1").length - 1 < 4) ? "#ffff00" : "#adff2f";
+                }
                 if (j === 1) {
                     if (firstDate.toString().split(" ")[0] === weekDays[k].shortDay) {
-                        content += "<td id='" + dayID + "' onclick='openDayPopup(this.id)'>" + displayNum + "</td>";
+                        content += "<td id='" + dayID + "' onclick='openDayPopup(this.id)' style='background-color: " + colour + "'>" + displayNum + "</td>";
                         j++;
                     }
                     else {
@@ -124,7 +129,7 @@ function getDatesBetween(startDate, endDate) {
                 } else if (j > lastDate.getDate()) {
                     content += "<td></td>";
                 } else {
-                    content += "<td id='" + dayID + "' onclick='openDayPopup(this.id)'>" + displayNum + "</td>";
+                    content += "<td id='" + dayID + "' onclick='openDayPopup(this.id)' style='background-color: " + colour + "'>" + displayNum + "</td>";
                     j++;
                 }
 
@@ -138,25 +143,58 @@ function getDatesBetween(startDate, endDate) {
     return content;
 }
 
+
 function bookAppointmentPopup(slotID) {//patient func
-    console.log(slotID);
     let popup = document.getElementById("bookingPopup");
     window.onclick = function(event) {
         if (event.target === popup) {
             popup.style.display = "none";
         }
     }
-    popup.style.display = "block";
     document.getElementById("cancel-btn").onclick = function () {
         popup.style.display = "none";
     }
+
+
+    document.getElementById("radio1").checked = true;
+    let r2 = document.getElementById("radio2");
+    let r3 = document.getElementById("radio3");
+    let r4 = document.getElementById("radio3");
+    r2.disabled = true;
+    r3.disabled = true;
+    r4.disabled = true;
+
     let ids = slotID.split("#");
+
+    let slots = eventsDict[ids[1]];
+    let slotNum = parseInt(ids[0]);
+    console.log(slots);
+    if (slots[slotNum] === "1") {
+        r2.disabled = false;
+        console.log(slots[slotNum]);
+        if (slots[slotNum + 1] === "1") {
+            console.log(slots[slotNum + 1]);
+            r3.disabled = false;
+            if (slots[slotNum + 2] === "1") {
+                console.log(r4.disabled);
+                r4.disabled = false;
+                //todo: Gabe - fix 2 hour radio button
+            }
+        }
+    }
+
+    popup.style.display = "block";
+
     document.getElementById("book-btn").onclick = function() {bookApp(ids[0], ids[1])};
 }
 
 function bookApp(slotNum, date) {
     let notes = document.getElementById("notesField").value;
-    console.log(slotNum + ", " + date + ", " + notes);
+    let halfHour = document.getElementById("radio1").checked;
+    let hour = document.getElementById("radio2").checked;
+    let hourAndHalf = document.getElementById("radio3").checked;
+    let twoHours = document.getElementById("radio3").checked;
+    console.log(slotNum + ", " + date + ", " + notes + ", " + halfHour);
 
 
     //todo: firebase update - Kgosi + Mpho

@@ -114,9 +114,14 @@ function getDatesBetween(startDate, endDate) {
             for (let k = 0; k < 7; k++) {
                 displayNum = (j < 10) ? "0" + j : j;
                 let dayID = j + "/" + (firstDate.getMonth()+1) + "/" + firstDate.getFullYear();
+                let colour = "#cd5c5c";
+                let slots = eventsDict[dayID];
+                if (slots !== undefined && slots !== "0000000000000000000000000000") {
+                    colour =  (slots.split("1").length - 1 < 4) ? "#ffff00" : "#adff2f";
+                }
                 if (j === 1) {
                     if (firstDate.toString().split(" ")[0] === weekDays[k].shortDay) {
-                        content += "<td id='" + dayID + "' onclick='openDayPopup(this.id)'>" + displayNum + "</td>";
+                        content += "<td id='" + dayID + "' onclick='openDayPopup(this.id)' style='background-color: " + colour + "'>" + displayNum + "</td>";
                         j++;
                     }
                     else {
@@ -125,7 +130,7 @@ function getDatesBetween(startDate, endDate) {
                 } else if (j > lastDate.getDate()) {
                     content += "<td></td>";
                 } else {
-                    content += "<td id='" + dayID + "' onclick='openDayPopup(this.id)'>" + displayNum + "</td>";
+                    content += "<td id='" + dayID + "' onclick='openDayPopup(this.id)' style='background-color: " + colour + "'>" + displayNum + "</td>";
                     j++;
                 }
 
@@ -146,6 +151,7 @@ function changeSlotAvailability(slotID) {//doctor func
     } else {
         slot.style.backgroundColor = "lightcoral";
     }
+    console.log(slotID);
     //todo: firebase update - Naledi + Neo
 }
 
@@ -192,16 +198,20 @@ function  nextMonth() {
     }
 }
 
+function closeDayPopup(popup) {
+    //todo: Gabe - update day colours if slots changed?
+    popup.style.display = "none";
+}
 
 function popupInit() {
     let popup = document.getElementById("dayPopup");
     let popupClose = document.getElementsByClassName("close")[0];
     popupClose.onclick = function() {
-        popup.style.display = "none";
+        closeDayPopup(popup);
     }
     window.onclick = function(event) {
         if (event.target === popup) {
-            popup.style.display = "none";
+            closeDayPopup(popup);
         }
     }
 }
