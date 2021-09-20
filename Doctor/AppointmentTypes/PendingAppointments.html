@@ -48,6 +48,16 @@
                         <li><a style="padding-left: 60px" href="CompletedAppointments.html">Completed Appointments</a></li>
                     </ul>
                 </li>
+                <li><a onclick="function SignOut() {
+                    firebase.auth().signOut()
+                    .then(() => {
+                        console.log('Signed Out');
+                    })
+                    .catch(e=>{
+                        console.error('Sign Out Error', e);
+                    });
+                }
+                SignOut()">Logout</a></li>
             </ul>
         </div>
     </nav>
