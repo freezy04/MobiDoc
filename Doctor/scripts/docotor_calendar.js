@@ -146,9 +146,9 @@ function getDatesBetween(startDate, endDate) {
 
 }
 
-function setADT() {
-    let slotNum = "11";
-    let date = "24/9/2021";
+function setADT(slotNum,date) {
+
+
     let database = firebase.database();
     firebase.auth().onAuthStateChanged(function (user) {
             if (user !=null) {
@@ -315,7 +315,7 @@ function changeSlotAvailability(slotID) {//doctor func
     let date = ids[1];
     console.log(slotNum + ", " + date);
     //todo: firebase update - Naledi + Neo
-// setADT();
+setADT(slotNum,date);
 
 }
 
