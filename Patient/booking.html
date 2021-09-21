@@ -34,7 +34,7 @@
                 <li><a href="home.html">Home</a></li>
                 <li><a href="profile.html">Profile</a></li>
                 <li><a href="booking.html" class="active">Book Consultation</a></li>
-                <li><a href="#" style="color: transparent">some blank string for some formatting so that it looks nice</a></li>
+<!--                <li><a href="#" style="color: transparent">some blank string for some formatting so that it looks nice</a></li>-->
                 <li>
                     <a href="appointments.html" class="desktop-link">Appointments</a>
                     <input type="checkbox" id="show-features">
@@ -127,7 +127,7 @@
     const getDoctorList = (uid) => {
         let database = firebase.database();
         let ref = database.ref().child('Doctors');
-        ref.orderByKey().once("value",snapshot => {
+        ref.orderByChild('date_for_appointment').on("value",snapshot => {
             if (snapshot.exists()) {
                 snapshot.forEach(function (childSnapshot) {
                     let doc_id = childSnapshot.key;

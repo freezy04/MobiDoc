@@ -27,6 +27,7 @@ function isNotNull(email,pass){
     }
     return validEmail && validPass;
 }
+
 $("#login_user").click(function () {
     login();
 });
@@ -70,8 +71,6 @@ const LoginUserAs = (uid) => {
             location.href = 'Patient/home.html';
         }
     });
-
-
 }
 
 module.exports = {isNotNull};

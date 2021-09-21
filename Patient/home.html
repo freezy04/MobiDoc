@@ -29,7 +29,7 @@
                 <li><a href="home.html">Home</a></li>
                 <li><a href="profile.html">Profile</a></li>
                 <li><a href="booking.html">Book Consultation</a></li>
-                <li><a href="#" style="color: transparent">some blank string for some formatting so that it looks nice</a></li>
+<!--                <li><a href="#" style="color: transparent">some blank string for some formatting so that it looks nice</a></li>-->
                 <li>
                     <a href="appointments.html" class="desktop-link">Appointments</a>
                     <input type="checkbox" id="show-features">
@@ -93,8 +93,9 @@ firebase.initializeApp(firebaseConfig);
     const getAppointmentDetails = (uid) => {
         let database = firebase.database();
         let ref = database.ref().child('Appointments');
-        ref.orderByChild('date_for_appointment').once("value", snapshot => {
+        ref.orderByChild('date_for_appointment').on("value", snapshot => {
             if (snapshot.exists()) {
+                appList.innerHTML = "";
                 snapshot.forEach(function (childSnapshot) {
                     let app = childSnapshot.val();
                     if (uid === app.patientUid && app.status !== "completed") {

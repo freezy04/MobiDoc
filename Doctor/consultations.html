@@ -35,19 +35,21 @@
                     <input type="checkbox" id="show-services">
                     <label for="show-services">Profile</label>
                 </li>
-                <li><a href="Appointments.html">Accept Appointments</a></li>
-                <li><a href="AppointmentTypes/PendingAppointments.html">Reject Appointments</a></li>
+                <li><a href="DoctorCalendar.html">Calendar Testing</a></li>
                 <li><a href="consultations.html">Complete Appointment</a></li>
-                <li>
-                    <a href="#" class="desktop-link" style="padding-left: 50px">Appointments</a>
-                    <input type="checkbox" id="show-features">
-                    <label for="show-features">Appointments</label>
-                    <ul>
-                        <li><a style="padding-left: 60px" href="AppointmentTypes/RejectedAppointments.html">Rejected Appointments</a></li>
-                        <li><a style="padding-left: 60px" href="AppointmentTypes/PendingAppointments.html">Pending Appointments</a></li>
-                        <li><a style="padding-left: 60px" href="AppointmentTypes/CompletedAppointments.html">Completed Appointments</a></li>
-                    </ul>
-                </li>
+<!--                <li><a href="Appointments.html">Accept Appointments</a></li>-->
+<!--                <li><a href="AppointmentTypes/PendingAppointments.html">Reject Appointments</a></li>-->
+<!--                <li><a href="consultations.html">Complete Appointment</a></li>-->
+<!--                <li>-->
+<!--                    <a href="#" class="desktop-link" style="padding-left: 50px">Appointments</a>-->
+<!--                    <input type="checkbox" id="show-features">-->
+<!--                    <label for="show-features">Appointments</label>-->
+<!--                    <ul>-->
+<!--                        <li><a style="padding-left: 60px" href="AppointmentTypes/RejectedAppointments.html">Rejected Appointments</a></li>-->
+<!--                        <li><a style="padding-left: 60px" href="AppointmentTypes/PendingAppointments.html">Pending Appointments</a></li>-->
+<!--                        <li><a style="padding-left: 60px" href="AppointmentTypes/CompletedAppointments.html">Completed Appointments</a></li>-->
+<!--                    </ul>-->
+<!--                </li>-->
                 <li><a onclick="function SignOut() {
                     firebase.auth().signOut()
                     .then(() => {
@@ -152,7 +154,7 @@
     const getAppointmentDetails = (uid) => {
         let database = firebase.database();
         let ref = database.ref().child('Appointments');
-        ref.orderByKey().once("value",snapshot => {
+        ref.orderByChild('date_for_appointment').on("value",snapshot => {
             if (snapshot.exists()) {
                 snapshot.forEach(function (childSnapshot) {
                     let app = childSnapshot.val();
