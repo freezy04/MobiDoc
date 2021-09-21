@@ -276,7 +276,7 @@ function getDatesBetween(startDate, endDate) {
             for (let k = 0; k < 7; k++) {
                 displayNum = (j < 10) ? "0" + j : j;
                 let dayID = j + "/" + (firstDate.getMonth()+1) + "/" + firstDate.getFullYear();
-                let colour = "#cd5c5c";
+                let colour = "rgb(91,156,168)";
                 let slots = eventsDict[dayID];
                 if (slots !== undefined && slots !== "0000000000000000000000000000") {
                     colour =  (slots.split("1").length - 1 < 4) ? "#ffff00" : "#adff2f";
@@ -292,7 +292,7 @@ function getDatesBetween(startDate, endDate) {
                 } else if (j > lastDate.getDate()) {
                     content += "<td></td>";
                 } else {
-                    content += "<td id='" + dayID + "' onclick='openDayPopup(this.id)' style='background-color: " + colour + "'>" + displayNum + "</td>";
+                    content += "<td id='" + dayID + "' onclick='openDayPopup(this.id)'>" + displayNum + "</td>";
                     j++;
                 }
 
@@ -590,7 +590,7 @@ function openDayPopup(dayID) {
     for (let i = 0; i < 28; i++) {
         content += "<tr><td id='" + (i+1) + "#" + dayID + "'";
         if (slots !== undefined && slots.charAt(i) === '1') {
-            content += "onclick='bookAppointmentPopup(this.id)' style='background-color: greenyellow; cursor: pointer'";
+            content += "onclick='bookAppointmentPopup(this.id)' style='text-align: center;background-color: transparent; cursor: pointer'";
         }
         content += ">" + times[i] + " - " + times[i+1] + "</td></tr>";
     }

@@ -100,7 +100,7 @@ function getDatesBetween(startDate, endDate) {
         lastDate = dates[i];
         firstDate = new Date(lastDate.getFullYear(), lastDate.getMonth(), 1);
         content += "<div id='calendarTable_" + i + "' class='calendarDiv'>";
-        content += "<h2>" + firstDate.toString().split(" ")[1] + "-" + firstDate.getFullYear() + "</h2>";
+        content += "<h2>" + firstDate.toString().split(" ")[1] + "-" + firstDate.getFullYear() + "<img/>"+ "</h2>";
         content += "<table class='calendarTable'>";
         content += "<thead >";
         weekDays.map(item=>{
@@ -115,23 +115,26 @@ function getDatesBetween(startDate, endDate) {
             for (let k = 0; k < 7; k++) {
                 displayNum = (j < 10) ? "0" + j : j;
                 let dayID = j + "/" + (firstDate.getMonth()+1) + "/" + firstDate.getFullYear();
-                let colour = "#cd5c5c";
+                let colour = "rgb(91,156,168)";
                 let slots = eventsDict[dayID];
                 if (slots !== undefined && slots !== "0000000000000000000000000000") {
                     colour =  (slots.split("1").length - 1 < 4) ? "#ffff00" : "#adff2f";
                 }
                 if (j === 1) {
                     if (firstDate.toString().split(" ")[0] === weekDays[k].shortDay) {
+                        // Dylan is testing this :
+                        // content += "<td id='" + dayID + "' onclick='openDayPopup(this.id)' style='background-color: " + colour + "'>" + displayNum + "</td>";
                         content += "<td id='" + dayID + "' onclick='openDayPopup(this.id)' style='background-color: " + colour + "'>" + displayNum + "</td>";
                         j++;
                     }
                     else {
-                        content += "<td></td>";
+                        content += "<td style='background:#668ab8;'></td>";
                     }
                 } else if (j > lastDate.getDate()) {
-                    content += "<td></td>";
+                    content += "<td style='background:#668ab8;'></td>";
                 } else {
-                    content += "<td id='" + dayID + "' onclick='openDayPopup(this.id)' style='background-color: " + colour + "'>" + displayNum + "</td>";
+                    //Dylan : content += "<td class='t' id='" + dayID + "' onclick='openDayPopup(this.id)' style='background-color: " + colour + "'>" + displayNum + "</td>";
+                    content += "<td id='" + dayID + "' onclick='openDayPopup(this.id)'>" + displayNum + "</td>";
                     j++;
                 }
 
