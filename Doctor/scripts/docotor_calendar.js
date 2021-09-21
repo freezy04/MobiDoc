@@ -274,7 +274,7 @@ function setADT(slotNum,date) {
                                 database.ref().child('DocSetADT').push({
 
                                     date: date,
-                                    docUID:user.uid,
+                                    doctorUID:user.uid,
                                     slots:time_app,
 
                                 });
