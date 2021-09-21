@@ -78,14 +78,45 @@
 </script>
 <script src="scripts/PatientProfile.js"></script>
 </body>
+
+<!--Edit Profile -->
 <!--Profile Stuff-->
 <div class="container"  id="profile">
     <div class="contact-box">
         <div class="left">
         </div>
         <div class="right">
-            <input id = "email" type="text" placeholder="email" required />
-            <input id = "password" type="text" placeholder="password" required />
+            <h2 id ="Name" >Name Surname</h2>
+            <p id = "email"> Email Address </p>
+
+            <table>
+                <tr>
+                    <th>Gender</th>
+                    <td id = "gender"></td>
+                </tr>
+                <tr>
+                    <th>Age</th>
+                    <td id = "age"></td>
+                </tr>
+                <tr>
+                    <th>Allergies</th>
+                    <td id = "allergies"></td>
+                </tr>
+                <tr>
+                    <th>Disease History</th>
+                    <td id = "disease_history"></td>
+                </tr>
+                <tr>
+                    <th>Medical History</th>
+                    <td id = "medical_history"></td>
+                </tr>
+                <tr>
+                    <th>Current Medication</th>
+                    <td id = "current_medication"></td>
+                </tr>
+            </table>
+
+            <button id="btn_edit" onclick="ChangeView()"> Edit Profile </button>
         </div>
     </div>
 </div>
