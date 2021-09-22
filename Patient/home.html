@@ -56,6 +56,17 @@
     </nav>
 </div>
 <div style="padding-bottom: 200px"></div>
+<center>
+    <div class="sk-chase" style="display: none" id="loader">
+        <div class="sk-chase-dot"></div>
+        <div class="sk-chase-dot"></div>
+        <div class="sk-chase-dot"></div>
+        <div class="sk-chase-dot"></div>
+        <div class="sk-chase-dot"></div>
+        <div class="sk-chase-dot"></div>
+    </div>
+</center>
+
 <dl id="appList">
 </dl>
 
@@ -134,6 +145,7 @@ firebase.initializeApp(firebaseConfig);
                     }
                 });
             }
+            document.getElementById("loader").style.display = "none";
         });
     }
 

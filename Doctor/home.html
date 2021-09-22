@@ -24,7 +24,7 @@
     </style>
 
 </head>
-<body onload="ShowLoader()">
+<body onload="Spinner()">
 
 
 <div class="wrapper">
@@ -74,6 +74,17 @@
 
 
 <div style="padding-bottom: 200px"></div>
+<center>
+<div class="sk-chase" style="display: none" id="loader">
+    <div class="sk-chase-dot"></div>
+    <div class="sk-chase-dot"></div>
+    <div class="sk-chase-dot"></div>
+    <div class="sk-chase-dot"></div>
+    <div class="sk-chase-dot"></div>
+    <div class="sk-chase-dot"></div>
+</div>
+</center>
+
 <dl id="appList">
 </dl>
 <script>
@@ -136,28 +147,19 @@
         }
     });
 
-    let Div_arr = [];
-    function Print(){
-        // Div_arr.forEach(function (child){
-        //     console.log(child[0]);
-        // })
-        // var sortedKeys = Object.keys(json).sort(function(a,b) { return json[b].date_for_appointment < json[a].date_for_appointment });
-        // console.log(sortedKeys);
-    }
-
-    function ShowLoader(){
+    function Spinner(){
         document.getElementById("loader").style.display = "block";
     }
-    const getAppointmentDetails = (uid) => {
 
+    const getAppointmentDetails = (uid) => {
         let database = firebase.database();
         let ref = database.ref().child('Appointments');
         ref.orderByKey().on("value",snapshot => {
+            document.getElementById("loader").style.display = "block";
             if (snapshot.exists()) {
                 snapshot.forEach(function (childSnapshot) {
                     //console.log(JSON.stringify(childSnapshot.val()));
                     let app = childSnapshot.val();
-                    Div_arr.push(JSON.stringify(app));
                     //Gabe Tidy removed pending appointments on home screen
                     if (uid === app.doctorUid && ( app.status === "accepted" || app.status === "pending" )) {
                         let label;
@@ -185,9 +187,10 @@
                             +"<br/>"
                         ;
                     }
+
                 });
             }
-            //document.getElementById("loader").style.display = "none";
+            document.getElementById("loader").style.display = "none";
         });
     }
 
