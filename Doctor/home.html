@@ -16,10 +16,15 @@
     <link rel="stylesheet" href="./styles/appointments.css">
     <link rel="stylesheet" href="styles/Nav_bar.css">
 
-
+    <style>
+        dl{
+            display:flex;
+            flex-direction: column-reverse;
+        }
+    </style>
 
 </head>
-<body>
+<body onload="ShowLoader()">
 
 
 <div class="wrapper">
@@ -90,6 +95,7 @@
 </body>
 
 
+
 <!--popup for completing an upcoming appointment - Gabe Tidy-->
 <div id="complete_app_popup" class="popup">
     <div class="popup-content">
@@ -130,17 +136,29 @@
         }
     });
 
+    let Div_arr = [];
+    function Print(){
+        // Div_arr.forEach(function (child){
+        //     console.log(child[0]);
+        // })
+        // var sortedKeys = Object.keys(json).sort(function(a,b) { return json[b].date_for_appointment < json[a].date_for_appointment });
+        // console.log(sortedKeys);
+    }
+
+    function ShowLoader(){
+        document.getElementById("loader").style.display = "block";
+    }
     const getAppointmentDetails = (uid) => {
+
         let database = firebase.database();
         let ref = database.ref().child('Appointments');
-        ref.orderByChild('date_for_appointment').on("value",snapshot => {
+        ref.orderByKey().on("value",snapshot => {
             if (snapshot.exists()) {
                 snapshot.forEach(function (childSnapshot) {
+                    //console.log(JSON.stringify(childSnapshot.val()));
                     let app = childSnapshot.val();
-
+                    Div_arr.push(JSON.stringify(app));
                     //Gabe Tidy removed pending appointments on home screen
-
-
                     if (uid === app.doctorUid && ( app.status === "accepted" || app.status === "pending" )) {
                         let label;
                         switch (app.status){
@@ -169,6 +187,7 @@
                     }
                 });
             }
+            //document.getElementById("loader").style.display = "none";
         });
     }
 

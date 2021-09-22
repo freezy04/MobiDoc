@@ -8,6 +8,10 @@ body{
 }
 
 
+dl{
+    display:flex;
+    flex-direction: column-reverse;
+}
 
 .reject {background-image: linear-gradient(to right, #FF512F 0%, #DD2476  51%, #FF512F  100%)}
 .reject {
