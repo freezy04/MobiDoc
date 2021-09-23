@@ -642,7 +642,66 @@ firebase.auth().onAuthStateChanged(function (user) {
     if (user) {
         popupInit();
         getDoctorList(new URL(window.location.href).searchParams.get("doc"));
-    } else {
-        window.location.href = "../index.html"; // redirects the user to the log in page
     }
-});
+    else {
+            ShowLogin(); //Nthabi changed it from redirect to index.html to a popup that will help us log in the user from that page
+        }
+    });
+
+//for the login at any page down below
+
+function ShowLogin(){
+    document.getElementById("pop_up_login").style.display="block";
+}
+
+function isNotNull(email,pass){
+
+    let validEmail = true;
+    let validPass = true;
+    if(email === " "){
+        validEmail = false;
+    }
+    if(pass === " "){
+        validPass = false;
+    }
+    else{
+        return true
+    }
+    return validEmail && validPass;
+}
+
+function login(){
+
+    let Email = document.getElementById("email").value; // get email
+    let Password = document.getElementById("password").value; // get password
+
+    if(isNotNull(Email,Password)){
+        firebase.auth().signInWithEmailAndPassword(Email, Password)
+            .then((userCredential) => {
+                // Signed in
+                let user = userCredential.user;
+                window.location.reload(); //user stays on same page after logging in
+            })
+            .catch((error) => {
+                var errorCode = error.code;
+                var errorMessage = error.message;
+                window.alert("Unable to login"); //popup on the browser at the top
+            });
+    }
+    else{
+        window.alert("Incorrect Login Details");
+    }
+}
+
+const LoginUserAs = (uid) => {
+    let database = firebase.database();
+    let ref = database.ref().child('Doctor');
+
+    ref.orderByKey().equalTo(uid).once("value", snapshot => {
+        if (snapshot.exists()) {
+            window.location.reload();
+        } else {
+            window.location.reload(); // location.href = '.../Patient/home.html';
+        }
+    });
+}
