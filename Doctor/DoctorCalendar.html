@@ -151,7 +151,18 @@
 <script src="scripts/docotor_calendar.js" async=""></script>
 <div id="calendar"></div>
 
+<!--Nthabi added the login from any page functionality here| style="display: none"-->
+<!--to do: insert CSS-->
+<div id="pop_up_login">
+    <h2> Login </h2>
+    <input placeholder = "Email" type = "email" required id = "email">
+    <input placeholder = "Password" type = "password" required id = "password">
+    <button id="login" onclick="login()">Login</button>
+</div>
+
 <script>
+
+    <!--[Nthabi] login from any page moved to related js file-->
 
     let firebaseConfig = {
         apiKey: "AIzaSyB-ckD1wmZWj5c7RQIOyBvwFmQApBfEEMU",
