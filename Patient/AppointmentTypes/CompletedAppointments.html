@@ -78,6 +78,15 @@
 </script>
 <script src="../scripts/CompletedAppointments.js"></script>
 <div style="padding-bottom: 100px"></div>
+
+<!--style="display: none"-->
+<div id="pop_up_login">
+    <h2> Login </h2>
+    <input placeholder="Email" type="email" required id="email">
+    <input placeholder="Password" type="password" required id="password">
+    <button id="login" onclick="login()">Login</button>
+</div>
+
 <dl id="appList">
 </dl>
 
@@ -90,10 +99,67 @@
             getAppointmentDetails(user.uid);
         }
         else {
-            // No user is signed in.
-            window.location.href = "../../index.html";
+                // No user is signed in.
+                ShowLogin();
+            }
+        });
+
+    <!--Responsible for showing the login feature to the user if they are not logged in-->
+    function ShowLogin(){
+        document.getElementById("pop_up_login").style.display = "block";
+    }
+
+    function isNotNull(email,pass){
+
+        let validEmail = true;
+        let validPass = true;
+        if(email === " "){
+            validEmail = false;
         }
-    });
+        if(pass === " "){
+            validPass = false;
+        }
+        else{
+            return true
+        }
+        return validEmail && validPass;
+    }
+
+    function login(){
+
+        let Email = document.getElementById("email").value; // get email
+        let Password = document.getElementById("password").value; // get password
+
+        if(isNotNull(Email,Password)){
+            firebase.auth().signInWithEmailAndPassword(Email, Password)
+                .then((userCredential) => { <!--Refreshes the page-->
+                    // Signed in
+                    let user = userCredential.user;
+                    LoginUserAs(user.uid);
+                })
+                .catch((error) => {
+                    var errorCode = error.code;
+                    var errorMessage = error.message;
+                    window.alert("Unable to login"); <!--Little popup at the top of your browser -->
+                });
+        }
+        else{
+            window.alert("Incorrect Login Details");
+        }
+    }
+
+    const LoginUserAs = (uid) => {
+        let database = firebase.database();
+        let ref = database.ref().child('Patients');
+
+        ref.orderByKey().equalTo(uid).once("value", snapshot => {
+            if (snapshot.exists()) {
+                window.location.reload();
+            } else {
+                window.location.reload(); //location.href = '../home.html';
+            }
+        });
+    }
 
     const getAppointmentDetails = (uid) => {
         let appList = document.getElementById("appList");
