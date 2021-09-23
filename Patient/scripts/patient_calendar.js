@@ -292,7 +292,7 @@ function getDatesBetween(startDate, endDate) {
                 } else if (j > lastDate.getDate()) {
                     content += "<td></td>";
                 } else {
-                    content += "<td id='" + dayID + "' onclick='openDayPopup(this.id)'>" + displayNum + "</td>";
+                    content += "<td id='" + dayID + "' onclick='openDayPopup(this.id)' style='background-color: " + colour + "'>" + displayNum + "</td>";
                     j++;
                 }
 

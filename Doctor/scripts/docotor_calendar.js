@@ -134,7 +134,7 @@ function getDatesBetween(startDate, endDate) {
                     content += "<td style='background:#668ab8;'></td>";
                 } else {
                     //Dylan : content += "<td class='t' id='" + dayID + "' onclick='openDayPopup(this.id)' style='background-color: " + colour + "'>" + displayNum + "</td>";
-                    content += "<td id='" + dayID + "' onclick='openDayPopup(this.id)'>" + displayNum + "</td>";
+                    content += "<td id='" + dayID + "' onclick='openDayPopup(this.id)' style='background-color: " + colour + "'>" + displayNum + "</td>";
                     j++;
                 }
 
