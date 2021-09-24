@@ -15,9 +15,10 @@
     <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-database.js"></script>
     <link rel="stylesheet" href="styles/Nav_bar.css">
     <link rel="stylesheet" href="styles/calendar.css">
+    <link rel="stylesheet" href="styles/login.css">
 
     <style>
-        body {font-family: Arial, Helvetica, sans-serif;}
+        body {font-family: Arial, Helvetica, sans-serif;background: whitesmoke}
 
         /* The Modal (background) */
         .modal {
@@ -101,7 +102,7 @@
     </style>
 
 </head>
-<body>
+<body onload="Spinner()">
 
 
 <div class="wrapper">
@@ -136,7 +137,7 @@
                 <li><a onclick="function SignOut() {
                     firebase.auth().signOut()
                     .then(() => {
-                        console.log('Signed Out');
+                        window.location.href = '../index.html';
                     })
                     .catch(e=>{
                         console.error('Sign Out Error', e);
@@ -148,17 +149,37 @@
     </nav>
 </div>
 
-<script src="scripts/docotor_calendar.js" async=""></script>
-<div id="calendar"></div>
 
 <!--Nthabi added the login from any page functionality here| style="display: none"-->
 <!--to do: insert CSS-->
-<div id="pop_up_login">
-    <h2> Login </h2>
-    <input placeholder = "Email" type = "email" required id = "email">
-    <input placeholder = "Password" type = "password" required id = "password">
-    <button id="login" onclick="login()">Login</button>
+<div style="padding-bottom: 500px"></div>
+<div id="log" style="display: none;padding-top: 100px;margin-left:40%">
+    <center>
+        <div id="pop_up_login" class="login">
+            <h1 style="color: #0d3579"> Login </h1>
+            <p style="color:black"> Please login to continue </p>
+            <div style="padding-bottom: 30px"></div>
+            <input placeholder="Email" type="email" required id="email">
+            <input placeholder="Password" type="password" required id="password">
+            <button id="login" onclick="login()">Login</button>
+        </div>
+
+    </center>
+    <div style="padding-bottom: 400px"></div>
 </div>
+<center>
+    <div class="sk-chase" style="display: none" id="loader">
+        <div class="sk-chase-dot"></div>
+        <div class="sk-chase-dot"></div>
+        <div class="sk-chase-dot"></div>
+        <div class="sk-chase-dot"></div>
+        <div class="sk-chase-dot"></div>
+        <div class="sk-chase-dot"></div>
+    </div>
+</center>
+
+<script src="scripts/docotor_calendar.js" async=""></script>
+<div id="calendar"></div>
 
 <script>
 

@@ -5,6 +5,7 @@
     <title> MobiDoc | Profile </title>
     <link rel="stylesheet" href="styles/Nav_bar.css">
     <link rel="stylesheet" href="styles/profile,.css">
+    <link rel="stylesheet" href="styles/login.css">
 
     <link rel="apple-touch-icon" sizes="180x180" href="../favicon/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="../favicon/favicon-32x32.png">
@@ -67,11 +68,20 @@
 <div style="padding-bottom: 200px"></div>
 
 <!--[Nthabi] Login from any page style="display: none"-->
-<div id="pop_up_login">
-    <h1> Login </h1>
-    <input placeholder="Email" type="email" required id="email2">
-    <input placeholder="Password" type="password" required id="password">
-    <button id="login" onclick="login()">Login</button>
+
+<div id="log" style="display: none;padding-top: 100px;margin-left:40%">
+    <center>
+        <div id="pop_up_login" class="login">
+            <h1 style="color: #0d3579"> Login </h1>
+            <p style="color:black"> Please login to continue </p>
+            <div style="padding-bottom: 30px"></div>
+            <input placeholder="Email" type="email" required id="email2">
+            <input placeholder="Password" type="password" required id="password">
+            <button id="login" onclick="login()">Login</button>
+        </div>
+
+    </center>
+    <div style="padding-bottom: 400px"></div>
 </div>
 
 <!--Profile Stuff-->
@@ -181,6 +191,7 @@
     function Test() {
         firebase.auth().onAuthStateChanged(function (user) {
             if (user) {
+                console.log(user);
                 UpdateDetails(user.uid);
                 User_uid = user.uid;
             } else {
@@ -192,7 +203,7 @@
 
     <!--Responsible for showing the login feature to the user if they are not logged in-->
     function ShowLogin(){
-        document.getElementById("pop_up_login").style.display = "block";
+        document.getElementById("log").style.display = "block";
     }
 
     function isNotNull(email,pass){

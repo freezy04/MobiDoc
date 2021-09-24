@@ -53,6 +53,9 @@ const getDoctorList = (docID) => {
         let curYear = curDate.getFullYear();
         let nextYear = curYear + 1;
         document.getElementById("calendar").innerHTML = getDatesBetween(curMonth + "/01/" + curYear, curMonth + "/01/" + nextYear);
+
+        // Dylan Added this
+        document.getElementById("loader").style.display = "none";
     });
 
 }
@@ -390,13 +393,17 @@ firebase.auth().onAuthStateChanged(function (user) {
         getDoctorList(user.uid);
     } else {
        ShowLogin(); //Nthabi changed it from redirect to index.html to a popup that will help us log in the user from that page
+    document.getElementById("loader").style.display = "none";
     }
 });
 
 //for the login at any page down below
 
 function ShowLogin(){
-    document.getElementById("pop_up_login").style.display="block";
+    document.getElementById("log").style.display="block";
+}
+function Spinner(){
+    document.getElementById("loader").style.display = "block";
 }
 
 function isNotNull(email,pass){
@@ -425,7 +432,7 @@ function login(){
             .then((userCredential) => {
                 // Signed in
                 let user = userCredential.user;
-                window.location.reload(); //user stays on same page after logging in
+                LoginUserAs(user.uid);
             })
             .catch((error) => {
                 var errorCode = error.code;
@@ -440,7 +447,7 @@ function login(){
 
 const LoginUserAs = (uid) => {
     let database = firebase.database();
-    let ref = database.ref().child('Doctor');
+    let ref = database.ref().child('Doctors');
 
     ref.orderByKey().equalTo(uid).once("value", snapshot => {
         if (snapshot.exists()) {

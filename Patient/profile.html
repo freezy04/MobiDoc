@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="styles/Nav_bar.css">
 
     <link rel="stylesheet" href="styles/profile,.css">
+    <link rel="stylesheet" href="styles/login.css">
 
     <!-- The core Firebase JS SDK is always required and must be listed first -->
     <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
@@ -60,15 +61,30 @@
     </nav>
 </div>
 <div style="padding-bottom: 100px"></div>
+<div id="log" style="display: none;padding-top: 100px;margin-left:40%">
+    <center>
+        <div id="pop_up_login" class="login">
+            <h1 style="color: #0d3579"> Login </h1>
+            <p style="color:black"> Please login to continue </p>
+            <div style="padding-bottom: 30px"></div>
+            <input placeholder="Email" type="email" required id="lemail">
+            <input placeholder="Password" type="password" required id="password">
+            <button id="login" onclick="login()">Login</button>
+        </div>
 
-<!--[Nthabi] Login from any page style="display: none"-->
-<div id="pop_up_login">
-    <h1> Login </h1>
-    <input placeholder="Email" type="email" required id="email2">
-    <input placeholder="Password" type="password" required id="password">
-    <button id="login" onclick="login()">Login</button>
+    </center>
+    <div style="padding-bottom: 400px"></div>
 </div>
-
+<center>
+    <div class="sk-chase" style="display: none" id="loader">
+        <div class="sk-chase-dot"></div>
+        <div class="sk-chase-dot"></div>
+        <div class="sk-chase-dot"></div>
+        <div class="sk-chase-dot"></div>
+        <div class="sk-chase-dot"></div>
+        <div class="sk-chase-dot"></div>
+    </div>
+</center>
 
 <script>
 
@@ -260,7 +276,7 @@ let p_age = document.getElementById("age")
             if (snapshot.exists()) {
                 window.location.reload();
             } else {
-                window.location.reload(); //location.href = '../Patient/home.html'; It kept taking me to homepage all the time
+                window.location.href = "../index.html";
             }
         });
     }

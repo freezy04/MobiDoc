@@ -20,7 +20,7 @@
     <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-analytics.js"></script>
     <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.8.0/firebase-ui-auth.css" />
     <link rel="stylesheet" href="./styles/appointments.css">
-
+    <link rel="stylesheet" href="./styles/login.css">
 </head>
 <body>
 
@@ -73,6 +73,20 @@
 <!-- end of the nav bar -->
 <div style="padding-bottom: 200px"></div>
 <!--<button onclick="testing1()">Add</button>-->
+<div id="log" style="display: none;padding-top: 500px;margin-left:40%">
+    <center>
+        <div id="pop_up_login" class="login">
+            <h1 style="color: #0d3579"> Login </h1>
+            <p style="color:black"> Please login to continue </p>
+            <div style="padding-bottom: 30px"></div>
+            <input placeholder="Email" type="email" required id="email2">
+            <input placeholder="Password" type="password" required id="password">
+            <button id="login" onclick="login()">Login</button>
+        </div>
+
+    </center>
+    <div style="padding-bottom: 400px"></div>
+</div>
 
 <dl id="appList" style="position: relative"></dl> <!-- refers to the space underneath the nav bar that contains all the appointments -->
 <!-- links this project to firebase -->
@@ -143,9 +157,12 @@
             user_id = user.uid;
             getAppointmentDetails(user.uid);
         } else {
-            window.location.href = "../index.html"; // redirects the user to the log in page
+            ShowLogin(); // redirects the user to the log in page
         }
     });
+    function ShowLogin(){
+        document.getElementById("log").style.display = "block";
+    }
 
     const getAppointmentDetails = (uid) => {
         let database = firebase.database();
@@ -230,6 +247,60 @@
             document.getElementById('menu').style.borderRadius = '0px';
         }
     }
+    <!--Responsible for showing the login feature to the user if they are not logged in-->
+
+    function isNotNull(email,pass){
+
+        let validEmail = true;
+        let validPass = true;
+        if(email === " "){
+            validEmail = false;
+        }
+        if(pass === " "){
+            validPass = false;
+        }
+        else{
+            return true
+        }
+        return validEmail && validPass;
+    }
+
+    function login(){
+
+        let Email = document.getElementById("email2").value; // get email
+        let Password = document.getElementById("password").value; // get password
+
+        if(isNotNull(Email,Password)){
+            firebase.auth().signInWithEmailAndPassword(Email, Password)
+                .then((userCredential) => { <!--Refreshes the page-->
+                    // Signed in
+                    let user = userCredential.user;
+                    LoginUserAs(user.uid);
+                })
+                .catch((error) => {
+                    var errorCode = error.code;
+                    var errorMessage = error.message;
+                    window.alert("Unable to login"); <!--Little popup at the top of your browser -->
+                });
+        }
+        else{
+            window.alert("Incorrect Login Details");
+        }
+    }
+
+    const LoginUserAs = (uid) => {
+        let database = firebase.database();
+        let ref = database.ref().child('Doctor');
+
+        ref.orderByKey().equalTo(uid).once("value", snapshot => {
+            if (snapshot.exists()) {
+                window.location.reload();
+            } else {
+                window.location.href = "../index.html";
+            }
+        });
+    }
+    //end of login from any page
 </script>
 
 <!-- links the js file to the html file under Appointments-->
