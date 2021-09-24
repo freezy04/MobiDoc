@@ -644,6 +644,7 @@ firebase.auth().onAuthStateChanged(function (user) {
         getDoctorList(new URL(window.location.href).searchParams.get("doc"));
     }
     else {
+
             ShowLogin(); //Nthabi changed it from redirect to index.html to a popup that will help us log in the user from that page
         }
     });
@@ -651,7 +652,7 @@ firebase.auth().onAuthStateChanged(function (user) {
 //for the login at any page down below
 
 function ShowLogin(){
-    document.getElementById("pop_up_login").style.display="block";
+    document.getElementById("log").style.display="block";
 }
 
 function isNotNull(email,pass){

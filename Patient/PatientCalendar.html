@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title> MobiDoc | Booking </title>
+  <title> MobiDoc | Calendar Booking </title>
 
   <link rel="apple-touch-icon" sizes="180x180" href="../favicon/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="../favicon/favicon-32x32.png">
@@ -15,6 +15,7 @@
   <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-database.js"></script>
   <link rel="stylesheet" href="styles/Nav_bar.css">
   <link rel="stylesheet" href="styles/calendar.css">
+  <link rel="stylesheet" href="styles/login.css">
 
   <style>
     body {font-family: Arial, Helvetica, sans-serif;}
@@ -133,7 +134,7 @@
         <li><a onclick="function SignOut() {
                     firebase.auth().signOut()
                     .then(() => {
-                        console.log('Signed Out');
+                        window.location.href = '../index.html';
                     })
                     .catch(e=>{
                         console.error('Sign Out Error', e);
@@ -145,18 +146,6 @@
   </nav>
 </div>
 
-<script src="scripts/patient_calendar.js" async=""></script>
-<div id="calendar"></div>
-
-<!--Nthabi added the login from any page functionality here| style="display: none"-->
-<!--to do: insert CSS-->
-<div id="pop_up_login">
-  <h2> Login </h2>
-  <input placeholder = "Email" type = "email" required id = "email">
-  <input placeholder = "Password" type = "password" required id = "password">
-  <button id="login" onclick="login()">Login</button>
-</div>
-<!--end-->
 <script>
 
   let firebaseConfig = {
@@ -173,6 +162,28 @@
   firebase.initializeApp(firebaseConfig);
 
 </script>
+
+<script src="scripts/patient_calendar.js" async=""></script>
+<div id="calendar"></div>
+
+<!--Nthabi added the login from any page functionality here| style="display: none"-->
+<!--to do: insert CSS-->
+<div id="log" style="display: none;padding-top: 500px;margin-left:40%">
+  <center>
+    <div id="pop_up_login" class="login">
+      <h1 style="color: #0d3579"> Login </h1>
+      <p style="color:black"> Please login to continue </p>
+      <div style="padding-bottom: 30px"></div>
+      <input placeholder="Email" type="email" required id="email2">
+      <input placeholder="Password" type="password" required id="password">
+      <button id="login" onclick="login()">Login</button>
+    </div>
+
+  </center>
+  <div style="padding-bottom: 400px"></div>
+</div>
+<!--end-->
+
 
 <div id="dayPopup" class="modal">
   <div class="modal-content">

@@ -61,13 +61,13 @@
     </nav>
 </div>
 <div style="padding-bottom: 100px"></div>
-<div id="log" style="display: none;padding-top: 100px;margin-left:40%">
+<div id="log" style="display: none;padding-top: 100px;margin-left:40%;margin-top: 200px">
     <center>
         <div id="pop_up_login" class="login">
             <h1 style="color: #0d3579"> Login </h1>
             <p style="color:black"> Please login to continue </p>
             <div style="padding-bottom: 30px"></div>
-            <input placeholder="Email" type="email" required id="lemail">
+            <input placeholder="Email" type="email" required id="email2">
             <input placeholder="Password" type="password" required id="password">
             <button id="login" onclick="login()">Login</button>
         </div>
@@ -218,15 +218,18 @@ let p_age = document.getElementById("age")
             if (user) {
                 UpdatePatientDetails(user.uid);
                 User_uid = user.uid;
-            }  else {
-        // No user is signed in.
-        ShowLogin();
+            }
+            else {
+                // No user is signed in.
+                document.getElementById("profile").style.display = "none";
+                document.getElementById("edit_profile").style.display = "none";
+                ShowLogin();
             }
     });
 
     <!--Responsible for showing the login feature to the user if they are not logged in-->
     function ShowLogin(){
-        document.getElementById("pop_up_login").style.display = "block";
+        document.getElementById("log").style.display = "block";
     }
 
     function isNotNull(email,pass){
@@ -270,13 +273,13 @@ let p_age = document.getElementById("age")
 
     const LoginUserAs = (uid) => {
         let database = firebase.database();
-        let ref = database.ref().child('Doctor');
+        let ref = database.ref().child('Patients');
 
         ref.orderByKey().equalTo(uid).once("value", snapshot => {
             if (snapshot.exists()) {
                 window.location.reload();
             } else {
-                window.location.href = "../index.html";
+                window.location.href = "../Doctor/home.html";
             }
         });
     }

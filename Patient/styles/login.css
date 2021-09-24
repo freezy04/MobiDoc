@@ -1,13 +1,13 @@
 .login {
     overflow: hidden;
     background-color: white;
-    /*padding: 40px 30px 30px 30px;*/
+    margin-top: 100px;
+    padding: 40px 30px 30px 30px;
     border-radius: 10px;
     position: absolute;
     top: 20%;
     left: 50%;
-    width: 400px;
-
+    width: 600px;
     -webkit-transform: translate(-50%, -50%);
     -moz-transform: translate(-50%, -50%);
     -ms-transform: translate(-50%, -50%);
@@ -32,7 +32,7 @@
 .login::before {
     left: 40%;
     bottom: -130%;
-    background-color: rgba(69, 105, 144, 0.15);
+    background-color: rgba(8, 73, 139, 0.15);
     -webkit-animation: wawes 6s infinite linear;
     -moz-animation: wawes 6s infinite linear;
     animation: wawes 6s infinite linear;
@@ -62,7 +62,7 @@
     color: #fff;
     font-size: 16px;
     text-transform: uppercase;
-    width: 80px;
+    width: 120px;
     border: 0;
     padding: 10px 0;
     margin-top: 10px;
@@ -74,7 +74,9 @@
     transition: background-color 300ms;
 }
 .login > button:hover {
-    background-color: #f24353;
+    background-color: #ffffff;
+    color: black;
+    border: 1px solid black;
 }
 
 @-webkit-keyframes wawes {
@@ -109,11 +111,68 @@
         transform: rotate(360deg);
     }
 }
-a {
-    text-decoration: none;
-    color: rgba(255, 255, 255, 0.6);
+
+/** Spinner stuff **/
+
+.loader {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    perspective: 800px;
+}
+
+.inner {
     position: absolute;
-    right: 10px;
-    bottom: 10px;
-    font-size: 12px;
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}
+
+.inner.one {
+    left: 0%;
+    top: 0%;
+    animation: rotate-one 1s linear infinite;
+    border-bottom: 6px solid #0d3579;
+}
+
+.inner.two {
+    right: 0%;
+    top: 0%;
+    animation: rotate-two 1s linear infinite;
+    border-right: 6px solid #2e48cc;
+}
+
+.inner.three {
+    right: 0%;
+    bottom: 0%;
+    animation: rotate-three 1s linear infinite;
+    border-top: 6px solid #000000;
+}
+
+@keyframes rotate-one {
+    0% {
+        transform: rotateX(35deg) rotateY(-45deg) rotateZ(0deg);
+    }
+    100% {
+        transform: rotateX(35deg) rotateY(-45deg) rotateZ(360deg);
+    }
+}
+
+@keyframes rotate-two {
+    0% {
+        transform: rotateX(50deg) rotateY(10deg) rotateZ(0deg);
+    }
+    100% {
+        transform: rotateX(50deg) rotateY(10deg) rotateZ(360deg);
+    }
+}
+
+@keyframes rotate-three {
+    0% {
+        transform: rotateX(35deg) rotateY(55deg) rotateZ(0deg);
+    }
+    100% {
+        transform: rotateX(35deg) rotateY(55deg) rotateZ(360deg);
+    }
 }
