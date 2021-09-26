@@ -237,10 +237,10 @@
                     //console.log(JSON.stringify(childSnapshot.val()));
                     let app = childSnapshot.val();
                     //Gabe Tidy removed pending appointments on home screen
-                    if (uid === app.doctorUid && ( app.status === "accepted" || app.status === "pending" )) {
+                    if (uid === app.doctorUid && ( app.status === "upcoming" || app.status === "pending" )) {
                         let label;
                         switch (app.status){
-                            case "accepted":
+                            case "upcoming":
                                 label = "<span class='accept'>" + app.status + "</span>";
                                 break;
                             case "pending":
@@ -296,16 +296,16 @@
         popup.style.display = "none";
     }
 
-    function confirmAppointment(appID) {
-        let notes = document.getElementById("app_notes").value;
-        let cost = document.getElementById("app_cost").value;
-        console.log(appID);
-
-        if (validateDetails(notes, cost)) {
-            updateAppointment(appID, notes, cost);
-        }
-
-    }
+    // function confirmAppointment(appID) {
+    //     let notes = document.getElementById("app_notes").value;
+    //     let cost = document.getElementById("app_cost").value;
+    //     console.log(appID);
+    //
+    //     if (validateDetails(notes, cost)) {
+    //         updateAppointment(appID, notes, cost);
+    //     }
+    //
+    // }
 
 
     function openCompleteAppPopup(appID) {

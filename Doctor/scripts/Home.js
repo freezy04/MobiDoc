@@ -15,7 +15,7 @@ function AddtoHtml(app,appList){
 
     let label;
     switch (app.status){
-        case "accepted":
+        case "upcoming":
             label = "<span class='accept'>" + app.status + "</span>";
             break;
 

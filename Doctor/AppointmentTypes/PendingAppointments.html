@@ -203,10 +203,10 @@
                     let id_app = childSnapshot.key;
                     let app = childSnapshot.val();
 
-                    if (uid === app.doctorUid && app.status === "pending") {
+                    if (uid === app.doctorUid && app.status === "upcoming") {
                         //console.log(id_app);
 
-                        let label = "<span class='pending'>" + app.status + "</span>"; // only displays the pending appointments
+                        let label = "<span class='upcoming'>" + app.status + "</span>"; // only displays the pending appointments
 
                         appList.innerHTML +=
                             "<div class = 'card'>" +
@@ -265,38 +265,38 @@
 
     }
 
-    function rejectAppointment(appID) {
-        let rejection_reason = document.getElementById("app_rejection_reason").value;
-        console.log(appID);
+    // function rejectAppointment(appID) {
+    //     let rejection_reason = document.getElementById("app_rejection_reason").value;
+    //     console.log(appID);
+    //
+    //     if (validateDetails(rejection_reason)) {
+    //         updateAppointment(appID, rejection_reason);
+    //     }
+    //
+    // }
 
-        if (validateDetails(rejection_reason)) {
-            updateAppointment(appID, rejection_reason);
-        }
-
-    }
-
-    function openRejectAppPopup(appID) {
-        let popup = document.getElementById("reject_app_popup");
-        let close = document.getElementsByClassName("popup-close")[0];
-
-        let button = document.getElementById("confirm_app_btn");
-        button.addEventListener('click', function() {
-            rejectAppointment(appID);
-
-        })
-
-        popup.style.display = "block";//opens popup
-
-        //closes popup if user clicks close or outside popup
-        close.onclick = function() {
-            popup.style.display = "none";
-        }
-        window.onclick = function(event) {
-            if (event.target === popup) {
-                popup.style.display = "none";
-            }
-        }
-    }
+    // function openRejectAppPopup(appID) {
+    //     let popup = document.getElementById("reject_app_popup");
+    //     let close = document.getElementsByClassName("popup-close")[0];
+    //
+    //     let button = document.getElementById("confirm_app_btn");
+    //     button.addEventListener('click', function() {
+    //         rejectAppointment(appID);
+    //
+    //     })
+    //
+    //     popup.style.display = "block";//opens popup
+    //
+    //     //closes popup if user clicks close or outside popup
+    //     close.onclick = function() {
+    //         popup.style.display = "none";
+    //     }
+    //     window.onclick = function(event) {
+    //         if (event.target === popup) {
+    //             popup.style.display = "none";
+    //         }
+    //     }
+    // }
 
     // nav bar
     function updatemenu() {
