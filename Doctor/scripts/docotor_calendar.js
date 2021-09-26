@@ -287,7 +287,7 @@ function setADT(slotNum,date) {
 
                                 // let popup = document.getElementById("accept_app_popup");
                                 // popup.style.display = "none";
-                                //window.location.href = "./AppointmentTypes/PendingAppointments.html";
+                                window.location.href = "home.html";
 
                                 // edited this to none then the popup disappears off screen after clicking accept button
 
