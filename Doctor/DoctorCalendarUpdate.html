@@ -28,7 +28,6 @@
             top: 0;
             width: 100%; /* Full width */
             height: 100%; /* Full height */
-            overflow: auto; /* Enable scroll if needed */
             background-color: rgb(0,0,0); /* Fallback color */
             background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
             -webkit-animation-name: fadeIn; /* Fade in the background */
@@ -39,10 +38,14 @@
 
         /* Modal Content */
         .modal-content {
-            position: fixed;
+            position:fixed;
             bottom: 0;
-            background-color: #fefefe;
-            width: 100%;
+            background-color: whitesmoke;
+            width: 90%;
+            height: 100%;
+            margin-left: 5%;
+            margin-right: 5%;
+            overflow: auto;
             -webkit-animation-name: slideIn;
             -webkit-animation-duration: 0.4s;
             animation-name: slideIn;
@@ -66,15 +69,15 @@
 
         .modal-header {
             padding: 2px 16px;
-            background-color: #5cb85c;
-            color: white;
+            background-color: whitesmoke;
+            color: black;
         }
 
         .modal-body {padding: 2px 16px;}
 
         .modal-footer {
             padding: 2px 16px;
-            background-color: #5cb85c;
+            background-color: #1d571d;
             color: white;
         }
 
@@ -154,11 +157,19 @@
 
 <!--Nthabi added the login from any page functionality here| style="display: none"-->
 <!--to do: insert CSS-->
-<div id="pop_up_login">
-    <h2> Login </h2>
-    <input placeholder = "Email" type = "email" required id = "email">
-    <input placeholder = "Password" type = "password" required id = "password">
-    <button id="login" onclick="login()">Login</button>
+<div id="log" style="display: none;padding-top: 100px;margin-left:40%">
+    <center>
+        <div id="pop_up_login" class="login">
+            <h1 style="color: #0d3579"> Login </h1>
+            <p style="color:black"> Please login to continue </p>
+            <div style="padding-bottom: 30px"></div>
+            <input placeholder="Email" type="email" required id="email">
+            <input placeholder="Password" type="password" required id="password">
+            <button id="login" onclick="login()">Login</button>
+        </div>
+
+    </center>
+    <div style="padding-bottom: 400px"></div>
 </div>
 
 <script>
