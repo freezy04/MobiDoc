@@ -15,7 +15,7 @@
   <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-database.js"></script>
   <link rel="stylesheet" href="styles/Nav_bar.css">
   <link rel="stylesheet" href="styles/calendar.css">
-  <link rel="stylesheet" href="styles/login.css">
+<!--  <link rel="stylesheet" href="styles/login.css">-->
 
   <style>
     body {font-family: Arial, Helvetica, sans-serif;}
@@ -198,6 +198,7 @@
     <div class="modal-body">
       <center>
       <h2>Please select a slot to book the appointment</h2>
+        <h2><font color="#8b0000">Select 1 slot and close calender</font></h2>
       </center>
       <table id='dayTable' class="dayTable"></table>
     </div>
@@ -211,25 +212,26 @@
 <div class="form-popup" id="bookingPopup">
   <form class="form-container">
     <h1>Book</h1>
+    <h2>Enter notes and press book</h2>
 
     <label for="text"><b>Notes</b></label>
     <input id="notesField" type="text" placeholder="Enter notes" name="notes" required>
 
-    <p>Duration:</p>
-    <form>
-      <label class="radio-inline">
-        <input id="radio1" type="radio" name="optradio" checked>30M
-      </label>
-      <label class="radio-inline">
-        <input id="radio2" type="radio" name="optradio" disabled>1H
-      </label>
-      <label class="radio-inline">
-        <input id="radio3" type="radio" name="optradio" disabled>1H:30M
-      </label>
-      <label class="radio-inline">
-        <input id="radio4" type="radio" name="optradio" disabled>2H
-      </label>
-    </form>
+<!--    <p>Duration:</p>-->
+<!--    <form>-->
+<!--      <label class="radio-inline">-->
+<!--        <input id="radio1" type="radio" name="optradio" checked>30M-->
+<!--      </label>-->
+<!--      <label class="radio-inline">-->
+<!--        <input id="radio2" type="radio" name="optradio" disabled>1H-->
+<!--      </label>-->
+<!--      <label class="radio-inline">-->
+<!--        <input id="radio3" type="radio" name="optradio" disabled>1H:30M-->
+<!--      </label>-->
+<!--      <label class="radio-inline">-->
+<!--        <input id="radio4" type="radio" name="optradio" disabled>2H-->
+<!--      </label>-->
+<!--    </form>-->
 
     <button type="button" id="book-btn" class="btn">Book</button>
     <button type="button" id="cancel-btn" class="cancel">Close</button>

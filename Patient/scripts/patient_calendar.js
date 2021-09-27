@@ -28,28 +28,36 @@ function patientBookApp(slotNum, date) {
                                 let time_app;
                                 if(parseInt(slotNum)=== 1 ){
                                     time_app = "06:00"
+                                    //alert("You just selected 06:00")
 
                                 }
                                 else if(parseInt(slotNum)=== 2){
                                     time_app = "06:30"
+                                    //alert("You just selected 06:30")
                                 }
                                 else if(parseInt(slotNum)=== 3){
                                     time_app = "07:00"
+                                    //alert("You just selected 07:00")
                                 }
                                 else if(parseInt(slotNum)=== 4){
                                     time_app = "07:30"
+                                   // alert("You just selected 07:30")
                                 }
                                 else if(parseInt(slotNum)=== 5){
                                     time_app = "08:00"
+                                    //alert("You just selected 08:00")
                                 }
                                 else if(parseInt(slotNum)=== 6){
                                     time_app = "08:30"
+                                    //alert("You just selected 08:30")
                                 }
                                 else if(parseInt(slotNum)=== 7){
                                     time_app = "09:00"
+                                    //alert("You just selected 09:00")
                                 }
                                 else if(parseInt(slotNum)=== 8){
                                     time_app = "09:30"
+                                    //alert("You just selected 09:30")
                                 }
                                 else if(parseInt(slotNum)=== 9){
                                     time_app = "10:00"
@@ -149,8 +157,8 @@ function patientBookApp(slotNum, date) {
                                 // let popup = document.getElementById("accept_app_popup");
                                 // popup.style.display = "none";
                                 getDoctorList1(localStorage.getItem("docUID"))
-                                localStorage.removeItem("docUID");
-                                localStorage.removeItem("docName");
+                                //localStorage.removeItem("docUID");
+                                //localStorage.removeItem("docName");
 
 
 
@@ -319,32 +327,32 @@ function bookAppointmentPopup(slotID) {//patient func
     }
 
 
-    document.getElementById("radio1").checked = true;
-    let r2 = document.getElementById("radio2");
-    let r3 = document.getElementById("radio3");
-    let r4 = document.getElementById("radio3");
-    r2.disabled = true;
-    r3.disabled = true;
-    r4.disabled = true;
+    // document.getElementById("radio1").checked = true;
+    // let r2 = document.getElementById("radio2");
+    // let r3 = document.getElementById("radio3");
+    // let r4 = document.getElementById("radio3");
+    // r2.disabled = true;
+    // r3.disabled = true;
+    // r4.disabled = true;
 
     let ids = slotID.split("#");
 
     let slots = eventsDict[ids[1]];
     let slotNum = parseInt(ids[0]);
     //console.log(slots);
-    if (slots[slotNum] === "1") {
-        r2.disabled = false;
-       // console.log(slots[slotNum]);
-        if (slots[slotNum + 1] === "1") {
-            //console.log(slots[slotNum + 1]);
-            r3.disabled = false;
-            if (slots[slotNum + 2] === "1") {
-                //console.log(r4.disabled);
-                r4.disabled = false;
-                //todo: Gabe - fix 2 hour radio button
-            }
-        }
-    }
+    // if (slots[slotNum] === "1") {
+    //     r2.disabled = false;
+    //    // console.log(slots[slotNum]);
+    //     if (slots[slotNum + 1] === "1") {
+    //         //console.log(slots[slotNum + 1]);
+    //         r3.disabled = false;
+    //         if (slots[slotNum + 2] === "1") {
+    //             //console.log(r4.disabled);
+    //             r4.disabled = false;
+    //             //todo: Gabe - fix 2 hour radio button
+    //         }
+    //     }
+    // }
 
     popup.style.display = "block";
 
@@ -560,12 +568,103 @@ function updateDocInfo() {
     popup.style.display = "none"; // edited this then the popup disappears off screen after clicking accept button
 }
 function bookApp(slotNum, date) {
-    let notes = document.getElementById("notesField").value;
-    let halfHour = document.getElementById("radio1").checked;
-    let hour = document.getElementById("radio2").checked;
-    let hourAndHalf = document.getElementById("radio3").checked;
-    let twoHours = document.getElementById("radio3").checked;
+    // let notes = document.getElementById("notesField").value;
+    // let halfHour = document.getElementById("radio1").checked;
+    // let hour = document.getElementById("radio2").checked;
+    // let hourAndHalf = document.getElementById("radio3").checked;
+    // let twoHours = document.getElementById("radio3").checked;
     //console.log(slotNum + ", " + date + ", " + notes + ", " + halfHour);
+
+    // if(parseInt(slotNum)=== 1 ){
+    //     //time_app = "06:00"
+    //     alert("You just selected 06:00")
+    //
+    // }
+    // else if(parseInt(slotNum)=== 2){
+    //     //time_app = "06:30"
+    //     alert("You just selected 06:30")
+    // }
+    // else if(parseInt(slotNum)=== 3){
+    //     //time_app = "07:00"
+    //     alert("You just selected 07:00")
+    // }
+    // else if(parseInt(slotNum)=== 4){
+    //     //time_app = "07:30"
+    // }
+    // else if(parseInt(slotNum)=== 5){
+    //     //time_app = "08:00"
+    // }
+    // else if(parseInt(slotNum)=== 6){
+    //     //time_app = "08:30"
+    // }
+    // else if(parseInt(slotNum)=== 7){
+    //    // time_app = "09:00"
+    // }
+    // else if(parseInt(slotNum)=== 8){
+    //     //time_app = "09:30"
+    // }
+    // else if(parseInt(slotNum)=== 9){
+    //     //time_app = "10:00"
+    // }
+    // else if(parseInt(slotNum)=== 10){
+    //     //time_app = "10:30"
+    // }
+    // else if(parseInt(slotNum)=== 11 ){
+    //     //time_app = "11:00"
+    // }
+    // else if(parseInt(slotNum)=== 12){
+    //     //time_app = "11:30"
+    // }
+    // else if(parseInt(slotNum)=== 13){
+    //     //time_app = "12:00"
+    // }
+    // else if(parseInt(slotNum)=== 14){
+    //     //time_app = "12:30"
+    // }
+    // else if(parseInt(slotNum)=== 15){
+    //     //time_app = "13:00"
+    // }
+    // else if(parseInt(slotNum)=== 16){
+    //     //time_app = "13:30"
+    // }
+    // else if(parseInt(slotNum)=== 17){
+    //     //time_app = "14:30"
+    // }
+    // else if(parseInt(slotNum)=== 18){
+    //     //time_app = "15:00"
+    // }
+    // else if(parseInt(slotNum)=== 19){
+    //     //time_app = "15:30"
+    // }
+    // else if(parseInt(slotNum)=== 20){
+    //     //time_app = "16:00"
+    // }
+    // else if(parseInt(slotNum)=== 21 ){
+    //     //time_app = "16:30"
+    // }
+    //
+    // else if(parseInt(slotNum)=== 22){
+    //     //time_app = "17:00"
+    // }
+    // else if(parseInt(slotNum)=== 23){
+    //     //time_app = "17:30"
+    // }
+    // else if(parseInt(slotNum)=== 24){
+    //     //time_app = "18:00"
+    // }
+    // else if(parseInt(slotNum)=== 25){
+    //    // time_app = "18:30"
+    // }
+    // else if(parseInt(slotNum)=== 26){
+    //     //time_app = "19:00"
+    // }
+    // else if(parseInt(slotNum)=== 27){
+    //     //time_app = "19:30"
+    // }
+    // else if(parseInt(slotNum)=== 28)
+    // {
+    //     //time_app = "20:00"
+    // }
 
 
     localStorage.setItem("OUR_DATE",date)
