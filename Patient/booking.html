@@ -63,11 +63,19 @@
 <div style="padding-bottom: 200px"></div>
 
 <!--Step 1 | style="display: none"-->
-<div id="pop_up_login">
-    <h1> Login </h1>
-    <input placeholder="Email" type="email" required id="email">
-    <input placeholder="Password" type="password" required id="password">
-    <button id="login" onclick="login()">Login</button>
+<div id="log" style="display: none;padding-top: 100px;margin-left:40%">
+    <center>
+        <div id="pop_up_login" class="login">
+            <h1 style="color: #0d3579"> Login </h1>
+            <p style="color:black"> Please login to continue </p>
+            <div style="padding-bottom: 30px"></div>
+            <input placeholder="Email" type="email" required id="email2">
+            <input placeholder="Password" type="password" required id="password">
+            <button id="login" onclick="login()">Login</button>
+        </div>
+
+    </center>
+    <div style="padding-bottom: 400px"></div>
 </div>
 
 <!-- links this project to firebase -->
@@ -132,7 +140,7 @@
 
     <!--Responsible for showing the login feature to the user if they are not logged in-->
     function ShowLogin(){
-        document.getElementById("pop_up_login").style.display = "block";
+        document.getElementById("log").style.display = "block";
     }
 
     function isNotNull(email,pass){
