@@ -158,6 +158,7 @@ function patientBookApp(slotNum, date) {
                                 // popup.style.display = "none";
                                 alert("You just booked an appointment with Dr. " + localStorage.getItem("docName"))
                                 alert("At time: " +time_app)
+                                document.getElementById('notesField').value = ''
                                 getDoctorList1(localStorage.getItem("docUID"))
                                 //localStorage.removeItem("docUID");
                                 //localStorage.removeItem("docName");
