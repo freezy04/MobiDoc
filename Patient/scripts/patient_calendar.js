@@ -156,6 +156,8 @@ function patientBookApp(slotNum, date) {
                                 });
                                 // let popup = document.getElementById("accept_app_popup");
                                 // popup.style.display = "none";
+                                alert("You just booked an appointment with Dr. " + localStorage.getItem("docName"))
+                                alert("At time: " +time_app)
                                 getDoctorList1(localStorage.getItem("docUID"))
                                 //localStorage.removeItem("docUID");
                                 //localStorage.removeItem("docName");
