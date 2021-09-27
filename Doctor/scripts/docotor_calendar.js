@@ -320,8 +320,548 @@ function changeSlotAvailability(slotID) {//doctor func
     let slotNum = ids[0];
     let date = ids[1];
     console.log(slotNum + ", " + date);
+    localStorage.setItem("This_slot",slotNum)
+
+    if(parseInt(localStorage.getItem("This_slot"))===1){
+        //alert("You just picked 06:00  "+"\n"+"Press ok to book")
+        let r = confirm("Click ok to confirm time slot");
+        if (r === true) {
+            let con = confirm("You are about avail yourself for this time: " + "06:00 - 06:30 " + "\nPress Ok to confirm or Cancel" )
+            // alert("You just picked 06:00  "+"\n"+"Press ok to book")
+            if(con===true){
+                //alert("You just set 06:00 - 06:30  "+"\n"+"Press ok to set more slots available")
+                setADT(slotNum,date);
+            }
+        else {
+            alert("You canceled chief!")
+            }
+
+        }
+        else {
+            alert("You pressed Cancel!");
+        }
+    }
+    if(parseInt(localStorage.getItem("This_slot"))===2){
+        //alert("You just picked 06:00  "+"\n"+"Press ok to book")
+        let r = confirm("Click ok to confirm time slot");
+        if (r === true) {
+            let con = confirm("You are about avail yourself for this time: " + "06:30 - 07:00" + "\nPress Ok to confirm or Cancel" )
+            // alert("You just picked 06:00  "+"\n"+"Press ok to book")
+            if(con===true){
+                //alert("You just set 06:00 - 06:30  "+"\n"+"Press ok to set more slots available")
+                setADT(slotNum,date);
+            }
+            else {
+                alert("You canceled chief!")
+            }
+
+        }
+        else {
+            alert("You pressed Cancel!");
+        }
+    }
+    if(parseInt(localStorage.getItem("This_slot"))===3){
+        //alert("You just picked 06:00  "+"\n"+"Press ok to book")
+        let r = confirm("Click ok to confirm time slot");
+        if (r === true) {
+            let con = confirm("You are about avail yourself for this time: " + "07:00 - 07:30 " + "\nPress Ok to confirm or Cancel" )
+            // alert("You just picked 06:00  "+"\n"+"Press ok to book")
+            if(con===true){
+                //alert("You just set 06:00 - 06:30  "+"\n"+"Press ok to set more slots available")
+                setADT(slotNum,date);
+            }
+            else {
+                alert("You canceled chief!")
+            }
+
+        }
+        else {
+            alert("You pressed Cancel!");
+        }
+    }
+    if(parseInt(localStorage.getItem("This_slot"))===4){
+        //alert("You just picked 06:00  "+"\n"+"Press ok to book")
+        let r = confirm("Click ok to confirm time slot");
+        if (r === true) {
+            let con = confirm("You are about avail yourself for this time: " + "07:30 - 08:00 " + "\nPress Ok to confirm or Cancel" )
+            // alert("You just picked 06:00  "+"\n"+"Press ok to book")
+            if(con===true){
+                //alert("You just set 06:00 - 06:30  "+"\n"+"Press ok to set more slots available")
+                setADT(slotNum,date);
+            }
+            else {
+                alert("You canceled chief!")
+            }
+
+        }
+        else {
+            alert("You pressed Cancel!");
+        }
+    }
+    if(parseInt(localStorage.getItem("This_slot"))===5){
+        //alert("You just picked 06:00  "+"\n"+"Press ok to book")
+        let r = confirm("Click ok to confirm time slot");
+        if (r === true) {
+            let con = confirm("You are about avail yourself for this time: " + "08:00 - 08:30 " + "\nPress Ok to confirm or Cancel" )
+            // alert("You just picked 06:00  "+"\n"+"Press ok to book")
+            if(con===true){
+                //alert("You just set 06:00 - 06:30  "+"\n"+"Press ok to set more slots available")
+                setADT(slotNum,date);
+            }
+            else {
+                alert("You canceled chief!")
+            }
+
+        }
+        else {
+            alert("You pressed Cancel!");
+        }
+    }
+    if(parseInt(localStorage.getItem("This_slot"))===6){
+        //alert("You just picked 06:00  "+"\n"+"Press ok to book")
+        let r = confirm("Click ok to confirm time slot");
+        if (r === true) {
+            let con = confirm("You are about avail yourself for this time: " + "08:30 - 09:00 " + "\nPress Ok to confirm or Cancel" )
+            // alert("You just picked 06:00  "+"\n"+"Press ok to book")
+            if(con===true){
+                //alert("You just set 06:00 - 06:30  "+"\n"+"Press ok to set more slots available")
+                setADT(slotNum,date);
+            }
+            else {
+                alert("You canceled chief!")
+            }
+
+        }
+        else {
+            alert("You pressed Cancel!");
+        }
+    }
+    if(parseInt(localStorage.getItem("This_slot"))===7){
+        //alert("You just picked 06:00  "+"\n"+"Press ok to book")
+        let r = confirm("Click ok to confirm time slot");
+        if (r === true) {
+            let con = confirm("You are about avail yourself for this time: " + "09:00 - 09:30 " + "\nPress Ok to confirm or Cancel" )
+            // alert("You just picked 06:00  "+"\n"+"Press ok to book")
+            if(con===true){
+                //alert("You just set 06:00 - 06:30  "+"\n"+"Press ok to set more slots available")
+                setADT(slotNum,date);
+            }
+            else {
+                alert("You canceled chief!")
+            }
+
+        }
+        else {
+            alert("You pressed Cancel!");
+        }
+    }
+    if(parseInt(localStorage.getItem("This_slot"))===8){
+        //alert("You just picked 06:00  "+"\n"+"Press ok to book")
+        let r = confirm("Click ok to confirm time slot");
+        if (r === true) {
+            let con = confirm("You are about avail yourself for this time: " + "09:30 - 10:00 " + "\nPress Ok to confirm or Cancel" )
+            // alert("You just picked 06:00  "+"\n"+"Press ok to book")
+            if(con===true){
+                //alert("You just set 06:00 - 06:30  "+"\n"+"Press ok to set more slots available")
+                setADT(slotNum,date);
+            }
+            else {
+                alert("You canceled chief!")
+            }
+
+        }
+        else {
+            alert("You pressed Cancel!");
+        }
+    }
+    if(parseInt(localStorage.getItem("This_slot"))===9){
+        //alert("You just picked 06:00  "+"\n"+"Press ok to book")
+        let r = confirm("Click ok to confirm time slot");
+        if (r === true) {
+            let con = confirm("You are about avail yourself for this time: " + "10:00 - 10:30 " + "\nPress Ok to confirm or Cancel" )
+            // alert("You just picked 06:00  "+"\n"+"Press ok to book")
+            if(con===true){
+                //alert("You just set 06:00 - 06:30  "+"\n"+"Press ok to set more slots available")
+                setADT(slotNum,date);
+            }
+            else {
+                alert("You canceled chief!")
+            }
+
+        }
+        else {
+            alert("You pressed Cancel!");
+        }
+    }
+    if(parseInt(localStorage.getItem("This_slot"))===10){
+        //alert("You just picked 06:00  "+"\n"+"Press ok to book")
+        let r = confirm("Click ok to confirm time slot");
+        if (r === true) {
+            let con = confirm("You are about avail yourself for this time: " + "10:30 - 11:00 " + "\nPress Ok to confirm or Cancel" )
+            // alert("You just picked 06:00  "+"\n"+"Press ok to book")
+            if(con===true){
+                //alert("You just set 06:00 - 06:30  "+"\n"+"Press ok to set more slots available")
+                setADT(slotNum,date);
+            }
+            else {
+                alert("You canceled chief!")
+            }
+
+        }
+        else {
+            alert("You pressed Cancel!");
+        }
+    }
+
+
+    if(parseInt(localStorage.getItem("This_slot"))===11){
+        //alert("You just picked 06:00  "+"\n"+"Press ok to book")
+        let r = confirm("Click ok to confirm time slot");
+        if (r === true) {
+            let con = confirm("You are about avail yourself for this time: " + "11:00 - 11:30 " + "\nPress Ok to confirm or Cancel" )
+            // alert("You just picked 06:00  "+"\n"+"Press ok to book")
+            if(con===true){
+                //alert("You just set 06:00 - 06:30  "+"\n"+"Press ok to set more slots available")
+                setADT(slotNum,date);
+            }
+            else {
+                alert("You canceled chief!")
+            }
+
+        }
+        else {
+            alert("You pressed Cancel!");
+        }
+    }
+    if(parseInt(localStorage.getItem("This_slot"))===12){
+        //alert("You just picked 06:00  "+"\n"+"Press ok to book")
+        let r = confirm("Click ok to confirm time slot");
+        if (r === true) {
+            let con = confirm("You are about avail yourself for this time: " + "11:30 - 12:00" + "\nPress Ok to confirm or Cancel" )
+            // alert("You just picked 06:00  "+"\n"+"Press ok to book")
+            if(con===true){
+                //alert("You just set 06:00 - 06:30  "+"\n"+"Press ok to set more slots available")
+                setADT(slotNum,date);
+            }
+            else {
+                alert("You canceled chief!")
+            }
+
+        }
+        else {
+            alert("You pressed Cancel!");
+        }
+    }
+    if(parseInt(localStorage.getItem("This_slot"))===13){
+        //alert("You just picked 06:00  "+"\n"+"Press ok to book")
+        let r = confirm("Click ok to confirm time slot");
+        if (r === true) {
+            let con = confirm("You are about avail yourself for this time: " + "12:00 - 12:30 " + "\nPress Ok to confirm or Cancel" )
+            // alert("You just picked 06:00  "+"\n"+"Press ok to book")
+            if(con===true){
+                //alert("You just set 06:00 - 06:30  "+"\n"+"Press ok to set more slots available")
+                setADT(slotNum,date);
+            }
+            else {
+                alert("You canceled chief!")
+            }
+
+        }
+        else {
+            alert("You pressed Cancel!");
+        }
+    }
+    if(parseInt(localStorage.getItem("This_slot"))===14){
+        //alert("You just picked 06:00  "+"\n"+"Press ok to book")
+        let r = confirm("Click ok to confirm time slot");
+        if (r === true) {
+            let con = confirm("You are about avail yourself for this time: " + "12:30 - 13:00 " + "\nPress Ok to confirm or Cancel" )
+            // alert("You just picked 06:00  "+"\n"+"Press ok to book")
+            if(con===true){
+                //alert("You just set 06:00 - 06:30  "+"\n"+"Press ok to set more slots available")
+                setADT(slotNum,date);
+            }
+            else {
+                alert("You canceled chief!")
+            }
+
+        }
+        else {
+            alert("You pressed Cancel!");
+        }
+    }
+    if(parseInt(localStorage.getItem("This_slot"))===15){
+        //alert("You just picked 06:00  "+"\n"+"Press ok to book")
+        let r = confirm("Click ok to confirm time slot");
+        if (r === true) {
+            let con = confirm("You are about avail yourself for this time: " + "13:00 - 13:30 " + "\nPress Ok to confirm or Cancel" )
+            // alert("You just picked 06:00  "+"\n"+"Press ok to book")
+            if(con===true){
+                //alert("You just set 06:00 - 06:30  "+"\n"+"Press ok to set more slots available")
+                setADT(slotNum,date);
+            }
+            else {
+                alert("You canceled chief!")
+            }
+
+        }
+        else {
+            alert("You pressed Cancel!");
+        }
+    }
+    if(parseInt(localStorage.getItem("This_slot"))===16){
+        //alert("You just picked 06:00  "+"\n"+"Press ok to book")
+        let r = confirm("Click ok to confirm time slot");
+        if (r === true) {
+            let con = confirm("You are about avail yourself for this time: " + "13:30 - 14:00 " + "\nPress Ok to confirm or Cancel" )
+            // alert("You just picked 06:00  "+"\n"+"Press ok to book")
+            if(con===true){
+                //alert("You just set 06:00 - 06:30  "+"\n"+"Press ok to set more slots available")
+                setADT(slotNum,date);
+            }
+            else {
+                alert("You canceled chief!")
+            }
+
+        }
+        else {
+            alert("You pressed Cancel!");
+        }
+    }
+    if(parseInt(localStorage.getItem("This_slot"))===17){
+        //alert("You just picked 06:00  "+"\n"+"Press ok to book")
+        let r = confirm("Click ok to confirm time slot");
+        if (r === true) {
+            let con = confirm("You are about avail yourself for this time: " + "14:00 - 14:30 " + "\nPress Ok to confirm or Cancel" )
+            // alert("You just picked 06:00  "+"\n"+"Press ok to book")
+            if(con===true){
+                //alert("You just set 06:00 - 06:30  "+"\n"+"Press ok to set more slots available")
+                setADT(slotNum,date);
+            }
+            else {
+                alert("You canceled chief!")
+            }
+
+        }
+        else {
+            alert("You pressed Cancel!");
+        }
+    }
+    if(parseInt(localStorage.getItem("This_slot"))===18){
+        //alert("You just picked 06:00  "+"\n"+"Press ok to book")
+        let r = confirm("Click ok to confirm time slot");
+        if (r === true) {
+            let con = confirm("You are about avail yourself for this time: " + "14:30 - 15:00 " + "\nPress Ok to confirm or Cancel" )
+            // alert("You just picked 06:00  "+"\n"+"Press ok to book")
+            if(con===true){
+                //alert("You just set 06:00 - 06:30  "+"\n"+"Press ok to set more slots available")
+                setADT(slotNum,date);
+            }
+            else {
+                alert("You canceled chief!")
+            }
+
+        }
+        else {
+            alert("You pressed Cancel!");
+        }
+    }
+    if(parseInt(localStorage.getItem("This_slot"))===19){
+        //alert("You just picked 06:00  "+"\n"+"Press ok to book")
+        let r = confirm("Click ok to confirm time slot");
+        if (r === true) {
+            let con = confirm("You are about avail yourself for this time: " + "15:00 - 15:30 " + "\nPress Ok to confirm or Cancel" )
+            // alert("You just picked 06:00  "+"\n"+"Press ok to book")
+            if(con===true){
+                //alert("You just set 06:00 - 06:30  "+"\n"+"Press ok to set more slots available")
+                setADT(slotNum,date);
+            }
+            else {
+                alert("You canceled chief!")
+            }
+
+        }
+        else {
+            alert("You pressed Cancel!");
+        }
+    }
+    if(parseInt(localStorage.getItem("This_slot"))===20){
+        //alert("You just picked 06:00  "+"\n"+"Press ok to book")
+        let r = confirm("Click ok to confirm time slot");
+        if (r === true) {
+            let con = confirm("You are about avail yourself for this time: " + "15:30 - 16:00 " + "\nPress Ok to confirm or Cancel" )
+            // alert("You just picked 06:00  "+"\n"+"Press ok to book")
+            if(con===true){
+                //alert("You just set 06:00 - 06:30  "+"\n"+"Press ok to set more slots available")
+                setADT(slotNum,date);
+            }
+            else {
+                alert("You canceled chief!")
+            }
+
+        }
+        else {
+            alert("You pressed Cancel!");
+        }
+    }
+    if(parseInt(localStorage.getItem("This_slot"))===21){
+        //alert("You just picked 06:00  "+"\n"+"Press ok to book")
+        let r = confirm("Click ok to confirm time slot");
+        if (r === true) {
+            let con = confirm("You are about avail yourself for this time: " + "16:00 - 16:30 " + "\nPress Ok to confirm or Cancel" )
+            // alert("You just picked 06:00  "+"\n"+"Press ok to book")
+            if(con===true){
+                //alert("You just set 06:00 - 06:30  "+"\n"+"Press ok to set more slots available")
+                setADT(slotNum,date);
+            }
+            else {
+                alert("You canceled chief!")
+            }
+
+        }
+        else {
+            alert("You pressed Cancel!");
+        }
+    }
+    if(parseInt(localStorage.getItem("This_slot"))===22){
+        //alert("You just picked 06:00  "+"\n"+"Press ok to book")
+        let r = confirm("Click ok to confirm time slot");
+        if (r === true) {
+            let con = confirm("You are about avail yourself for this time: " + "16:30 - 17:00" + "\nPress Ok to confirm or Cancel" )
+            // alert("You just picked 06:00  "+"\n"+"Press ok to book")
+            if(con===true){
+                //alert("You just set 06:00 - 06:30  "+"\n"+"Press ok to set more slots available")
+                setADT(slotNum,date);
+            }
+            else {
+                alert("You canceled chief!")
+            }
+
+        }
+        else {
+            alert("You pressed Cancel!");
+        }
+    }
+    if(parseInt(localStorage.getItem("This_slot"))===23){
+        //alert("You just picked 06:00  "+"\n"+"Press ok to book")
+        let r = confirm("Click ok to confirm time slot");
+        if (r === true) {
+            let con = confirm("You are about avail yourself for this time: " + "17:00 - 17:30 " + "\nPress Ok to confirm or Cancel" )
+            // alert("You just picked 06:00  "+"\n"+"Press ok to book")
+            if(con===true){
+                //alert("You just set 06:00 - 06:30  "+"\n"+"Press ok to set more slots available")
+                setADT(slotNum,date);
+            }
+            else {
+                alert("You canceled chief!")
+            }
+
+        }
+        else {
+            alert("You pressed Cancel!");
+        }
+    }
+    if(parseInt(localStorage.getItem("This_slot"))===24){
+        //alert("You just picked 06:00  "+"\n"+"Press ok to book")
+        let r = confirm("Click ok to confirm time slot");
+        if (r === true) {
+            let con = confirm("You are about avail yourself for this time: " + "17:30 - 18:00 " + "\nPress Ok to confirm or Cancel" )
+            // alert("You just picked 06:00  "+"\n"+"Press ok to book")
+            if(con===true){
+                //alert("You just set 06:00 - 06:30  "+"\n"+"Press ok to set more slots available")
+                setADT(slotNum,date);
+            }
+            else {
+                alert("You canceled chief!")
+            }
+
+        }
+        else {
+            alert("You pressed Cancel!");
+        }
+    }
+    if(parseInt(localStorage.getItem("This_slot"))===25){
+        //alert("You just picked 06:00  "+"\n"+"Press ok to book")
+        let r = confirm("Click ok to confirm time slot");
+        if (r === true) {
+            let con = confirm("You are about avail yourself for this time: " + "18:00 - 18:30 " + "\nPress Ok to confirm or Cancel" )
+            // alert("You just picked 06:00  "+"\n"+"Press ok to book")
+            if(con===true){
+                //alert("You just set 06:00 - 06:30  "+"\n"+"Press ok to set more slots available")
+                setADT(slotNum,date);
+            }
+            else {
+                alert("You canceled chief!")
+            }
+
+        }
+        else {
+            alert("You pressed Cancel!");
+        }
+    }
+    if(parseInt(localStorage.getItem("This_slot"))===26){
+        //alert("You just picked 06:00  "+"\n"+"Press ok to book")
+        let r = confirm("Click ok to confirm time slot");
+        if (r === true) {
+            let con = confirm("You are about avail yourself for this time: " + "18:30 - 19:00 " + "\nPress Ok to confirm or Cancel" )
+            // alert("You just picked 06:00  "+"\n"+"Press ok to book")
+            if(con===true){
+                //alert("You just set 06:00 - 06:30  "+"\n"+"Press ok to set more slots available")
+                setADT(slotNum,date);
+            }
+            else {
+                alert("You canceled chief!")
+            }
+
+        }
+        else {
+            alert("You pressed Cancel!");
+        }
+    }
+    if(parseInt(localStorage.getItem("This_slot"))===27){
+        //alert("You just picked 06:00  "+"\n"+"Press ok to book")
+        let r = confirm("Click ok to confirm time slot");
+        if (r === true) {
+            let con = confirm("You are about avail yourself for this time: " + "19:00 - 19:30 " + "\nPress Ok to confirm or Cancel" )
+            // alert("You just picked 06:00  "+"\n"+"Press ok to book")
+            if(con===true){
+                //alert("You just set 06:00 - 06:30  "+"\n"+"Press ok to set more slots available")
+                setADT(slotNum,date);
+            }
+            else {
+                alert("You canceled chief!")
+            }
+
+        }
+        else {
+            alert("You pressed Cancel!");
+        }
+    }
+    if(parseInt(localStorage.getItem("This_slot"))===28){
+        //alert("You just picked 06:00  "+"\n"+"Press ok to book")
+        let r = confirm("Click ok to confirm time slot");
+        if (r === true) {
+            let con = confirm("You are about avail yourself for this time: " + "19:30 - 20:00 " + "\nPress Ok to confirm or Cancel" )
+            // alert("You just picked 06:00  "+"\n"+"Press ok to book")
+            if(con===true){
+                //alert("You just set 06:00 - 06:30  "+"\n"+"Press ok to set more slots available")
+                setADT(slotNum,date);
+            }
+            else {
+                alert("You canceled chief!")
+            }
+
+        }
+        else {
+            alert("You pressed Cancel!");
+        }
+    }
+
+
+
+
     //todo: firebase update - Naledi + Neo
-setADT(slotNum,date);
+//setADT(slotNum,date);
 
 }
 
