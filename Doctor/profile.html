@@ -248,7 +248,7 @@
 
     const LoginUserAs = (uid) => {
         let database = firebase.database();
-        let ref = database.ref().child('Doctor');
+        let ref = database.ref().child('Doctors');
 
         ref.orderByKey().equalTo(uid).once("value", snapshot => {
             if (snapshot.exists()) {

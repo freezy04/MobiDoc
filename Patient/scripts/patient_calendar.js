@@ -795,13 +795,13 @@ function login(){
 
 const LoginUserAs = (uid) => {
     let database = firebase.database();
-    let ref = database.ref().child('Doctor');
+    let ref = database.ref().child('Patients');
 
     ref.orderByKey().equalTo(uid).once("value", snapshot => {
         if (snapshot.exists()) {
             window.location.reload();
         } else {
-            window.location.reload(); // location.href = '.../Patient/home.html';
+            location.href = '.../Doctor/home.html';
         }
     });
 }

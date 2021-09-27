@@ -776,7 +776,7 @@ firebase.auth().onAuthStateChanged(function (user) {
 //for the login at any page down below
 
 function ShowLogin(){
-    document.getElementById("pop_up_login").style.display="block";
+    document.getElementById("log").style.display="block";
 }
 
 function isNotNull(email,pass){
@@ -820,7 +820,7 @@ function login(){
 
 const LoginUserAs = (uid) => {
     let database = firebase.database();
-    let ref = database.ref().child('Doctor');
+    let ref = database.ref().child('Doctors');
 
     ref.orderByKey().equalTo(uid).once("value", snapshot => {
         if (snapshot.exists()) {
