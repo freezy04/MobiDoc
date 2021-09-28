@@ -330,32 +330,32 @@ function bookAppointmentPopup(slotID) {//patient func
     }
 
 
-    // document.getElementById("radio1").checked = true;
-    // let r2 = document.getElementById("radio2");
-    // let r3 = document.getElementById("radio3");
-    // let r4 = document.getElementById("radio3");
-    // r2.disabled = true;
-    // r3.disabled = true;
-    // r4.disabled = true;
+    document.getElementById("radio1").checked = true;
+    let r2 = document.getElementById("radio2");
+    let r3 = document.getElementById("radio3");
+    let r4 = document.getElementById("radio3");
+    r2.disabled = true;
+    r3.disabled = true;
+    r4.disabled = true;
 
     let ids = slotID.split("#");
 
     let slots = eventsDict[ids[1]];
     let slotNum = parseInt(ids[0]);
-    //console.log(slots);
-    // if (slots[slotNum] === "1") {
-    //     r2.disabled = false;
-    //    // console.log(slots[slotNum]);
-    //     if (slots[slotNum + 1] === "1") {
-    //         //console.log(slots[slotNum + 1]);
-    //         r3.disabled = false;
-    //         if (slots[slotNum + 2] === "1") {
-    //             //console.log(r4.disabled);
-    //             r4.disabled = false;
-    //             //todo: Gabe - fix 2 hour radio button
-    //         }
-    //     }
-    // }
+    console.log(slots);
+    if (slots[slotNum] === "1") {
+        r2.disabled = false;
+       // console.log(slots[slotNum]);
+        if (slots[slotNum + 1] === "1") {
+            //console.log(slots[slotNum + 1]);
+            r3.disabled = false;
+            if (slots[slotNum + 2] === "1") {
+                //console.log(r4.disabled);
+                r4.disabled = false;
+                //todo: Gabe - fix 2 hour radio button
+            }
+        }
+    }
 
     popup.style.display = "block";
 
@@ -576,7 +576,7 @@ function bookApp(slotNum, date) {
     // let hour = document.getElementById("radio2").checked;
     // let hourAndHalf = document.getElementById("radio3").checked;
     // let twoHours = document.getElementById("radio3").checked;
-    //console.log(slotNum + ", " + date + ", " + notes + ", " + halfHour);
+    // console.log(slotNum + ", " + date + ", " + notes + ", " + halfHour);
 
     // if(parseInt(slotNum)=== 1 ){
     //     //time_app = "06:00"
