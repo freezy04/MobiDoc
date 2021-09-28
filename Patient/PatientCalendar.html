@@ -134,7 +134,8 @@
         <li><a onclick="function SignOut() {
                     firebase.auth().signOut()
                     .then(() => {
-                        window.location.href = '../index.html';
+                        window.location.href = '../index.html'; //Nthabi added on 28092021 09h43
+                        console.log('Signed Out');
                     })
                     .catch(e=>{
                         console.error('Sign Out Error', e);
