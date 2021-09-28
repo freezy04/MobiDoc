@@ -993,7 +993,7 @@ const LoginUserAs = (uid) => {
         if (snapshot.exists()) {
             window.location.reload();
         } else {
-            location.href = '.../Patient/home.html';
+            location.href = '../../Patient/home.html'; //get out of script (first two dots) then out of Doctor
         }
     });
 }

@@ -804,7 +804,7 @@ const LoginUserAs = (uid) => {
         if (snapshot.exists()) {
             window.location.reload();
         } else {
-            location.href = '.../Doctor/home.html';
+            location.href = '../../Doctor/home.html'; //get out of script (first two dots) then out of Patient
         }
     });
 }
