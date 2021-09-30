@@ -1,5 +1,6 @@
 
-let appointments = {};
+let patientNames = {};
+let appointments = [];
 let times = ["06:00", "06:30", "07:00", "07:30", "08:00", "08:30", "09:00", "09:30", "10:00", "10:30",
     "11:00", "11:30", "12:00", "12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30",
     "16:00", "16:30", "17:00", "17:30", "18:00", "18:30", "19:00", "19:30", "20:00"];
@@ -15,16 +16,18 @@ function getAppointments(docID) {
             snapshot.forEach(function (childSnapshot) {
                 let app = childSnapshot.val();
                 if (app.doctorUid === docID) {
-                    let patNames = appointments[app.date_for_appointment];
+                    appointments.push(app);
+                    let patNames = patientNames[app.date_for_appointment];
                     if (patNames === undefined) {
-                        appointments[app.date_for_appointment] = app.patient_Name;
+                        patientNames[app.date_for_appointment] = app.patient_Name;
                     } else {
                         let multAppOp = (patNames[0] === '~')  ? "" : "~";
-                        appointments[app.date_for_appointment] = multAppOp + patNames + "~" + app.patient_Name;
+                        patientNames[app.date_for_appointment] = multAppOp + patNames + "~" + app.patient_Name;
                     }
                 }
             });
         }
+        console.log(patientNames);
         console.log(appointments);
 
         let curDate = new Date();
@@ -96,6 +99,46 @@ function settingDate(date, day) {
     return date;
 }
 
+function openAppsPopup(dayID) {
+    document.getElementById("appsPopup").style.display = "block";
+    document.getElementById("appsPopupHeader").innerText = dayID;
+
+    let content = "";
+    let app;
+    for (let i = 0; i < appointments.length; i++) {
+        if (appointments[i].date_for_appointment === dayID) {
+            app = appointments[i];
+            let label;
+            switch (app.status){
+                case "upcoming":
+                    label = "<span class='accept'>" + app.status + "</span>";
+                    break;
+                case "pending":
+                    label = "<span class='pending' >" + app.status + "</span>";
+                    break;
+                case "rejected":
+                    label = "<span class='reject' >" + app.status + "</span>";
+                    break;
+            }
+            content +=
+                "<div class = 'card'>" +
+                label +
+                "<h2>Appointment with " + app.patient_Name + "</h2>" +
+                "<p id='app_id' style='display:none;'>" + app.id + "</p>" +
+                "<p>" + app.date_for_appointment + " - " + app.time_for_appointment + "</p>" +
+                "<table class='appCard'>" +
+                "<tr class='appCard'>" +
+                "<th class='appCard'>Reason for appointment: </th>" +
+                "<td class='appCard'>" + app.reason_for_appointment + "</td>" +
+                "</tr>" +
+                "</table>"
+                +"</div>"
+                +"<br/>";
+        }
+    }
+    document.getElementById("dayAppCards").innerHTML = content;
+}
+
 function getDatesBetween(startDate, endDate) {
     let startRange = new Date(startDate);
     let endRange = new Date(endDate);
@@ -144,27 +187,38 @@ function getDatesBetween(startDate, endDate) {
             for (let k = 0; k < 7; k++) {
                 displayNum = (j < 10) ? "0" + j : j;
                 let dayID = j + "/" + (firstDate.getMonth()+1) + "/" + firstDate.getFullYear();
-                let colour = "<br>";
-                let patNames = appointments[dayID];
+                let htmlAtts = "'";
+                let patNames = patientNames[dayID];
                 if (patNames !== undefined) {
+                    htmlAtts += " onclick='openAppsPopup(this.id)'>" + displayNum;
                     if (patNames[0] === "~") {
-                        patNames.split("~").forEach(name => colour += name + "<br>");
+                        patNames = patNames.split("~");
+                        for (let i = 0; i < patNames.length; i++) {
+                            if (i >= 4) {
+                                htmlAtts += "....";
+                                break;
+                            }
+                            htmlAtts += "<br>" + patNames[i];
+                        }
+                        // patNames.split("~").forEach(name => colour += "<br>" + name);
                     }else {
-                        colour += patNames;
+                        htmlAtts += "<br>" + patNames;
                     }
+                } else {
+                    htmlAtts += "style='cursor: default'>" + displayNum;
                 }
                 if (j === 1) {
                     if (firstDate.toString().split(" ")[0] === weekDays[k].shortDay) {
-                        content += "<td id='" + dayID + "'>" + displayNum + colour + "</td>";
+                        content += "<td id='" + dayID + htmlAtts + "</td>";
                         j++;
                     }
                     else {
-                        content += "<td style='background:#668ab8;'></td>";
+                        content += "<td style='background:#668ab8; cursor: default'></td>";
                     }
                 } else if (j > lastDate.getDate()) {
-                    content += "<td style='background:#668ab8;'></td>";
+                    content += "<td style='background:#668ab8; cursor: default'></td>";
                 } else {
-                    content += "<td id='" + dayID + "'>" + displayNum + colour + "</td>";
+                    content += "<td id='" + dayID + htmlAtts + "</td>";
                     j++;
                 }
 
@@ -205,8 +259,26 @@ function  nextMonth() {
     }
 }
 
+function closeAppsPopup(popup) {
+    popup.style.display = "none";
+}
+
+function popupInit() {
+    let popup = document.getElementById("appsPopup");
+    let popupClose = document.getElementsByClassName("close")[0];
+    popupClose.onclick = function() {
+        closeAppsPopup(popup);
+    }
+    window.onclick = function(event) {
+        if (event.target === popup) {
+            closeAppsPopup(popup);
+        }
+    }
+}
+
 firebase.auth().onAuthStateChanged(function (user) {
     if (user) {
+        popupInit();
         getAppointments(user.uid);
     } else {
         ShowLogin(); //Nthabi changed it from redirect to index.html to a popup that will help us log in the user from that page
