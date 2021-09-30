@@ -46,7 +46,6 @@ const getDoctorList = (docID) => {
 
             //console.log(events2);
         }
-        //todo: Gabe - display upcoming apps?
         let curDate = new Date();
         let curMonth = curDate.getMonth() + 1;
         curMonth = (curMonth < 10) ? "0" + curMonth : curMonth;
