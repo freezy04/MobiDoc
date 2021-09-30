@@ -287,14 +287,18 @@ function getDatesBetween(startDate, endDate) {
             for (let k = 0; k < 7; k++) {
                 displayNum = (j < 10) ? "0" + j : j;
                 let dayID = j + "/" + (firstDate.getMonth()+1) + "/" + firstDate.getFullYear();
-                let colour = "rgb(91,156,168)";
+                let htmlAtts = "style='background-color: ";
                 let slots = eventsDict[dayID];
                 if (slots !== undefined && slots !== "0000000000000000000000000000") {
-                    colour =  (slots.split("1").length - 1 < 4) ? "#ffff00" : "#adff2f";
+                    htmlAtts +=  (slots.split("1").length - 1 < 4) ? "#ffff00" : "#adff2f";
+                    htmlAtts += "; cursor: pointer' onclick='openDayPopup(this.id)'";
+                } else {
+                    htmlAtts += "rgb(91,156,168)'";
                 }
                 if (j === 1) {
                     if (firstDate.toString().split(" ")[0] === weekDays[k].shortDay) {
-                        content += "<td id='" + dayID + "' onclick='openDayPopup(this.id)' style='background-color: " + colour + "'>" + displayNum + "</td>";
+                        content += "<td id='" + dayID + "'" + htmlAtts + ">" + displayNum + "</td>";
+                        // content += "<td id='" + dayID + "' onclick='openDayPopup(this.id)' style='background-color: " + colour + "'>" + displayNum + "</td>";
                         j++;
                     }
                     else {
@@ -303,7 +307,8 @@ function getDatesBetween(startDate, endDate) {
                 } else if (j > lastDate.getDate()) {
                     content += "<td></td>";
                 } else {
-                    content += "<td id='" + dayID + "' onclick='openDayPopup(this.id)' style='background-color: " + colour + "'>" + displayNum + "</td>";
+                    content += "<td id='" + dayID + "'" + htmlAtts + ">" + displayNum + "</td>";
+                    // content += "<td id='" + dayID + "' onclick='openDayPopup(this.id)' style='background-color: " + colour + "'>" + displayNum + "</td>";
                     j++;
                 }
 

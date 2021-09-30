@@ -20,7 +20,7 @@
     text-align: center;
     padding: 20px 0px;
     border: 1px solid lightblue;
-    cursor:pointer;
+    cursor:default;
     background-color: lightgray;
 }
 
