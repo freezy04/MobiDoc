@@ -13,6 +13,7 @@
     <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-database.js"></script>
+    <link rel="stylesheet" href="styles/appCardCalendar.css">
     <link rel="stylesheet" href="styles/Nav_bar.css">
     <link rel="stylesheet" href="styles/calendar.css">
     <link rel="stylesheet" href="styles/login.css">
@@ -200,6 +201,23 @@
     firebase.initializeApp(firebaseConfig);
 
 </script>
+
+<div id="appsPopup" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <span class="close">&times;</span>
+            <h2 id="appsPopupHeader">Jan 1st 2021</h2>
+        </div>
+        <div class="modal-body">
+<!--            <table id='dayTable' class="dayTable"></table>-->
+            <dl id="dayAppCards"></dl>
+        </div>
+<!--        <div class="modal-footer">-->
+<!--            <h3>Click on a slot to change its availability</h3>-->
+<!--        </div>-->
+    </div>
+
+</div>
 
 </body>
 </html>

@@ -130,10 +130,10 @@ function getDatesBetween(startDate, endDate) {
                         j++;
                     }
                     else {
-                        content += "<td style='background:#668ab8;'></td>";
+                        content += "<td style='background:#668ab8; cursor: default'></td>";
                     }
                 } else if (j > lastDate.getDate()) {
-                    content += "<td style='background:#668ab8;'></td>";
+                    content += "<td style='background:#668ab8; cursor: default'></td>";
                 } else {
                     //Dylan : content += "<td class='t' id='" + dayID + "' onclick='openDayPopup(this.id)' style='background-color: " + colour + "'>" + displayNum + "</td>";
                     content += "<td id='" + dayID + "' onclick='openDayPopup(this.id)' style='background-color: " + colour + "'>" + displayNum + "</td>";
@@ -908,7 +908,6 @@ function  nextMonth() {
 }
 
 function closeDayPopup(popup) {
-    //todo: Gabe - update day colours if slots changed?
     popup.style.display = "none";
 }
 
