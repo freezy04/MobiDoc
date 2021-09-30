@@ -221,7 +221,7 @@ p{
 
 /*Edited the Table Layout Properties to better suit the card */
 
-table{
+table.appCard{
     width: 100%;
     margin: 25px 0;
     font-size: 1.5em;
@@ -229,19 +229,20 @@ table{
 }
 
 
-th{
+th.appCard{
     font-size: 18px;
     height: 70px;
     width: 50px;
     justify-content: left;
 }
-td{
+td.appCard{
     horiz-align: center;
     vert-align: bottom;
     font-size: 18px;
     text-align: center;
     justify-content: center;
     padding: 15px 15px;
+    background-color: white;
 }
 
 .popup {
