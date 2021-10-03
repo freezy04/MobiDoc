@@ -119,6 +119,9 @@ function openAppsPopup(dayID) {
                 case "rejected":
                     label = "<span class='reject' >" + app.status + "</span>";
                     break;
+                case "canceled":
+                    label = "<span class='reject' >" + app.status + "</span>";
+                    break;
             }
             content +=
                 "<div class = 'card'>" +
