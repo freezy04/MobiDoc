@@ -36,10 +36,13 @@
                     <input type="checkbox" id="show-features">
                     <label for="show-features">Appointments</label>
                     <ul>
+                        <li><a href="AppointmentTypes/CancelAppointments.html">Cancel Appointments</a></li>
+                        <li><a href="AppointmentTypes/CanceledAppointments.html">Canceled Appointments</a></li>
                         <li><a href="AppointmentTypes/AcceptedAppointments.html">Accepted Appointments</a></li>
                         <li><a href="AppointmentTypes/RejectedAppointments.html">Rejected Appointments</a></li>
                         <li><a href="AppointmentTypes/PendingAppointments.html">Pending Appointment</a></li>
                         <li><a href="AppointmentTypes/CompletedAppointments.html">Completed Appointments</a></li>
+
                     </ul>
                 </li>
                 <li><a onclick="function SignOut() {
@@ -176,8 +179,34 @@ firebase.initializeApp(firebaseConfig);
             }
         });
     }
+    function test(){
+ window.location.href="home.html"
+        // firebase.auth().onAuthStateChanged(function (user) {
+        //     if (user) {
+        //         let ref = database.ref().child('Patients');
+        //         ref.orderByChild().once("value", snapshot => {
+        //             if (snapshot.exists()) {
+        //                 appList.innerHTML = "";
+        //                 snapshot.forEach(function (childSnapshot) {
+        //                     let key = childSnapshot.key();
+        //                     let app = childSnapshot.val();
+        //                     if (user.uid === app.uid) {
+        //                         localStorage.setItem("Your keys",user)
+        //
+        //                     }
+        //                 });
+        //             }
+        //
+        //         });
+        //     } else {
+        //
+        //     }
+        // });
+
+    }
 
     const getAppointmentDetails = (uid) => {
+
         let database = firebase.database();
         let ref = database.ref().child('Appointments');
         ref.orderByChild('date_for_appointment').on("value", snapshot => {
@@ -187,6 +216,7 @@ firebase.initializeApp(firebaseConfig);
                     let app = childSnapshot.val();
                     if (uid === app.patientUid && app.status !== "completed") {
                         let label;
+
                         switch (app.status) {
                             case "accepted":
                                 console.log(app.status)
@@ -217,6 +247,42 @@ firebase.initializeApp(firebaseConfig);
                             "<th>Consultation Cost: </th>" +
                             "<td>" + app.appointment_Cost + "</td>" +
                             "</tr>" +
+                            "</table>"
+                            +"</div>"
+                            +"<br/>"
+                        ;
+                    }
+                    if (uid === app.patientUid && app.status === "canceled" ) {
+                        let label;
+                        switch (app.status){
+
+                            case "canceled":
+                                label = "<span class='canceled' >" + app.status + "</span>";
+                                break;
+                        }
+                        let pr
+                        if(app.cancellation_done_by==="Doctor"){
+                            pr = "You"
+                        }
+                        if(app.cancellation_done_by==="Patient"){
+                            pr = "The doctor"
+                        }
+
+
+                        appList.innerHTML +=
+                            "<div class = 'card'>" +
+                            label +
+                            "<h2>Appointment with Dr. " + app.doctor_Name + "</h2>" +
+                            "<p id='app_id' style='display:none;'>" + app.id + "</p>" +
+                            "<p>" + app.date_for_appointment + " - " + app.time_for_appointment + "</p>" +
+                            "<table>" +
+                            "<tr>" +
+                            "<th>Reason for cancellation </th>" +
+                            "<td>" + app.cancellation_reason + "</td>" +
+                            "</tr>" +
+                            "<tr>"+
+                            "<th>Date of cancellation </th>" +
+                            "<td>" + pr+ " canceled this on: "+app.cancellation_date+ "</td>" +"</tr>"+
                             "</table>"
                             +"</div>"
                             +"<br/>"

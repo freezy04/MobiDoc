@@ -23,6 +23,10 @@ function AddtoHtml(app,appList){
             label = "<span class='pending' >" + app.status + "</span>";
             break;
 
+        case "canceled":
+            label = "<span class='pending' >" + app.status + "</span>";
+            break;
+
     }
 
     appList.innerHTML +=

@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title> MobiDoc | Pending Appointments </title>
+    <title> MobiDoc | Canceled Appointments </title>
+
     <link rel="stylesheet" href="../styles/Nav_bar.css">
 
     <link rel="apple-touch-icon" sizes="180x180" href="../../favicon/apple-touch-icon.png">
@@ -17,10 +18,18 @@
     <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-analytics.js"></script>
     <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.8.0/firebase-ui-auth.css" />
     <link rel="stylesheet" href="../styles/appointments.css"/>
-</head>
-<body>
 
-<!--Nav bar-->
+    <style>
+        dl{
+            display:flex;
+            flex-direction: column-reverse;
+        }
+    </style>
+
+</head>
+<body onload="Spinner()">
+
+
 <div class="wrapper">
     <nav>
         <input type="checkbox" id="show-search">
@@ -29,28 +38,34 @@
         <div class="content">
             <div class="logo"><a href="#">MobiDoc</a></div>
             <ul class="links">
-                <li><a href="../home.html">Home</a></li>
+                <li><a href="home.html">Home</a></li>
                 <li>
-                    <a href="../profile.html" class="desktop-link">Profile</a>
+                    <a href="profile.html" class="desktop-link">Profile</a>
                     <input type="checkbox" id="show-services">
                     <label for="show-services">Profile</label>
                 </li>
-                <li><a href="../Appointments.html">Accept Appointments</a></li>
-                <li><a href="PendingAppointments.html">Reject Appointments</a></li>
-                <li><a href="../consultations.html">Complete Appointment</a></li>
-                <li>
-                    <a href="#" class="desktop-link" style="padding-left: 50px">Appointments</a>
-                    <input type="checkbox" id="show-features">
-                    <label for="show-features">Appointments</label>
-                    <ul>
-                        <li><a style="padding-left: 60px" href="RejectedAppointments.html">Rejected Appointments</a></li>
-                        <li><a style="padding-left: 60px" href="PendingAppointments.html">Pending Appointments</a></li>
-                        <li><a style="padding-left: 60px" href="CompletedAppointments.html">Completed Appointments</a></li>
-                    </ul>
-                </li>
+                <li><a href="DoctorCalendar.html">Set Available Date</a></li>
+                <li><a href="DoctorCalendarUpdate.html">Update Available Dates</a></li>
+                <li><a href="consultations.html">Complete Appointment</a></li>
+                <li><a href="AppointmentTypes/CancelAppointments.html">Cancel Appointment</a></li>
+                <li><a href="AppointmentTypes/CanceledAppointments.html">Canceled Appointment</a></li>
+                <!--                <li><a href="Appointments.html">Accept Appointments</a></li>-->
+                <!--                <li><a href="AppointmentTypes/PendingAppointments.html">Reject Appointments</a></li>-->
+
+                <!--                <li>-->
+                <!--                    <a href="#" class="desktop-link" style="padding-left: 50px">Appointments</a>-->
+                <!--                    <input type="checkbox" id="show-features">-->
+                <!--                    <label for="show-features">Appointments</label>-->
+                <!--                    <ul>-->
+                <!--                        <li><a style="padding-left: 60px" href="AppointmentTypes/RejectedAppointments.html">Rejected Appointments</a></li>-->
+                <!--                        <li><a style="padding-left: 60px" href="AppointmentTypes/PendingAppointments.html">Pending Appointments</a></li>-->
+                <!--                        <li><a style="padding-left: 60px" href="AppointmentTypes/CompletedAppointments.html">Completed Appointments</a></li>-->
+                <!--                    </ul>-->
+                <!--                </li>-->
                 <li><a onclick="function SignOut() {
                     firebase.auth().signOut()
                     .then(() => {
+                        window.location.href = '../index.html'; //Nthabi added on 28092021 09h43
                         console.log('Signed Out');
                     })
                     .catch(e=>{
@@ -63,19 +78,37 @@
     </nav>
 </div>
 
+
 <div style="padding-bottom: 200px"></div>
 
-<!--style="display: none"-->
-<div id="pop_up_login">
-    <h2> Login </h2>
-    <input placeholder="Email" type="email" required id="email">
-    <input placeholder="Password" type="password" required id="password">
-    <button id="login" onclick="login()">Login</button>
+<!--[Nthabi] Login popup | style="display: none" edited by Dylan-->
+<div id="log" style="display: none;padding-top: 100px;margin-left:40%">
+    <center>
+        <div id="pop_up_login" class="login">
+            <h1 style="color: #0d3579"> Login </h1>
+            <p style="color:black"> Please login to continue </p>
+            <div style="padding-bottom: 30px"></div>
+            <input placeholder="Email" type="email" required id="email">
+            <input placeholder="Password" type="password" required id="password">
+            <button id="login" onclick="login()">Login</button>
+        </div>
+
+    </center>
+    <div style="padding-bottom: 400px"></div>
 </div>
+<center>
+    <div class="sk-chase" style="display: none" id="loader">
+        <div class="sk-chase-dot"></div>
+        <div class="sk-chase-dot"></div>
+        <div class="sk-chase-dot"></div>
+        <div class="sk-chase-dot"></div>
+        <div class="sk-chase-dot"></div>
+        <div class="sk-chase-dot"></div>
+    </div>
+</center>
 
 <dl id="appList">
 </dl>
-
 <script>
 
     let firebaseConfig = {
@@ -92,36 +125,36 @@
     firebase.initializeApp(firebaseConfig);
 
 </script>
-<script src = "../script/PendingAppointments.js"></script >
-
-</script>
-
-<div style="padding-bottom: 200px"></div>
-
 </body>
 
-<!--popup for rejecting appointment-->
-<div id="reject_app_popup" class="popup">
+
+
+<!--popup for completing an upcoming appointment - Gabe Tidy-->
+<div id="complete_app_popup" class="popup">
     <div class="popup-content">
         <div class="popup-header">
-            <h2 style="text-align:center">Reject your appointment?</h2>
+            <h2 style="text-align:center">Complete your appointment?</h2>
             <span class="popup-close">&times;</span>
         </div>
         <div class="popup-body">
             <div class="form__group field">
-                <textarea type="input" class="form__field" placeholder="Rejection reason" cols="100" 100 name="Rejection reason" id = "app_rejection_reason" required></textarea>
-                <label for="app_rejection_reason" class="form__label">Rejection reason</label>
+                <textarea type="input" class="form__field" placeholder="Appointment notes" cols="100" 100 name="Appointment notes" id = "app_notes" required></textarea>
+                <label for="app_notes" class="form__label">Appointment Notes</label>
             </div>
+            <!--            <input id = "app_notes" type="text" class="field" placeholder="Appointment notes">-->
 
+            <input id = "app_cost" type="number" class="field" placeholder="Appointment total cost">
         </div>
         <div class="popup-footer">
-            <button id="confirm_app_btn"> Reject Appointment </button>
+            <button id="confirm_app_btn"> Complete Appointment </button>
+            <!--            <button id="confirm_app" onClick="confirmAppointment()"> Complete Appointment </button>-->
             <p id = "error" class = "error" style="color: darkred"></p>
         </div>
     </div>
 </div>
 
 <script>
+
     let user_id;
 
 
@@ -131,15 +164,19 @@
         if (user) {
             user_id = user.uid;
             getAppointmentDetails(user.uid);
-        }  else {
-            // No user is signed in.
+        } else {
             ShowLogin();
         }
     });
 
     <!--Responsible for showing the login feature to the user if they are not logged in-->
-    function ShowLogin(){
-        document.getElementById("pop_up_login").style.display = "block";
+    function ShowLogin() {
+        document.getElementById("log").style.display = "block";
+        document.getElementById("loader").style.display = "none";
+    }
+
+    function Spinner(){
+        document.getElementById("loader").style.display = "block";
     }
 
     function isNotNull(email,pass){
@@ -183,30 +220,45 @@
 
     const LoginUserAs = (uid) => {
         let database = firebase.database();
-        let ref = database.ref().child('Patients');
+        let ref = database.ref().child('Doctors');
 
         ref.orderByKey().equalTo(uid).once("value", snapshot => {
             if (snapshot.exists()) {
                 window.location.reload();
             } else {
-                window.location.reload(); //location.href = '../home.html';
+                location.href = '../Patient/home.html';
             }
         });
     }
+    //end of login from any page
 
     const getAppointmentDetails = (uid) => {
         let database = firebase.database();
         let ref = database.ref().child('Appointments');
-        ref.orderByKey().once("value",snapshot => {
+        ref.orderByKey().on("value",snapshot => {
+            document.getElementById("loader").style.display = "block";
             if (snapshot.exists()) {
                 snapshot.forEach(function (childSnapshot) {
-                    let id_app = childSnapshot.key;
+                    //console.log(JSON.stringify(childSnapshot.val()));
                     let app = childSnapshot.val();
+                    //Gabe Tidy removed pending appointments on home screen
 
-                    if (uid === app.doctorUid && app.status === "upcoming") {
-                        //console.log(id_app);
+                    if (uid === app.doctorUid && app.status === "canceled" ) {
+                        let label;
+                        switch (app.status){
 
-                        let label = "<span class='upcoming'>" + app.status + "</span>"; // only displays the pending appointments
+                            case "canceled":
+                                label = "<span class='canceled' >" + app.status + "</span>";
+                                break;
+                        }
+                        let pr
+                        if(app.cancellation_done_by==="Doctor"){
+                            pr = "You"
+                        }
+                        if(app.cancellation_done_by==="Patient"){
+                            pr = "The patient"
+                        }
+
 
                         appList.innerHTML +=
                             "<div class = 'card'>" +
@@ -216,72 +268,69 @@
                             "<p>" + app.date_for_appointment + " - " + app.time_for_appointment + "</p>" +
                             "<table>" +
                             "<tr>" +
-                            "<th>Reason for appointment: </th>" +
-                            "<td>" + app.reason_for_appointment + "</td>" +
-                            "</br>"+
-                            "<button class='r' id='" + id_app + "' onClick='openRejectAppPopup(this.id)'> Reject </button>" +
-                            //insert popup here to make it more dynamic (next sprint)
+                            "<th>Reason for cancellation </th>" +
+                            "<td>" + app.cancellation_reason + "</td>" +
                             "</tr>" +
+                            "<tr>"+
+                            "<th>Date of cancellation </th>" +
+                            "<td>" + pr+ " canceled this on: "+app.cancellation_date+ "</td>" +"</tr>"+
                             "</table>"
                             +"</div>"
                             +"<br/>"
                         ;
                     }
+
                 });
             }
+            document.getElementById("loader").style.display = "none";
         });
     }
 
-    /*function rejectAppointment() {
-        let person = prompt("Please enter reason for rejecting this appointment", "I am unavailable at this time, please check with the next doctor");
-        if(confirm("Do u want to continue?")) {
-            //yet to implement the rest of the code
-        }
-        else{
-            die();
-        }
-    }*/
-
-    function validateDetails(rejection_reason) {
-        //let error = document.getElementById("Error");
-        if (rejection_reason === "") {
+    function validateDetails(notes, cost) {
+        let error = document.getElementById("error");
+        if (notes === "") {
             error.style.display = "block";
-            error.innerHTML = "Reason cannot be empty";
+            error.innerHTML = "Notes cannot be empty";
+            return false;
+        } else if (cost === "") {
+            error.style.display = "block";
+            error.innerHTML = "Cost cannot be empty";
             return false;
         }
         error.style.display = "none";
         return true;
     }
 
-    function updateAppointment(appID, rejection_reason) {
+    function updateAppointment(appID, notes, cost) {
         let database = firebase.database();
         let ref = database.ref().child('Appointments');
-        ref.child(appID).update({"rejection_reason":rejection_reason});
-        ref.child(appID).update({"status":"rejected"});
+        ref.child(appID).update({"notes":notes});
+        ref.child(appID).update({"appointment_Cost":cost});
+        ref.child(appID).update({"status":"completed"});
 
-
-        let popup = document.getElementById("reject_app_popup");
+        let popup = document.getElementById("complete_app_popup");
         popup.style.display = "none";
-
     }
 
-    function rejectAppointment(appID) {
-        let rejection_reason = document.getElementById("app_rejection_reason").value;
-        console.log(appID);
+    // function confirmAppointment(appID) {
+    //     let notes = document.getElementById("app_notes").value;
+    //     let cost = document.getElementById("app_cost").value;
+    //     console.log(appID);
+    //
+    //     if (validateDetails(notes, cost)) {
+    //         updateAppointment(appID, notes, cost);
+    //     }
+    //
+    // }
 
-        if (validateDetails(rejection_reason)) {
-            updateAppointment(appID, rejection_reason);
-        }
 
-    }
-
-    function openRejectAppPopup(appID) {
-        let popup = document.getElementById("reject_app_popup");
+    function openCompleteAppPopup(appID) {
+        let popup = document.getElementById("complete_app_popup");
         let close = document.getElementsByClassName("popup-close")[0];
 
         let button = document.getElementById("confirm_app_btn");
         button.addEventListener('click', function() {
-            rejectAppointment(appID);
+            confirmAppointment(appID);
 
         })
 
@@ -298,7 +347,8 @@
         }
     }
 
-    // nav bar
+
+
     function updatemenu() {
         if (document.getElementById('responsive-menu').checked === true) {
             document.getElementById('menu').style.borderBottomRightRadius = '0';
@@ -308,5 +358,6 @@
             document.getElementById('menu').style.borderRadius = '0px';
         }
     }
+
 </script>
 </html>

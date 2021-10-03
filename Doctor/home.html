@@ -46,6 +46,8 @@
                 <li><a href="DoctorCalendar.html">Set Available Date</a></li>
                 <li><a href="DoctorCalendarUpdate.html">Update Available Dates</a></li>
                 <li><a href="consultations.html">Complete Appointment</a></li>
+                <li><a href="AppointmentTypes/CancelAppointments.html">Cancel Appointment</a></li>
+                <li><a href="AppointmentTypes/CanceledAppointments.html">Canceled Appointment</a></li>
 <!--                <li><a href="Appointments.html">Accept Appointments</a></li>-->
 <!--                <li><a href="AppointmentTypes/PendingAppointments.html">Reject Appointments</a></li>-->
 
@@ -239,15 +241,13 @@
                     //console.log(JSON.stringify(childSnapshot.val()));
                     let app = childSnapshot.val();
                     //Gabe Tidy removed pending appointments on home screen
-                    if (uid === app.doctorUid && ( app.status === "upcoming" || app.status === "pending" )) {
+                    if (uid === app.doctorUid && ( app.status === "upcoming" ) ){
                         let label;
                         switch (app.status){
                             case "upcoming":
                                 label = "<span class='accept'>" + app.status + "</span>";
                                 break;
-                            case "pending":
-                                label = "<span class='pending' >" + app.status + "</span>";
-                                break;
+
                         }
                         appList.innerHTML +=
                             "<div class = 'card'>" +
@@ -260,6 +260,42 @@
                             "<th>Reason for appointment: </th>" +
                             "<td>" + app.reason_for_appointment + "</td>" +
                             "</tr>" +
+                            "</table>"
+                            +"</div>"
+                            +"<br/>"
+                        ;
+                    }
+                    if (uid === app.doctorUid && app.status === "canceled" ) {
+                        let label;
+                        switch (app.status){
+
+                            case "canceled":
+                                label = "<span class='canceled' >" + app.status + "</span>";
+                                break;
+                        }
+                        let pr
+                        if(app.cancellation_done_by==="Doctor"){
+                            pr = "You"
+                        }
+                        if(app.cancellation_done_by==="Patient"){
+                            pr = "The patient"
+                        }
+
+
+                        appList.innerHTML +=
+                            "<div class = 'card'>" +
+                            label +
+                            "<h2>Appointment with " + app.patient_Name + "</h2>" +
+                            "<p id='app_id' style='display:none;'>" + app.id + "</p>" +
+                            "<p>" + app.date_for_appointment + " - " + app.time_for_appointment + "</p>" +
+                            "<table>" +
+                            "<tr>" +
+                            "<th>Reason for cancellation </th>" +
+                            "<td>" + app.cancellation_reason + "</td>" +
+                            "</tr>" +
+                            "<tr>"+
+                            "<th>Date of cancellation </th>" +
+                            "<td>" + pr+ " canceled this on: "+app.cancellation_date+ "</td>" +"</tr>"+
                             "</table>"
                             +"</div>"
                             +"<br/>"

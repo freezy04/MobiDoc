@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title> MobiDoc | Home </title>
+  <link rel="stylesheet" href="../styles/Nav_bar.css">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="../../favicon/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="../../favicon/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="../../favicon/favicon-16x16.png">
+  <link rel="manifest" href="../../favicon/site.webmanifest">
+
+  <!-- The core Firebase JS SDK is always required and must be listed first -->
+  <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-database.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-analytics.js"></script>
+  <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.8.0/firebase-ui-auth.css" />
+  <link rel="stylesheet" href="../styles/appointment.css"/>
+</head>
+
+
+
+<div class="wrapper">
+  <nav>
+    <input type="checkbox" id="show-search">
+    <input type="checkbox" id="show-menu">
+    <label for="show-menu" class="menu-icon"><i class="fas fa-bars"></i></label>
+    <div class="content">
+      <div class="logo"><a href="#">MobiDoc</a></div>
+      <ul class="links">
+        <li><a href="../home.html">Home</a></li>
+        <li><a href="../profile.html">Profile</a></li>
+        <li><a href="../booking.html">Book Consultation</a></li>
+        <!--                <li><a href="#" style="color: transparent">some blank string for some formatting so that it looks nice</a></li>-->
+        <li>
+          <a href="../appointments.html" class="desktop-link">Appointments</a>
+          <input type="checkbox" id="show-features">
+          <label for="show-features">Appointments</label>
+          <ul>
+            <li><a href="CancelAppointments.html">Cancel Appointments</a></li>
+            <li><a href="CanceledAppointments.html">Canceled Appointments</a></li>
+            <li><a href="AcceptedAppointments.html">Accepted Appointments</a></li>
+            <li><a href="RejectedAppointments.html">Rejected Appointments</a></li>
+            <li><a href="PendingAppointments.html">Pending Appointment</a></li>
+            <li><a href="CompletedAppointments.html">Completed Appointments</a></li>
+
+          </ul>
+        </li>
+        <li><a onclick="function SignOut() {
+                    firebase.auth().signOut()
+                    .then(() => {
+                        window.location.href = '../index.html'; //Nthabi added on 28092021 09h43
+                        console.log('Signed Out');
+                    })
+                    .catch(e=>{
+                        console.error('Sign Out Error', e);
+                    });
+                }
+                SignOut()">Logout</a></li>
+      </ul>
+    </div>
+  </nav>
+</div>
+<div style="padding-bottom: 200px"></div>
+
+<!--Step 1 | style="display: none"-->
+<div id="log" style="display: none;padding-top: 100px;margin-left:40%">
+  <center>
+    <div id="pop_up_login" class="login">
+      <h1 style="color: #0d3579"> Login </h1>
+      <p style="color:black"> Please login to continue </p>
+      <div style="padding-bottom: 30px"></div>
+      <input placeholder="Email" type="email" required id="email">
+      <input placeholder="Password" type="password" required id="password">
+      <button id="login" onclick="login()">Login</button>
+    </div>
+
+  </center>
+  <div style="padding-bottom: 400px"></div>
+</div>
+
+<center>
+  <div class="sk-chase" style="display: none" id="loader">
+    <div class="sk-chase-dot"></div>
+    <div class="sk-chase-dot"></div>
+    <div class="sk-chase-dot"></div>
+    <div class="sk-chase-dot"></div>
+    <div class="sk-chase-dot"></div>
+    <div class="sk-chase-dot"></div>
+  </div>
+</center>
+
+<dl id="appList">
+</dl>
+
+<script>
+
+  let firebaseConfig = {
+    apiKey: "AIzaSyB-ckD1wmZWj5c7RQIOyBvwFmQApBfEEMU",
+    authDomain: "mobidoc-6a3ac.firebaseapp.com",
+    databaseURL: "https://mobidoc-6a3ac-default-rtdb.firebaseio.com/",
+    projectId: "mobidoc-6a3ac",
+    storageBucket: "mobidoc-6a3ac.appspot.com",
+    messagingSenderId: "311373483549",
+    appId: "1:311373483549:web:3c840b29b14029ac4680f4",
+    measurementId: "G-JFPKMPTGZ5"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+
+</script>
+</body>
+
+
+<script>
+  // Appointment list
+  let appList = document.getElementById("appList");
+  firebase.auth().onAuthStateChanged(function (user) {
+    if (user) {
+      getAppointmentDetails(user.uid);
+    } else {
+      // No user is signed in.
+      ShowLogin();
+    }
+  });
+
+  <!--Responsible for showing the login feature to the user if they are not logged in-->
+  function ShowLogin(){
+    document.getElementById("log").style.display = "block";
+  }
+
+  function isNotNull(email,pass){
+
+    let validEmail = true;
+    let validPass = true;
+    if(email === " "){
+      validEmail = false;
+    }
+    if(pass === " "){
+      validPass = false;
+    }
+    else{
+      return true
+    }
+    return validEmail && validPass;
+  }
+
+  function login(){
+
+    let Email = document.getElementById("email").value; // get email
+    let Password = document.getElementById("password").value; // get password
+
+    if(isNotNull(Email,Password)){
+      firebase.auth().signInWithEmailAndPassword(Email, Password)
+              .then((userCredential) => { <!--Refreshes the page-->
+                // Signed in
+                let user = userCredential.user;
+                LoginUserAs(user.uid);
+              })
+              .catch((error) => {
+                var errorCode = error.code;
+                var errorMessage = error.message;
+                window.alert("Unable to login"); <!--Little popup at the top of your browser -->
+              });
+    }
+    else{
+      window.alert("Incorrect Login Details");
+    }
+  }
+
+  const LoginUserAs = (uid) => {
+    let database = firebase.database();
+    let ref = database.ref().child('Patients');
+
+    ref.orderByKey().equalTo(uid).once("value", snapshot => {
+      if (snapshot.exists()) {
+        window.location.reload();
+      } else {
+        location.href = '../Doctor/home.html';
+      }
+    });
+  }
+  function test(){
+    window.location.href="home.html"
+    // firebase.auth().onAuthStateChanged(function (user) {
+    //     if (user) {
+    //         let ref = database.ref().child('Patients');
+    //         ref.orderByChild().once("value", snapshot => {
+    //             if (snapshot.exists()) {
+    //                 appList.innerHTML = "";
+    //                 snapshot.forEach(function (childSnapshot) {
+    //                     let key = childSnapshot.key();
+    //                     let app = childSnapshot.val();
+    //                     if (user.uid === app.uid) {
+    //                         localStorage.setItem("Your keys",user)
+    //
+    //                     }
+    //                 });
+    //             }
+    //
+    //         });
+    //     } else {
+    //
+    //     }
+    // });
+
+  }
+
+  const getAppointmentDetails = (uid) => {
+
+    let database = firebase.database();
+    let ref = database.ref().child('Appointments');
+    ref.orderByChild('date_for_appointment').on("value", snapshot => {
+      if (snapshot.exists()) {
+        appList.innerHTML = "";
+        snapshot.forEach(function (childSnapshot) {
+          let app = childSnapshot.val();
+
+          if (uid === app.patientUid && app.status === "canceled" ) {
+            let label;
+            switch (app.status){
+
+              case "canceled":
+                label = "<span class='canceled' >" + app.status + "</span>";
+                break;
+            }
+            let pr
+            if(app.cancellation_done_by==="Doctor"){
+              pr = "You"
+            }
+            if(app.cancellation_done_by==="Patient"){
+              pr = "The doctor"
+            }
+
+
+            appList.innerHTML +=
+                    "<div class = 'card'>" +
+                    label +
+                    "<h2>Appointment with Dr. " + app.doctor_Name + "</h2>" +
+                    "<p id='app_id' style='display:none;'>" + app.id + "</p>" +
+                    "<p>" + app.date_for_appointment + " - " + app.time_for_appointment + "</p>" +
+                    "<table>" +
+                    "<tr>" +
+                    "<th>Reason for cancellation </th>" +
+                    "<td>" + app.cancellation_reason + "</td>" +
+                    "</tr>" +
+                    "<tr>"+
+                    "<th>Date of cancellation </th>" +
+                    "<td>" + pr+ " canceled this on: "+app.cancellation_date+ "</td>" +"</tr>"+
+                    "</table>"
+                    +"</div>"
+                    +"<br/>"
+            ;
+          }
+        });
+      }
+      document.getElementById("loader").style.display = "none";
+    });
+  }
+
+  // nav bar
+  function updatemenu() {
+    if (document.getElementById('responsive-menu').checked === true) {
+      document.getElementById('menu').style.borderBottomRightRadius = '0';
+      document.getElementById('menu').style.borderBottomLeftRadius = '0';
+    } else {
+      document.getElementById('menu').style.borderRadius = '0px';
+    }
+  }
+</script>
+</script>
+</html>

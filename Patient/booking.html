@@ -40,6 +40,8 @@
                     <input type="checkbox" id="show-features">
                     <label for="show-features">Appointments</label>
                     <ul>
+                        <li><a href="AppointmentTypes/CancelAppointments.html">Cancel Appointments</a></li>
+                        <li><a href="AppointmentTypes/CanceledAppointments.html">Canceled Appointments</a></li>
                         <li><a href="AppointmentTypes/AcceptedAppointments.html">Accepted Appointments</a></li>
                         <li><a href="AppointmentTypes/RejectedAppointments.html">Rejected Appointments</a></li>
                         <li><a href="AppointmentTypes/PendingAppointments.html">Pending Appointment</a></li>
@@ -209,6 +211,7 @@
                     let app = childSnapshot.val();
 
                     let DocN = app.first_name
+                    let docEmail = app.email
 
                     appList.innerHTML +=
                         "<div class = 'card' id='docCard' >" +
@@ -223,7 +226,7 @@
 
                         "<tr>" +
                         "<br/>" +
-                        "<button id='" + app.uid + "'  name='"+ DocN +"'   onClick='openBookApp(this.id,this.name)'>Book</button>" +
+                        "<button id='" + app.uid + "'  name='"+ DocN +"' value='"+docEmail+"'  onClick='openBookApp(this.id,this.name,this.value)'>Book</button>" +
                         "</tr>" +
                         "</table>"
                         +"</div>"
@@ -348,15 +351,15 @@ else {
                                 else {
                                     database.ref().child('Appointments').push({
                                         appointment_Cost:costApp ,
-                                        //date_for_appointment:Adate,
+                                        date_for_appointment:Adate,
                                         doctorUid:doctorUid,
-                                       // doctor_Name:doctorName,
+                                       doctor_Name:doctorName,
                                         notes:  docNotes,
                                         patientUid:user.uid,
                                         patient_Name:usersName,
                                         reason_for_appointment:document.getElementById("reasonForApp").value,
                                         status:appStatus,
-                                        //time_for_appointment:Actualtime
+                                        time_for_appointment:Actualtime
                                     });
                                     let popup = document.getElementById("accept_app_popup");
                                     popup.style.display = "none";
@@ -371,7 +374,13 @@ else {
                     }
                 });
             }
-
+        // admin.firestore().collection('mail').add({
+        //     to: 'someone@example.com',
+        //     message: {
+        //         subject: 'Hello from Firebase!',
+        //         html: 'This is an <code>HTML</code> email body.',
+        //     },
+        // })
             else {
                 window.location.href = "../index.html"; // redirects the user to the log in page
             }
@@ -390,7 +399,7 @@ else {
     }
 
 
-    function openBookApp(appID,DocName) {
+    function openBookApp(appID,DocName,docE) {
         // let popup = document.getElementById("accept_app_popup");
         // let close = document.getElementsByClassName("popup-close")[0];
         //
@@ -412,6 +421,7 @@ else {
         // }
         localStorage.setItem("docUID", appID);
         localStorage.setItem("docName", DocName);
+        localStorage.setItem("docEmail",docE);
         // Gabe modified function to open calendar booking system instead of the popup
         window.location.href = "PatientCalendar.html?doc=" + appID;
     }

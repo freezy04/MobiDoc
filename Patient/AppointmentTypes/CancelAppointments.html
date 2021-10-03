@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title> MobiDoc | Pending Appointments </title>
+    <title> MobiDoc | Cancel Appointments </title>
     <link rel="stylesheet" href="../styles/Nav_bar.css">
 
     <link rel="apple-touch-icon" sizes="180x180" href="../../favicon/apple-touch-icon.png">
@@ -16,7 +16,7 @@
     <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-database.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-analytics.js"></script>
     <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.8.0/firebase-ui-auth.css" />
-    <link rel="stylesheet" href="../styles/appointments.css"/>
+    <link rel="stylesheet" href="../styles/appointment.css"/>
 </head>
 <body>
 
@@ -30,22 +30,21 @@
             <div class="logo"><a href="#">MobiDoc</a></div>
             <ul class="links">
                 <li><a href="../home.html">Home</a></li>
+                <li><a href="../profile.html">Profile</a></li>
+                <li><a href="../booking.html">Book Consultation</a></li>
+                <li><a href="#" style="color: transparent">some blank string for some formatting so that it looks nice</a></li>
                 <li>
-                    <a href="../profile.html" class="desktop-link">Profile</a>
-                    <input type="checkbox" id="show-services">
-                    <label for="show-services">Profile</label>
-                </li>
-                <li><a href="../Appointments.html">Accept Appointments</a></li>
-                <li><a href="PendingAppointments.html">Reject Appointments</a></li>
-                <li><a href="../consultations.html">Complete Appointment</a></li>
-                <li>
-                    <a href="#" class="desktop-link" style="padding-left: 50px">Appointments</a>
+                    <a href="../appointments.html" class="desktop-link">Appointments</a>
                     <input type="checkbox" id="show-features">
                     <label for="show-features">Appointments</label>
                     <ul>
-                        <li><a style="padding-left: 60px" href="RejectedAppointments.html">Rejected Appointments</a></li>
-                        <li><a style="padding-left: 60px" href="PendingAppointments.html">Pending Appointments</a></li>
-                        <li><a style="padding-left: 60px" href="CompletedAppointments.html">Completed Appointments</a></li>
+                        <li><a href="CancelAppointments.html">Cancel Appointments</a></li>
+                        <li><a href="CanceledAppointments.html">Canceled Appointments</a></li>
+                        <li><a href="AcceptedAppointments.html">Accepted Appointments</a></li>
+                        <li><a href="RejectedAppointments.html">Rejected Appointments</a></li>
+                        <li><a href="PendingAppointments.html">Pending Appointment</a></li>
+                        <li><a href="CompletedAppointments.html">Completed Appointments</a></li>
+
                     </ul>
                 </li>
                 <li><a onclick="function SignOut() {
@@ -92,7 +91,7 @@
     firebase.initializeApp(firebaseConfig);
 
 </script>
-<script src = "../script/PendingAppointments.js"></script >
+<script src="../scripts/CancelAppoinment.js"></script>
 
 </script>
 
@@ -104,18 +103,18 @@
 <div id="reject_app_popup" class="popup">
     <div class="popup-content">
         <div class="popup-header">
-            <h2 style="text-align:center">Reject your appointment?</h2>
+            <h2 style="text-align:center">Cancel your appointment?</h2>
             <span class="popup-close">&times;</span>
         </div>
         <div class="popup-body">
             <div class="form__group field">
-                <textarea type="input" class="form__field" placeholder="Rejection reason" cols="100" 100 name="Rejection reason" id = "app_rejection_reason" required></textarea>
-                <label for="app_rejection_reason" class="form__label">Rejection reason</label>
+                <textarea type="input" class="form__field" placeholder="Cancellation reason" cols="100" 100 name="Rejection reason" id = "app_rejection_reason" required></textarea>
+                <label for="app_rejection_reason" class="form__label">Cancellation reason</label>
             </div>
 
         </div>
         <div class="popup-footer">
-            <button id="confirm_app_btn"> Reject Appointment </button>
+            <button id="confirm_app_btn"> Cancel Appointment </button>
             <p id = "error" class = "error" style="color: darkred"></p>
         </div>
     </div>
@@ -203,7 +202,7 @@
                     let id_app = childSnapshot.key;
                     let app = childSnapshot.val();
 
-                    if (uid === app.doctorUid && app.status === "upcoming") {
+                    if (uid === app.patientUid && app.status === "upcoming") {
                         //console.log(id_app);
 
                         let label = "<span class='upcoming'>" + app.status + "</span>"; // only displays the pending appointments
@@ -211,7 +210,7 @@
                         appList.innerHTML +=
                             "<div class = 'card'>" +
                             label +
-                            "<h2>Appointment with " + app.patient_Name + "</h2>" +
+                            "<h2>Appointment with Dr. " + app.doctor_Name + "</h2>" +
                             "<p id='app_id' style='display:none;'>" + app.id + "</p>" +
                             "<p>" + app.date_for_appointment + " - " + app.time_for_appointment + "</p>" +
                             "<table>" +
@@ -219,7 +218,9 @@
                             "<th>Reason for appointment: </th>" +
                             "<td>" + app.reason_for_appointment + "</td>" +
                             "</br>"+
-                            "<button class='r' id='" + id_app + "' onClick='openRejectAppPopup(this.id)'> Reject </button>" +
+                            "</tr>"+
+                        "<tr>"+
+                            "<button class='r' id='" + id_app + "' onClick='openRejectAppPopup(this.id)'> Cancel </button>" +
                             //insert popup here to make it more dynamic (next sprint)
                             "</tr>" +
                             "</table>"
@@ -255,9 +256,12 @@
 
     function updateAppointment(appID, rejection_reason) {
         let database = firebase.database();
+        const d = new Date();
         let ref = database.ref().child('Appointments');
-        ref.child(appID).update({"rejection_reason":rejection_reason});
-        ref.child(appID).update({"status":"rejected"});
+        ref.child(appID).update({"cancellation_done_by":"Patient"});
+        ref.child(appID).update({"cancellation_date":d.getDate()+"/"+d.getMonth()+"/"+d.getFullYear()});
+        ref.child(appID).update({"cancellation_reason":rejection_reason});
+        ref.child(appID).update({"status":"canceled"});
 
 
         let popup = document.getElementById("reject_app_popup");

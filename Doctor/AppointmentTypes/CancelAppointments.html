@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title> MobiDoc | Cancel Appointments </title>
+  <link rel="stylesheet" href="../styles/Nav_bar.css">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="../../favicon/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="../../favicon/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="../../favicon/favicon-16x16.png">
+  <link rel="manifest" href="../../favicon/site.webmanifest">
+
+  <!-- The core Firebase JS SDK is always required and must be listed first -->
+  <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-database.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-analytics.js"></script>
+  <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.8.0/firebase-ui-auth.css" />
+  <link rel="stylesheet" href="../styles/appointments.css"/>
+</head>
+<body>
+
+<!--Nav bar-->
+<div class="wrapper">
+  <nav>
+    <input type="checkbox" id="show-search">
+    <input type="checkbox" id="show-menu">
+    <label for="show-menu" class="menu-icon"><i class="fas fa-bars"></i></label>
+    <div class="content">
+      <div class="logo"><a href="#">MobiDoc</a></div>
+      <ul class="links">
+        <li><a href="../home.html">Home</a></li>
+        <li>
+          <a href="../profile.html" class="desktop-link">Profile</a>
+          <input type="checkbox" id="show-services">
+          <label for="show-services">Profile</label>
+        </li>
+        <li><a href="../Appointments.html">Accept Appointments</a></li>
+        <li><a href="PendingAppointments.html">Reject Appointments</a></li>
+        <li><a href="../consultations.html">Complete Appointment</a></li>
+        <li>
+          <a href="#" class="desktop-link" style="padding-left: 50px">Appointments</a>
+          <input type="checkbox" id="show-features">
+          <label for="show-features">Appointments</label>
+          <ul>
+            <li><a style="padding-left: 60px" href="RejectedAppointments.html">Rejected Appointments</a></li>
+            <li><a style="padding-left: 60px" href="PendingAppointments.html">Pending Appointments</a></li>
+            <li><a style="padding-left: 60px" href="CompletedAppointments.html">Completed Appointments</a></li>
+          </ul>
+        </li>
+        <li><a onclick="function SignOut() {
+                    firebase.auth().signOut()
+                    .then(() => {
+                        console.log('Signed Out');
+                    })
+                    .catch(e=>{
+                        console.error('Sign Out Error', e);
+                    });
+                }
+                SignOut()">Logout</a></li>
+      </ul>
+    </div>
+  </nav>
+</div>
+
+<div style="padding-bottom: 200px"></div>
+
+<!--style="display: none"-->
+<div id="pop_up_login">
+  <h2> Login </h2>
+  <input placeholder="Email" type="email" required id="email">
+  <input placeholder="Password" type="password" required id="password">
+  <button id="login" onclick="login()">Login</button>
+</div>
+
+<dl id="appList">
+</dl>
+
+<script>
+
+  let firebaseConfig = {
+    apiKey: "AIzaSyB-ckD1wmZWj5c7RQIOyBvwFmQApBfEEMU",
+    authDomain: "mobidoc-6a3ac.firebaseapp.com",
+    databaseURL: "https://mobidoc-6a3ac-default-rtdb.firebaseio.com/",
+    projectId: "mobidoc-6a3ac",
+    storageBucket: "mobidoc-6a3ac.appspot.com",
+    messagingSenderId: "311373483549",
+    appId: "1:311373483549:web:3c840b29b14029ac4680f4",
+    measurementId: "G-JFPKMPTGZ5"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+
+</script>
+<script src = "../scripts/CancelAppointments.js"></script >
+
+</script>
+
+<div style="padding-bottom: 200px"></div>
+
+</body>
+
+<!--popup for rejecting appointment-->
+<div id="reject_app_popup" class="popup">
+  <div class="popup-content">
+    <div class="popup-header">
+      <h2 style="text-align:center">Cancel this appointment?</h2>
+      <span class="popup-close">&times;</span>
+    </div>
+    <div class="popup-body">
+      <div class="form__group field">
+        <textarea type="input" class="form__field" placeholder="Cancellation reason" cols="100" 100 name="Rejection reason" id = "app_rejection_reason" required></textarea>
+        <label for="app_rejection_reason" class="form__label">Cancellation reason</label>
+      </div>
+
+    </div>
+    <div class="popup-footer">
+      <button id="confirm_app_btn"> Cancel Appointment </button>
+      <p id = "error" class = "error" style="color: darkred"></p>
+    </div>
+  </div>
+</div>
+
+<script>
+  let user_id;
+
+
+  // Appointment list
+  let appList = document.getElementById("appList");
+  firebase.auth().onAuthStateChanged(function (user) {
+    if (user) {
+      user_id = user.uid;
+      getAppointmentDetails(user.uid);
+    }  else {
+      // No user is signed in.
+      ShowLogin();
+    }
+  });
+
+  <!--Responsible for showing the login feature to the user if they are not logged in-->
+  function ShowLogin(){
+    document.getElementById("pop_up_login").style.display = "block";
+  }
+
+  function isNotNull(email,pass){
+
+    let validEmail = true;
+    let validPass = true;
+    if(email === " "){
+      validEmail = false;
+    }
+    if(pass === " "){
+      validPass = false;
+    }
+    else{
+      return true
+    }
+    return validEmail && validPass;
+  }
+
+  function login(){
+
+    let Email = document.getElementById("email").value; // get email
+    let Password = document.getElementById("password").value; // get password
+
+    if(isNotNull(Email,Password)){
+      firebase.auth().signInWithEmailAndPassword(Email, Password)
+              .then((userCredential) => { <!--Refreshes the page-->
+                // Signed in
+                let user = userCredential.user;
+                LoginUserAs(user.uid);
+              })
+              .catch((error) => {
+                var errorCode = error.code;
+                var errorMessage = error.message;
+                window.alert("Unable to login"); <!--Little popup at the top of your browser -->
+              });
+    }
+    else{
+      window.alert("Incorrect Login Details");
+    }
+  }
+
+  const LoginUserAs = (uid) => {
+    let database = firebase.database();
+    let ref = database.ref().child('Patients');
+
+    ref.orderByKey().equalTo(uid).once("value", snapshot => {
+      if (snapshot.exists()) {
+        window.location.reload();
+      } else {
+        window.location.reload(); //location.href = '../home.html';
+      }
+    });
+  }
+
+  const getAppointmentDetails = (uid) => {
+    let database = firebase.database();
+    let ref = database.ref().child('Appointments');
+    ref.orderByKey().once("value",snapshot => {
+      if (snapshot.exists()) {
+        snapshot.forEach(function (childSnapshot) {
+          let id_app = childSnapshot.key;
+          let app = childSnapshot.val();
+
+          if (uid === app.doctorUid && app.status === "upcoming") {
+            //console.log(id_app);
+
+            let label = "<span class='upcoming'>" + app.status + "</span>"; // only displays the pending appointments
+
+            appList.innerHTML +=
+                    "<div class = 'card'>" +
+                    label +
+                    "<h2>Appointment with " + app.patient_Name + "</h2>" +
+                    "<p id='app_id' style='display:none;'>" + app.id + "</p>" +
+                    "<p>" + app.date_for_appointment + " - " + app.time_for_appointment + "</p>" +
+                    "<table>" +
+                    "<tr>" +
+                    "<th>Reason for appointment: </th>" +
+                    "<td>" + app.reason_for_appointment + "</td>" +
+                    "</br>"+
+                    "<button class='r' id='" + id_app + "' onClick='openRejectAppPopup(this.id)'> Cancel </button>" +
+                    //insert popup here to make it more dynamic (next sprint)
+                    "</tr>" +
+                    "</table>"
+                    +"</div>"
+                    +"<br/>"
+            ;
+          }
+        });
+      }
+    });
+  }
+
+  /*function rejectAppointment() {
+      let person = prompt("Please enter reason for rejecting this appointment", "I am unavailable at this time, please check with the next doctor");
+      if(confirm("Do u want to continue?")) {
+          //yet to implement the rest of the code
+      }
+      else{
+          die();
+      }
+  }*/
+
+  function validateDetails(rejection_reason) {
+    //let error = document.getElementById("Error");
+    if (rejection_reason === "") {
+      error.style.display = "block";
+      error.innerHTML = "Reason cannot be empty";
+      return false;
+    }
+    error.style.display = "none";
+    return true;
+  }
+
+  function updateAppointment(appID, rejection_reason) {
+    let database = firebase.database();
+    const d = new Date();
+    let ref = database.ref().child('Appointments');
+    ref.child(appID).update({"cancellation_done_by":"Doctor"});
+    ref.child(appID).update({"cancellation_date":d.getDate()+"/"+d.getMonth()+"/"+d.getFullYear()});
+    ref.child(appID).update({"cancellation_reason":rejection_reason});
+    ref.child(appID).update({"status":"canceled"});
+
+
+    let popup = document.getElementById("reject_app_popup");
+    popup.style.display = "none";
+
+  }
+
+  function rejectAppointment(appID) {
+    let rejection_reason = document.getElementById("app_rejection_reason").value;
+    console.log(appID);
+
+    if (validateDetails(rejection_reason)) {
+      updateAppointment(appID, rejection_reason);
+    }
+
+  }
+
+  function openRejectAppPopup(appID) {
+    let popup = document.getElementById("reject_app_popup");
+    let close = document.getElementsByClassName("popup-close")[0];
+
+    let button = document.getElementById("confirm_app_btn");
+    button.addEventListener('click', function() {
+      rejectAppointment(appID);
+
+    })
+
+    popup.style.display = "block";//opens popup
+
+    //closes popup if user clicks close or outside popup
+    close.onclick = function() {
+      popup.style.display = "none";
+    }
+    window.onclick = function(event) {
+      if (event.target === popup) {
+        popup.style.display = "none";
+      }
+    }
+  }
+
+  // nav bar
+  function updatemenu() {
+    if (document.getElementById('responsive-menu').checked === true) {
+      document.getElementById('menu').style.borderBottomRightRadius = '0';
+      document.getElementById('menu').style.borderBottomLeftRadius = '0';
+    }
+    else{
+      document.getElementById('menu').style.borderRadius = '0px';
+    }
+  }
+</script>
+</html>
