@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title> MobiDoc | Calendar Update </title>
+    <title> MobiDoc | Calendar </title>
 
     <link rel="apple-touch-icon" sizes="180x180" href="../favicon/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="../favicon/favicon-32x32.png">
@@ -13,11 +13,13 @@
     <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-database.js"></script>
+    <link rel="stylesheet" href="styles/appCardCalendar.css">
     <link rel="stylesheet" href="styles/Nav_bar.css">
     <link rel="stylesheet" href="styles/calendar.css">
     <link rel="stylesheet" href="styles/login.css">
+
     <style>
-        body {font-family: Arial, Helvetica, sans-serif;}
+        body {font-family: Arial, Helvetica, sans-serif;background: whitesmoke}
 
         /* The Modal (background) */
         .modal {
@@ -81,6 +83,14 @@
             color: white;
         }
 
+        .modal-body {padding: 2px 16px;}
+
+        .modal-footer {
+            padding: 2px 16px;
+            background-color: #5cb85c;
+            color: white;
+        }
+
         /* Add Animation */
         @-webkit-keyframes slideIn {
             from {bottom: -300px; opacity: 0}
@@ -104,7 +114,7 @@
     </style>
 
 </head>
-<body>
+<body onload="Spinner()">
 
 
 <div class="wrapper">
@@ -116,30 +126,24 @@
             <div class="logo"><a href="#">MobiDoc</a></div>
             <ul class="links">
                 <li><a href="home.html">Home</a></li>
+                <li><a href="PatientViewCalendarAppointments.html">View Appointments</a></li>
+                <li><a href="profile.html">Profile</a></li>
+                <li><a href="booking.html">Book Consultation</a></li>
+                <!--                <li><a href="#" style="color: transparent">some blank string for some formatting so that it looks nice</a></li>-->
                 <li>
-                    <a href="profile.html" class="desktop-link">Profile</a>
-                    <input type="checkbox" id="show-services">
-                    <label for="show-services">Profile</label>
+                    <a href="appointments.html" class="desktop-link">Appointments</a>
+                    <input type="checkbox" id="show-features">
+                    <label for="show-features">Appointments</label>
+                    <ul>
+                        <li><a href="AppointmentTypes/CancelAppointments.html">Cancel Appointments</a></li>
+                        <li><a href="AppointmentTypes/CanceledAppointments.html">Canceled Appointments</a></li>
+                        <li><a href="AppointmentTypes/AcceptedAppointments.html">Accepted Appointments</a></li>
+                        <li><a href="AppointmentTypes/RejectedAppointments.html">Rejected Appointments</a></li>
+                        <li><a href="AppointmentTypes/PendingAppointments.html">Pending Appointment</a></li>
+                        <li><a href="AppointmentTypes/CompletedAppointments.html">Completed Appointments</a></li>
+
+                    </ul>
                 </li>
-                <li><a href="DoctorViewCalendarAppointments.html">View Appointments</a></li>
-                <li><a href="DoctorCalendar.html">Set Available Date</a></li>
-                <li><a href="DoctorCalendarUpdate.html">Update Available Dates</a></li>
-                <li><a href="consultations.html">Complete Appointment</a></li>
-                <li><a href="AppointmentTypes/CancelAppointments.html">Cancel Appointment</a></li>
-                <li><a href="AppointmentTypes/CanceledAppointments.html">Canceled Appointment</a></li>
-                <!--                <li><a href="Appointments.html">Accept Appointments</a></li>-->
-                <!--                <li><a href="AppointmentTypes/PendingAppointments.html">Reject Appointments</a></li>-->
-                <!--                <li><a href="consultations.html">Complete Appointment</a></li>-->
-                <!--                <li>-->
-                <!--                    <a href="#" class="desktop-link" style="padding-left: 50px">Appointments</a>-->
-                <!--                    <input type="checkbox" id="show-features">-->
-                <!--                    <label for="show-features">Appointments</label>-->
-                <!--                    <ul>-->
-                <!--                        <li><a style="padding-left: 60px" href="AppointmentTypes/RejectedAppointments.html">Rejected Appointments</a></li>-->
-                <!--                        <li><a style="padding-left: 60px" href="AppointmentTypes/PendingAppointments.html">Pending Appointments</a></li>-->
-                <!--                        <li><a style="padding-left: 60px" href="AppointmentTypes/CompletedAppointments.html">Completed Appointments</a></li>-->
-                <!--                    </ul>-->
-                <!--                </li>-->
                 <li><a onclick="function SignOut() {
                     firebase.auth().signOut()
                     .then(() => {
@@ -156,11 +160,10 @@
     </nav>
 </div>
 
-<script src="scripts/doctor_calendar_update.js" async=""></script>
-<div id="calendar"></div>
 
 <!--Nthabi added the login from any page functionality here| style="display: none"-->
 <!--to do: insert CSS-->
+<!--<div style="padding-bottom: 500px"></div>-->
 <div id="log" style="display: none;padding-top: 100px;margin-left:40%">
     <center>
         <div id="pop_up_login" class="login">
@@ -175,10 +178,23 @@
     </center>
     <div style="padding-bottom: 400px"></div>
 </div>
+<center>
+    <div class="sk-chase" style="display: none" id="loader">
+        <div class="sk-chase-dot"></div>
+        <div class="sk-chase-dot"></div>
+        <div class="sk-chase-dot"></div>
+        <div class="sk-chase-dot"></div>
+        <div class="sk-chase-dot"></div>
+        <div class="sk-chase-dot"></div>
+    </div>
+</center>
+
+<script src="scripts/pat_view_calendar_apps.js" async=""></script>
+<div id="calendar"></div>
 
 <script>
 
-    //<!--[Nthabi] login from any page moved to related js file-->
+    <!--[Nthabi] login from any page moved to related js file-->
 
     let firebaseConfig = {
         apiKey: "AIzaSyB-ckD1wmZWj5c7RQIOyBvwFmQApBfEEMU",
@@ -195,22 +211,22 @@
 
 </script>
 
-<div id="dayPopup" class="modal">
+<div id="appsPopup" class="modal">
     <div class="modal-content">
         <div class="modal-header">
             <span class="close">&times;</span>
-            <h2 id="dayPopupHeader">Jan 1st 2021</h2>
+            <h2 id="appsPopupHeader">Jan 1st 2021</h2>
         </div>
         <div class="modal-body">
-            <table id='dayTable' class="dayTable"></table>
+            <!--            <table id='dayTable' class="dayTable"></table>-->
+            <dl id="dayAppCards"></dl>
         </div>
-        <div class="modal-footer">
-            <h3>Click on a slot to change its availability</h3>
-        </div>
+        <!--        <div class="modal-footer">-->
+        <!--            <h3>Click on a slot to change its availability</h3>-->
+        <!--        </div>-->
     </div>
 
 </div>
-
 
 </body>
 </html>

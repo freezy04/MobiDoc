@@ -1,5 +1,5 @@
 
-let patientNames = {};
+let doctorNames = {};
 let appointments = [];
 let times = ["06:00", "06:30", "07:00", "07:30", "08:00", "08:30", "09:00", "09:30", "10:00", "10:30",
     "11:00", "11:30", "12:00", "12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30",
@@ -8,26 +8,26 @@ let weekDays = [{shortDay:"Mon", fullDay:"Monday"}, {shortDay:"Tue", fullDay:"Tu
     {shortDay:"Wed", fullDay:"Wednesday"}, {shortDay:"Thu", fullDay:"Thursday"}, {shortDay:"Fri", fullDay:"Friday"},
     {shortDay:"Sat", fullDay:"Saturday"}, {shortDay:"Sun", fullDay:"Sunday"}];
 
-function getAppointments(docID) {
+function getAppointments(patID) {
     let database = firebase.database();
     let ref = database.ref().child("Appointments");
     ref.orderByKey().once("value",snapshot => {
         if (snapshot.exists()) {
             snapshot.forEach(function (childSnapshot) {
                 let app = childSnapshot.val();
-                if (app.doctorUid === docID) {
+                if (app.patientUid === patID) {
                     appointments.push(app);
-                    let patNames = patientNames[app.date_for_appointment];
-                    if (patNames === undefined) {
-                        patientNames[app.date_for_appointment] = app.patient_Name;
+                    let docNames = doctorNames[app.date_for_appointment];
+                    if (docNames === undefined) {
+                        doctorNames[app.date_for_appointment] = app.doctor_Name;
                     } else {
-                        let multAppOp = (patNames[0] === '~')  ? "" : "~";
-                        patientNames[app.date_for_appointment] = multAppOp + patNames + "~" + app.patient_Name;
+                        let multAppOp = (docNames[0] === '~')  ? "" : "~";
+                        doctorNames[app.date_for_appointment] = multAppOp + docNames + "~" + app.doctor_Name;
                     }
                 }
             });
         }
-        console.log(patientNames);
+        console.log(doctorNames);
         console.log(appointments);
 
         let curDate = new Date();
@@ -41,54 +41,6 @@ function getAppointments(docID) {
         document.getElementById("loader").style.display = "none";
     });
 }
-
-// const getDoctorList = (docID) => {
-//     let database = firebase.database();
-//     let ref = database.ref().child('DocSetADT');
-//     ref.orderByKey().once("value",snapshot => {
-//         if (snapshot.exists()) {
-//             snapshot.forEach(function (childSnapshot) {
-//                 let app = childSnapshot.val();
-//                 // let docUid = app.doctorUid;
-//                 let docUid = app.doctorUID;
-//                 if (docUid === docID) {
-//                     // let doc_id = childSnapshot.key;
-//
-//                     // let docName = app.doctorName;
-//                     // let DocSurname = app.doctorSurname;
-//                     // let docSpec = app. doctorSpecialization;
-//                     // let docAD = app.doctorAvailableDay;
-//                     // let docSDate = app.doctorStartDate;
-//                     // let docEDate = app.doctorEndDate;
-//                     // let docStartTime = app.doctorAvailableStartTime;
-//                     // let docEndTime = app.doctorAvailableEndTime;
-//                     // let docApptInterval = app.doctorAppointmentInterval;
-//                     // let Allouputs =docUid +"," + docName +","+ DocSurname +","+ docSpec +","+ docAD +","+ docSDate +"," + docEDate +"," + docStartTime+"," + docEndTime+"," + docApptInterval;
-//
-//                     eventsDict[app.date] = app.slots;
-//
-//                     // events.push({docUid,docName,DocSurname,docSpec,docAD,docSDate,docEDate,docStartTime,docEndTime,docApptInterval}); // opt1
-//                     //events2.push(Allouputs); // opt2
-//                     // opt1 uses a array with sets within and those sets are comprised of the doctors details
-//                     // opt2 uses concatenations of all doctors information
-//                 }
-//             });
-//             console.log(eventsDict);
-//
-//             //console.log(events2);
-//         }
-//         let curDate = new Date();
-//         let curMonth = curDate.getMonth() + 1;
-//         curMonth = (curMonth < 10) ? "0" + curMonth : curMonth;
-//         let curYear = curDate.getFullYear();
-//         let nextYear = curYear + 1;
-//         document.getElementById("calendar").innerHTML = getDatesBetween(curMonth + "/01/" + curYear, curMonth + "/01/" + nextYear);
-//
-//         // Dylan Added this
-//         document.getElementById("loader").style.display = "none";
-//     });
-//
-// }
 
 let calendarShow = 0;
 
@@ -126,7 +78,7 @@ function openAppsPopup(dayID) {
             content +=
                 "<div class = 'card'>" +
                 label +
-                "<h2>Appointment with " + app.patient_Name + "</h2>" +
+                "<h2>Appointment with " + app.doctor_Name + "</h2>" +
                 "<p id='app_id' style='display:none;'>" + app.id + "</p>" +
                 "<p>" + app.date_for_appointment + " - " + app.time_for_appointment + "</p>" +
                 "<table class='appCard'>" +
@@ -191,24 +143,24 @@ function getDatesBetween(startDate, endDate) {
                 displayNum = (j < 10) ? "0" + j : j;
                 let dayID = j + "/" + (firstDate.getMonth()+1) + "/" + firstDate.getFullYear();
                 let htmlAtts = "'";
-                let patNames = patientNames[dayID];
-                if (patNames !== undefined) {
-                    htmlAtts += " style='background:#adff2f' onclick='openAppsPopup(this.id)'>" + displayNum;
-                    if (patNames[0] === "~") {
-                        patNames = patNames.split("~");
-                        for (let i = 0; i < patNames.length; i++) {
+                let docNames = doctorNames[dayID];
+                if (docNames !== undefined) {
+                    htmlAtts += " style='background:#adff2f; cursor: pointer' onclick='openAppsPopup(this.id)'>" + displayNum;
+                    if (docNames[0] === "~") {
+                        docNames = docNames.split("~");
+                        for (let i = 0; i < docNames.length; i++) {
                             if (i >= 4) {
                                 htmlAtts += "....";
                                 break;
                             }
-                            htmlAtts += "<br>" + patNames[i];
+                            htmlAtts += "<br>" + docNames[i];
                         }
                         // patNames.split("~").forEach(name => colour += "<br>" + name);
                     }else {
-                        htmlAtts += "<br>" + patNames;
+                        htmlAtts += "<br>" + docNames;
                     }
                 } else {
-                    htmlAtts += "style='cursor: default'>" + displayNum;
+                    htmlAtts += ">" + displayNum;
                 }
                 if (j === 1) {
                     if (firstDate.toString().split(" ")[0] === weekDays[k].shortDay) {
@@ -339,7 +291,7 @@ function login(){
 
 const LoginUserAs = (uid) => {
     let database = firebase.database();
-    let ref = database.ref().child('Doctors');
+    let ref = database.ref().child('Patients');
 
     ref.orderByKey().equalTo(uid).once("value", snapshot => {
         if (snapshot.exists()) {
