@@ -17,6 +17,8 @@
     <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-analytics.js"></script>
     <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.8.0/firebase-ui-auth.css" />
     <link rel="stylesheet" href="../styles/appointment.css"/>
+    <!--    email notification-->
+    <script src="https://smtpjs.com/v3/smtp.js"></script>
 </head>
 <body>
 
@@ -120,9 +122,10 @@
         </div>
     </div>
 </div>
-
+<script src="../../email.js"></script>
 <script>
     let user_id;
+    let PatientUser;
 
 
     // Appointment list
@@ -130,6 +133,7 @@
     firebase.auth().onAuthStateChanged(function (user) {
         if (user) {
             user_id = user.uid;
+            PatientUser = user;
             getAppointmentDetails(user.uid);
         }  else {
             // No user is signed in.
@@ -202,10 +206,11 @@
                 snapshot.forEach(function (childSnapshot) {
                     let id_app = childSnapshot.key;
                     let app = childSnapshot.val();
-
+                    let P_uid,D_uid;
                     if (uid === app.patientUid && app.status === "upcoming") {
                         //console.log(id_app);
-
+                        D_uid = app.doctorUid;
+                        P_uid = app.patientUid;
                         let label = "<span class='upcoming'>" + app.status + "</span>"; // only displays the pending appointments
 
                         appList.innerHTML +=
@@ -221,7 +226,7 @@
                             "</br>"+
                             "</tr>"+
                         "<tr>"+
-                            "<button class='r' id='" + id_app + "' onClick='openRejectAppPopup(this.id)'> Cancel </button>" +
+                            "<button class='r' id='" + id_app + "," + P_uid + "," + D_uid + "," + app.date_for_appointment + "' onClick='openRejectAppPopup(this.id)'> Cancel </button>" +
                             //insert popup here to make it more dynamic (next sprint)
                             "</tr>" +
                             "</table>"
@@ -256,13 +261,30 @@
     }
 
     function updateAppointment(appID, rejection_reason) {
+
+        let Arr = appID.split(',');
+
         let database = firebase.database();
+
+        // Added By Dylan
+        // Arr[1] - Patient UID
+        // Arr[2] - Doctor UID
+        // Arr[3] - Date for appointment
+        database.ref().child('Patients').child(Arr[1]).once("value",snapshot => {
+            let Patient = snapshot.val();
+            ComposeAndSendEmail(Patient.last_name,Arr[3],Patient.email);
+        });
+        database.ref().child('Doctors').child(Arr[2]).once("value",SnapShot =>{
+            let Doctor = SnapShot.val();
+            ComposeAndSendEmail(Doctor.last_name,Arr[3],Doctor.email);
+        });
+
         const d = new Date();
         let ref = database.ref().child('Appointments');
-        ref.child(appID).update({"cancellation_done_by":"Patient"});
-        ref.child(appID).update({"cancellation_date":d.getDate()+"/"+d.getMonth()+"/"+d.getFullYear()});
-        ref.child(appID).update({"cancellation_reason":rejection_reason});
-        ref.child(appID).update({"status":"canceled"});
+        ref.child(Arr[0]).update({"cancellation_done_by":"Patient"});
+        ref.child(Arr[0]).update({"cancellation_date":d.getDate()+"/"+d.getMonth()+"/"+d.getFullYear()});
+        ref.child(Arr[0]).update({"cancellation_reason":rejection_reason});
+        ref.child(Arr[0]).update({"status":"canceled"});
 
 
         let popup = document.getElementById("reject_app_popup");
@@ -280,7 +302,7 @@
 
     }
 
-    function openRejectAppPopup(appID) {
+    function openRejectAppPopup(appID){
         let popup = document.getElementById("reject_app_popup");
         let close = document.getElementsByClassName("popup-close")[0];
 
@@ -312,6 +334,21 @@
         else{
             document.getElementById('menu').style.borderRadius = '0px';
         }
+    }
+
+    function ComposeAndSendEmail(surname,date,email) {
+        Email.send({
+            Host: "smtp.gmail.com",
+            Username: "noreply.mobidoc@gmail.com",
+            Password: "mobidoc2021",
+            To: email,
+            From: "noreply.mobidoc@gmail.com",
+            Subject: "MobiDoc Appointment Cancelled ",
+            Body: generateCancelEmailTemplate(surname,date),
+        })
+            .then(function (message) {
+                console.log("notification email sent");
+            });
     }
 </script>
 </html>
