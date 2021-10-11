@@ -190,7 +190,7 @@ function PGenerateBookingEmailTemplate(Surname,DocName,Date,Time){
         "font-family: sans-serif;' class='paragraph'>" +
         "<p>Dear Mr/Ms " + Surname +  "</p>" +
         "<p style='padding-top: 5%' >We trust this email finds you well.</p>\n" +
-        "<p style='padding-top: 3%;padding-bottom: 2%'>Please note that an appointment on <u><b> " + convertDate(Date) + "," + Date + " </b></u> for" + Time + " has been booked , with Dr " + DocName + ".</p>" +
+        "<p style='padding-top: 3%;padding-bottom: 2%'>Please note that an appointment on <u><b> " + convertDate(Date) + "," + Date + " </b></u> for " + Time + " has been booked , with Dr " + DocName + ".</p>" +
         "<p>Wishing you good health.</p>\n" +
         "</td>" +
         "</tr>" +
@@ -300,7 +300,7 @@ function DGenerateBookingEmailTemplate(DocSurname,PatientName,Date,Time){
         "font-family: sans-serif;' class='paragraph'>" +
         "<p>Dear Dr " + DocSurname +  "</p>" +
         "<p style='padding-top: 5%' >We trust this email finds you well.</p>\n" +
-        "<p style='padding-top: 3%;padding-bottom: 2%'>Please note that an appointment on <u><b> " + convertDate(Date) + "," + Date + " </b></u> for" + Time + " has been booked , by Mr/Mrs  " +  PatientName + ".</p>" +
+        "<p style='padding-top: 3%;padding-bottom: 2%'>Please note that an appointment on <u><b> " + convertDate(Date) + "," + Date + " </b></u> for " + Time + " has been booked , by Mr/Mrs  " +  PatientName + ".</p>" +
         "<p>Wishing you good health.</p>\n" +
         "</td>" +
         "</tr>" +
