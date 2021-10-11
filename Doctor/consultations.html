@@ -17,7 +17,41 @@
     <link rel="stylesheet" href="./styles/appointments.css">
     <link rel="stylesheet" href="styles/Nav_bar.css">
     <link rel="stylesheet" href="styles/login.css">
+    <style>
+        dl{
+            margin-top: 5%;
+            display:flex;
+            flex-direction: column-reverse;
+        }
+        ::selection {
+            background: #0e468b;
+        }
 
+        .search{
+            font-family: "Poppins", sans-serif;
+            border: 3px white groove;
+            color: black;
+            width: 30%;
+            height: 50px;
+            padding: 5px;
+        }
+
+        .search:focus{
+            outline: none !important;
+            border-color: #62b2c2;
+            color: #0e0e0e;
+            width: 30%;
+            height: 50px;
+            padding: 5px;
+        }
+        .search:hover{
+            border-color: #62b2c2;
+            color: #0e0e0e;
+            width: 30%;
+            height: 50px;
+            padding: 5px;
+        }
+    </style>
 
 
 </head>
@@ -102,7 +136,9 @@
     </div>
 </center>
 
-<label for="src"></label><input id="src" type="search" placeholder="Search..."/>
+<center>
+    <label for="src"></label><input class="search" id="src" type="search" placeholder="Type to Search..."/>
+</center>
 
 <dl id="appList">
 </dl>
