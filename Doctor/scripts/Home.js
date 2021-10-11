@@ -6,16 +6,21 @@ function AddtoHtml(app,appList){
 
     let label;
     switch (app.status){
-        case "upcoming":
+        case "accepted":
+            console.log(app.status)
             label = "<span class='accept'>" + app.status + "</span>";
             break;
-
-        case "pending":
-            label = "<span class='canceled' >" + app.status + "</span>";
+        case "rejected":
+            label = "<span class='reject'>" + app.status + "</span>";
             break;
-
-        case "canceled":
+        case "pending":
             label = "<span class='pending' >" + app.status + "</span>";
+            break;
+        case "upcoming":
+            label = "<span class='upcoming' >" + app.status + "</span>";
+            break;
+        case "canceled":
+            label = "<span class='canceled' >" + app.status + "</span>";
             break;
 
     }

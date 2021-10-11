@@ -19,6 +19,9 @@ function AddtoHtml(app,appList){
         case "canceled":
             label = "<span class='canceled' >" + app.status + "</span>";
             break;
+        case "upcoming":
+            label = "<span class='upcoming' >" + app.status + "</span>";
+            break;
 
     }
 

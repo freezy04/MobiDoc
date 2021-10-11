@@ -215,7 +215,7 @@ firebase.initializeApp(firebaseConfig);
                 appList.innerHTML = "";
                 snapshot.forEach(function (childSnapshot) {
                     let app = childSnapshot.val();
-                    if (uid === app.patientUid && app.status !== "completed") {
+                    if (uid === app.patientUid && app.status !== "completed" && app.status !== "canceled") {
                         let label;
 
                         switch (app.status) {
@@ -229,8 +229,8 @@ firebase.initializeApp(firebaseConfig);
                             case "pending":
                                 label = "<span class='pending' >" + app.status + "</span>";
                                 break;
-                            case "canceled":
-                                label = "<span class='canceled' >" + app.status + "</span>";
+                            case "upcoming":
+                                label = "<span class='upcoming' >" + app.status + "</span>";
                                 break;
                         }
 
@@ -281,9 +281,7 @@ firebase.initializeApp(firebaseConfig);
                             "<th>Reason for cancellation </th>" +
                             "<td>" + app.cancellation_reason + "</td>" +
                             "</tr>" +
-                            "<tr>"+
-                            "<th>Date of cancellation </th>" +
-                            "<td>" + pr+ " canceled this on: "+app.cancellation_date+ "</td>" +"</tr>"+
+
                             "</table>"
                             +"</div>"
                             +"<br/>"
