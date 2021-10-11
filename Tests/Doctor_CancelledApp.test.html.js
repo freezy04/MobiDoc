@@ -1,4 +1,4 @@
-const Appoint = require("../Doctor/scripts/Home")
+const Appoint = require("../Doctor/scripts/CanceledAppoinments")
 
 test("Update Menu where the menu is responsive", () => {
     // setting up the DOM elements
@@ -25,7 +25,7 @@ test("Testing that the different appointments are sent to the HTML DOM Accepted"
         "<div>" +
         "<dl id='appList'>" +
         "</dl>" + "</div>";
-    let app = {status : "upcoming",
+    let app = {status : "accepted",
         patient_name : "Test Patient" ,
         date_for_appointment : "11/01/2020",
         time_for_appointment : "10",
@@ -37,12 +37,13 @@ test("Testing that the different appointments are sent to the HTML DOM Accepted"
     expect(length).toBeGreaterThan(0);
 })
 
+
 test("Testing that the different appointments are sent to the HTML DOM Accepted", () =>{
     document.body.innerHTML =
         "<div>" +
         "<dl id='appList'>" +
         "</dl>" + "</div>";
-    let app = {status : "canceled",
+    let app = {status : "rejected",
         patient_name : "Test Patient" ,
         date_for_appointment : "11/01/2020",
         time_for_appointment : "10",

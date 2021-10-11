@@ -1,15 +1,6 @@
-var buttons = document.querySelectorAll('dl');
-
-for (var i=0; i<buttons.length; ++i) {
-    buttons[i].addEventListener('click', clickFunc);
-}
-
-function clickFunc() {
-    alert(this.id);
-}
-
 // Appointment list
 let appList = document.getElementById("appList");
+
 
 function AddtoHtml(app,appList){
 
@@ -20,7 +11,7 @@ function AddtoHtml(app,appList){
             break;
 
         case "pending":
-            label = "<span class='pending' >" + app.status + "</span>";
+            label = "<span class='canceled' >" + app.status + "</span>";
             break;
 
         case "canceled":
