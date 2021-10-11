@@ -338,3 +338,5 @@ function DGenerateBookingEmailTemplate(DocSurname,PatientName,Date,Time){
         "</body>" +
         "</html>"
 }
+
+module.exports = {DGenerateBookingEmailTemplate,PGenerateBookingEmailTemplate,generateCancelEmailTemplate,convertDate};
