@@ -4,8 +4,6 @@
     <meta charset="UTF-8">
     <title> MobiDoc | Canceled Appointments </title>
 
-    <link rel="stylesheet" href="../styles/Nav_bar.css">
-
     <link rel="apple-touch-icon" sizes="180x180" href="../../favicon/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="../../favicon/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="../../favicon/favicon-16x16.png">
@@ -19,6 +17,8 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.8.0/firebase-ui-auth.css" />
     <link rel="stylesheet" href="../styles/appointments.css"/>
+    <link rel="stylesheet" href="../styles/Nav_bar.css">
+    <link rel="stylesheet" href="../styles/login.css">
 
     <style>
         dl{
@@ -95,7 +95,7 @@
                 <li><a onclick="function SignOut() {
                     firebase.auth().signOut()
                     .then(() => {
-                        window.location.href = '../index.html'; //Nthabi added on 28092021 09h43
+                        window.location.href = '../../index.html';
                         console.log('Signed Out');
                     })
                     .catch(e=>{
@@ -137,7 +137,9 @@
     </div>
 </center>
 
-<label for="src"></label><input id="src" type="search" placeholder="Search..."/>
+<center>
+    <label for="src"></label><input class="search" id="src" type="search" placeholder="Type to Search..."/>
+</center>
 
 <dl id="appList">
 </dl>
