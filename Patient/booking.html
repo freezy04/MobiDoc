@@ -21,6 +21,38 @@
     <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.8.0/firebase-ui-auth.css" />
     <link rel="stylesheet" href="./styles/bookAppointments.css">
 
+    <style>
+        ::selection {
+            background: #0e468b;
+        }
+
+        .search{
+            font-family: "Poppins", sans-serif;
+            border: 3px white groove;
+            color: black;
+            width: 30%;
+            height: 50px;
+            padding: 5px;
+        }
+
+        .search:focus{
+            outline: none !important;
+            border-color: #62b2c2;
+            color: #0e0e0e;
+            width: 30%;
+            height: 50px;
+            padding: 5px;
+        }
+        .search:hover{
+            border-color: #62b2c2;
+            color: #0e0e0e;
+            width: 30%;
+            height: 50px;
+            padding: 5px;
+        }
+    </style>
+
+
 </head>
 <body>
 
@@ -86,9 +118,9 @@
 
 
 </div>
-
-<label for="src"></label><input id="src" type="search" placeholder="Search..."/>
-
+<center>
+<label for="src"></label><input class="search" id="src" type="search" placeholder="Search..."/>
+</center>
 <!-- links this project to firebase -->
 
 <script>
