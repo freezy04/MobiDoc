@@ -1,6 +1,7 @@
 // Appointment list
 let appList = document.getElementById("appList");
 
+
 function AddtoHtml(app,appList){
 
     let label;
