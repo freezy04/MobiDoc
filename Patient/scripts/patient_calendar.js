@@ -24,6 +24,7 @@ function patientBookApp(slotNum, date) {
                         snapshot.forEach(function (childSnapshot) {
                             let u = childSnapshot.val();
                             usersName = u.first_name;
+                            userEmail = u.email;
                             if(user.uid === u.uid){
                                 let time_app;
                                 if(parseInt(slotNum)=== 1 ){
@@ -158,6 +159,9 @@ function patientBookApp(slotNum, date) {
                                 // popup.style.display = "none";
                                 alert("You just booked an appointment with Dr. " + localStorage.getItem("docName"))
                                 alert("At time: " +time_app)
+                                DocComposeAndSendEmail(localStorage.getItem("docName"),usersName,time_app,date,localStorage.getItem("docEmail"))
+                                PatComposeAndSendEmail(usersName,localStorage.getItem("docName"),time_app,date,userEmail)
+
                                 document.getElementById('notesField').value = ''
                                 getDoctorList1(localStorage.getItem("docUID"))
                                 //localStorage.removeItem("docUID");

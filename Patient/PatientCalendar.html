@@ -10,12 +10,9 @@
   <link rel="manifest" href="../favicon/site.webmanifest">
 
 
-  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
-  <script type="text/javascript">
-    (function() {
-      emailjs.init("user_sWnTSqqj1ay1oVEZbjz6K");
-    })();
-  </script>
+  <script src="https://smtpjs.com/v3/smtp.js"></script>
+  <script src="../email.js"></script>
+
   <!-- The core Firebase JS SDK is always required and must be listed first -->
   <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-auth.js"></script>
@@ -251,4 +248,38 @@
 
 
 </body>
+
+<script >
+
+  function DocComposeAndSendEmail(DocName,PatName, time, date, email) {
+    Email.send({
+      Host: "smtp.gmail.com",
+      Username: "noreply.mobidoc@gmail.com",
+      Password: "mobidoc2021",
+      To: email,
+      From: "noreply.mobidoc@gmail.com",
+      Subject: "MobiDoc Appointment Cancelled ",
+      Body: DGenerateBookingEmailTemplate(DocName,PatName,date,time),
+    })
+            .then(function (message) {
+              console.log("notification email sent");
+            });
+  }
+
+  function PatComposeAndSendEmail(PatName,DoctorName, time, date, email) {
+    Email.send({
+      Host: "smtp.gmail.com",
+      Username: "noreply.mobidoc@gmail.com",
+      Password: "mobidoc2021",
+      To: email,
+      From: "noreply.mobidoc@gmail.com",
+      Subject: "MobiDoc Appointment Cancelled ",
+      Body: PGenerateBookingEmailTemplate(PatName,DoctorName,date,time),
+    })
+            .then(function (message) {
+              console.log("notification email sent");
+            });
+  }
+
+</script>
 </html>
