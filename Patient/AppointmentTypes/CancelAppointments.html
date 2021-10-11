@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <title> MobiDoc | Cancel Appointments </title>
-    <link rel="stylesheet" href="../styles/Nav_bar.css">
 
     <link rel="apple-touch-icon" sizes="180x180" href="../../favicon/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="../../favicon/favicon-32x32.png">
@@ -16,11 +15,49 @@
     <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-database.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-analytics.js"></script>
     <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.8.0/firebase-ui-auth.css" />
-    <link rel="stylesheet" href="../styles/appointment.css"/>
+    <link rel="stylesheet" href="../styles/appointments.css"/>
+    <link rel="stylesheet" href="../styles/Nav_bar.css">
+    <link rel="stylesheet" href="../styles/login.css">
     <!--    email notification-->
     <script src="https://smtpjs.com/v3/smtp.js"></script>
+
+    <style>
+        dl{
+            margin-top: 5%;
+            display:flex;
+            flex-direction: column-reverse;
+        }
+        ::selection {
+            background: #0e468b;
+        }
+
+        .search{
+            font-family: "Poppins", sans-serif;
+            border: 3px white groove;
+            color: black;
+            width: 30%;
+            height: 50px;
+            padding: 5px;
+        }
+
+        .search:focus{
+            outline: none !important;
+            border-color: #62b2c2;
+            color: #0e0e0e;
+            width: 30%;
+            height: 50px;
+            padding: 5px;
+        }
+        .search:hover{
+            border-color: #62b2c2;
+            color: #0e0e0e;
+            width: 30%;
+            height: 50px;
+            padding: 5px;
+        }
+    </style>
 </head>
-<body>
+<body onload="Spinner()">
 
 <!--Nav bar-->
 <div class="wrapper">
@@ -53,7 +90,8 @@
                 <li><a onclick="function SignOut() {
                     firebase.auth().signOut()
                     .then(() => {
-                        console.log('Signed Out');
+                       window.location.href = '../../index.html';
+                       console.log('Signed Out');
                     })
                     .catch(e=>{
                         console.error('Sign Out Error', e);
@@ -65,15 +103,38 @@
     </nav>
 </div>
 
-<div style="padding-bottom: 200px"></div>
+<!--[Nthabi] Login popup | style="display: none" edited by Dylan-->
+<div id="log" style="display: none;padding-top: 100px;margin-left:40%">
+    <center>
+        <div id="pop_up_login" class="login">
+            <h1 style="color: #0d3579"> Login </h1>
+            <p style="color:black"> Please login to continue </p>
+            <div style="padding-bottom: 30px"></div>
+            <input placeholder="Email" type="email" required id="email">
+            <input placeholder="Password" type="password" required id="password">
+            <button id="login" onclick="login()">Login</button>
+        </div>
 
-<!--style="display: none"-->
-<div id="pop_up_login">
-    <h2> Login </h2>
-    <input placeholder="Email" type="email" required id="email">
-    <input placeholder="Password" type="password" required id="password">
-    <button id="login" onclick="login()">Login</button>
+    </center>
+    <div style="padding-bottom: 400px"></div>
+
+
+    <center>
+        <div class="sk-chase" style="display: none" id="loader">
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+            <div class="sk-chase-dot"></div>
+        </div>
+    </center>
 </div>
+
+<center>
+    <label for="src"></label><input class="search" id="src" type="search" placeholder="Type to Search..."/>
+</center>
+
 
 <dl id="appList">
 </dl>
@@ -142,10 +203,14 @@
     });
 
     <!--Responsible for showing the login feature to the user if they are not logged in-->
-    function ShowLogin(){
-        document.getElementById("pop_up_login").style.display = "block";
+    function ShowLogin() {
+        document.getElementById("log").style.display = "block";
+        document.getElementById("loader").style.display = "none";
     }
 
+    function Spinner(){
+        document.getElementById("loader").style.display = "block";
+    }
     function isNotNull(email,pass){
 
         let validEmail = true;
@@ -193,7 +258,7 @@
             if (snapshot.exists()) {
                 window.location.reload();
             } else {
-                window.location.reload(); //location.href = '../home.html';
+                location.href = '../../Doctor/home.html';
             }
         });
     }
@@ -324,6 +389,16 @@
             }
         }
     }
+
+    //Search by patient name
+    $(document).ready(function(){
+        $("#src").on("keyup", function() {
+            var value = $(this).val().toLowerCase();
+            $("#appList div").filter(function() {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+    });
 
     // nav bar
     function updatemenu() {
