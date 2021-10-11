@@ -16,6 +16,7 @@
     <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-database.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-analytics.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.8.0/firebase-ui-auth.css" />
     <link rel="stylesheet" href="../styles/appointments.css"/>
 
@@ -106,6 +107,8 @@
         <div class="sk-chase-dot"></div>
     </div>
 </center>
+
+<label for="src"></label><input id="src" type="search" placeholder="Search..."/>
 
 <dl id="appList">
 </dl>
@@ -347,6 +350,15 @@
         }
     }
 
+    //Search by patient name
+    $(document).ready(function(){
+        $("#src").on("keyup", function() {
+            var value = $(this).val().toLowerCase();
+            $("#appList div").filter(function() {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+    });
 
 
     function updatemenu() {
