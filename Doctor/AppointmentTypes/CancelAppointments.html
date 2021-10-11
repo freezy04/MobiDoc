@@ -17,8 +17,49 @@
   <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-analytics.js"></script>
   <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.8.0/firebase-ui-auth.css" />
   <link rel="stylesheet" href="../styles/appointments.css"/>
+  <link rel="stylesheet" href="styles/login.css">
+
 </head>
-<body>
+
+<style>
+  dl{
+    margin-top: 5%;
+    display:flex;
+    flex-direction: column-reverse;
+  }
+  ::selection {
+    background: #0e468b;
+  }
+
+  .search{
+    font-family: "Poppins", sans-serif;
+    border: 3px white groove;
+    color: black;
+    width: 30%;
+    height: 50px;
+    padding: 5px;
+  }
+
+  .search:focus{
+    outline: none !important;
+    border-color: #62b2c2;
+    color: #0e0e0e;
+    width: 30%;
+    height: 50px;
+    padding: 5px;
+  }
+  .search:hover{
+    border-color: #62b2c2;
+    color: #0e0e0e;
+    width: 30%;
+    height: 50px;
+    padding: 5px;
+  }
+</style>
+
+</head>
+
+<body onload="Spinner()">
 
 <!--Nav bar-->
 <div class="wrapper">
@@ -65,13 +106,37 @@
 
 <div style="padding-bottom: 200px"></div>
 
-<!--style="display: none"-->
-<div id="pop_up_login">
-  <h2> Login </h2>
-  <input placeholder="Email" type="email" required id="email">
-  <input placeholder="Password" type="password" required id="password">
-  <button id="login" onclick="login()">Login</button>
+<!--[Nthabi] Login popup | style="display: none" edited by Dylan-->
+<div id="log" style="display: none;padding-top: 100px;margin-left:40%">
+  <center>
+    <div id="pop_up_login" class="login">
+      <h1 style="color: #0d3579"> Login </h1>
+      <p style="color:black"> Please login to continue </p>
+      <div style="padding-bottom: 30px"></div>
+      <input placeholder="Email" type="email" required id="email">
+      <input placeholder="Password" type="password" required id="password">
+      <button id="login" onclick="login()">Login</button>
+    </div>
+
+  </center>
+  <div style="padding-bottom: 400px"></div>
+
+
+  <center>
+    <div class="sk-chase" style="display: none" id="loader">
+      <div class="sk-chase-dot"></div>
+      <div class="sk-chase-dot"></div>
+      <div class="sk-chase-dot"></div>
+      <div class="sk-chase-dot"></div>
+      <div class="sk-chase-dot"></div>
+      <div class="sk-chase-dot"></div>
+    </div>
+  </center>
 </div>
+
+<center>
+  <label for="src"></label><input class="search" id="src" type="search" placeholder="Type to Search..."/>
+</center>
 
 <dl id="appList">
 </dl>
@@ -95,9 +160,6 @@
 <script src = "../scripts/CancelAppointments.js"></script >
 
 </script>
-
-<div style="padding-bottom: 200px"></div>
-
 </body>
 
 <!--popup for rejecting appointment-->
@@ -183,13 +245,13 @@
 
   const LoginUserAs = (uid) => {
     let database = firebase.database();
-    let ref = database.ref().child('Patients');
+    let ref = database.ref().child('Doctors');
 
     ref.orderByKey().equalTo(uid).once("value", snapshot => {
       if (snapshot.exists()) {
         window.location.reload();
       } else {
-        window.location.reload(); //location.href = '../home.html';
+        location.href = '../../Patient/home.html';
       }
     });
   }
@@ -300,6 +362,15 @@
       }
     }
   }
+  //Search by patient name
+  $(document).ready(function(){
+    $("#src").on("keyup", function() {
+      var value = $(this).val().toLowerCase();
+      $("#appList div").filter(function() {
+        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+      });
+    });
+  });
 
   // nav bar
   function updatemenu() {
