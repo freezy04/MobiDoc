@@ -384,7 +384,66 @@ button:hover {
     text-transform: capitalize;
     transition: all .5s ease-out;
 }
+.popup {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.4);
+}
 
+.popup-header {
+    padding: 2px 16px;
+    background-color: rgba(92, 184, 92, 0);
+    color: #0d3579;
+}
+
+.popup-body {padding: 2px 16px;}
+
+.popup-footer {
+    padding: 2px 16px;
+    background-color: rgba(13, 53, 121, 0);
+    color: black;
+}
+
+
+.popup-content {
+    position: relative;
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+    animation-name: animatetop;
+    animation-duration: 0.4s
+}
+
+@keyframes animatetop {
+    from {top: -300px; opacity: 0}
+    to {top: 0; opacity: 1}
+}
+
+
+.popup-close {
+    color: #aaa;
+    float: right;
+    font-size: 50px;
+    font-weight: bold;
+}
+
+.popup-close:hover,
+.popup-close:focus {
+    transform: rotate(76deg);
+    color: #821717;
+    text-decoration: none;
+    cursor: pointer;
+}
 .b:hover {
     background: seagreen;
     color: white;
