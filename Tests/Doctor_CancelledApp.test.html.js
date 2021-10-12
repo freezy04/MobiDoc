@@ -25,7 +25,7 @@ test("Testing that the different appointments are sent to the HTML DOM Accepted"
         "<div>" +
         "<dl id='appList'>" +
         "</dl>" + "</div>";
-    let app = {status : "accepted",
+    let app = {status : "canceled",
         patient_name : "Test Patient" ,
         date_for_appointment : "11/01/2020",
         time_for_appointment : "10",
