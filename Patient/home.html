@@ -11,10 +11,46 @@
     <link rel="stylesheet" href="styles/Nav_bar.css">
     <link rel="stylesheet" href="styles/appointments.css">
     <link rel="stylesheet" href="styles/login.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-database.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-analytics.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-analytics.js"><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <style>
+        dl{
+            margin-top: 5%;
+            display:flex;
+            flex-direction: column-reverse;
+        }
+        ::selection {
+            background: #0e468b;
+        }
+
+        .search{
+            font-family: "Poppins", sans-serif;
+            border: 3px white groove;
+            color: black;
+            width: 30%;
+            height: 50px;
+            padding: 5px;
+        }
+
+        .search:focus{
+            outline: none !important;
+            border-color: #62b2c2;
+            color: #0e0e0e;
+            width: 30%;
+            height: 50px;
+            padding: 5px;
+        }
+        .search:hover{
+            border-color: #62b2c2;
+            color: #0e0e0e;
+            width: 30%;
+            height: 50px;
+            padding: 5px;
+        }
+    </style>
 </head>
 
 
@@ -90,6 +126,9 @@
     </div>
 </center>
 
+<center>
+    <label for="src"></label><input class="search" id="src" type="search" placeholder="Type to Search..."/>
+</center>
 <dl id="appList">
 </dl>
 
@@ -294,6 +333,15 @@ firebase.initializeApp(firebaseConfig);
     }
 
     // nav bar
+
+    $(document).ready(function(){
+        $("#src").on("keyup", function() {
+            var value = $(this).val().toLowerCase();
+            $("#appList div").filter(function() {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+    });
     function updatemenu() {
         if (document.getElementById('responsive-menu').checked === true) {
             document.getElementById('menu').style.borderBottomRightRadius = '0';
@@ -303,5 +351,5 @@ firebase.initializeApp(firebaseConfig);
         }
     }
 </script>
-</script>
+
 </html>
