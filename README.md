@@ -36,7 +36,7 @@ This is the website version for the MobiDoc Android Application  : [MobiDoc Andr
 
 
 
-[![Website shields.io](https://img.shields.io/badge/Website-MobiDoc-yellow?style=for-the-badge/http/shields.io.svg)](https://mobidoc-6a3ac.firebaseapp.com/)
+[![Website shields.io](https://img.shields.io/badge/Website-MobiDoc-yellow?style=for-the-badge/http/shields.io.svg)](https://mobidoc-6a3ac.web.app/)
 [![MobiDoc CI](https://github.com/freezy04/MobiDoc/actions/workflows/main.yml/badge.svg)](https://github.com/freezy04/MobiDoc/actions/workflows/main.yml)
 [![Build](https://github.com/freezy04/MobiDoc/actions/workflows/node.js.yml/badge.svg)](https://github.com/freezy04/MobiDoc/actions/workflows/node.js.yml)
 [![codecov](https://codecov.io/gh/freezy04/MobiDoc/branch/main/graph/badge.svg?token=VRAAMSJ2WS)](https://codecov.io/gh/freezy04/MobiDoc)
