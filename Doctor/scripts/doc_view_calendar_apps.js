@@ -1,6 +1,8 @@
 
 let patientNames = {};
 let appointments = [];
+let appointmentsKeys = [];
+
 let times = ["06:00", "06:30", "07:00", "07:30", "08:00", "08:30", "09:00", "09:30", "10:00", "10:30",
     "11:00", "11:30", "12:00", "12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30",
     "16:00", "16:30", "17:00", "17:30", "18:00", "18:30", "19:00", "19:30", "20:00"];
@@ -15,8 +17,10 @@ function getAppointments(docID) {
         if (snapshot.exists()) {
             snapshot.forEach(function (childSnapshot) {
                 let app = childSnapshot.val();
+                let id_app = childSnapshot.key;
                 if (app.doctorUid === docID) {
                     appointments.push(app);
+                    appointmentsKeys.push(id_app);
                     let patNames = patientNames[app.date_for_appointment];
                     if (patNames === undefined) {
                         patientNames[app.date_for_appointment] = app.patient_Name;
@@ -99,6 +103,65 @@ function settingDate(date, day) {
     return date;
 }
 
+function validateDetails(rejection_reason) {
+    //let error = document.getElementById("Error");
+    if (rejection_reason === "") {
+        error.style.display = "block";
+        error.innerHTML = "Reason cannot be empty";
+        return false;
+    }
+    error.style.display = "none";
+    return true;
+}
+
+function updateAppointment(appID, rejection_reason) {
+    let database = firebase.database();
+    const d = new Date();
+    let ref = database.ref().child('Appointments');
+    ref.child(appID).update({"cancellation_done_by":"Doctor"});
+    ref.child(appID).update({"cancellation_date":d.getDate()+"/"+d.getMonth()+"/"+d.getFullYear()});
+    ref.child(appID).update({"cancellation_reason":rejection_reason});
+    ref.child(appID).update({"status":"canceled"});
+
+
+    let popup = document.getElementById("reject_app_popup");
+    popup.style.display = "none";
+
+}
+
+function rejectAppointment(appID) {
+    let rejection_reason = document.getElementById("app_rejection_reason").value;
+    console.log(appID);
+
+    if (validateDetails(rejection_reason)) {
+        updateAppointment(appID, rejection_reason);
+    }
+
+}
+
+function openRejectAppPopup(appID) {
+    let popup = document.getElementById("reject_app_popup");
+    let close = document.getElementsByClassName("popup-close")[0];
+
+    let button = document.getElementById("confirm_app_btn");
+    button.addEventListener('click', function() {
+        rejectAppointment(appID);
+        // #TODO Create Cancel appointment function
+
+    })
+
+    popup.style.display = "block";//opens popup
+
+    //closes popup if user clicks close or outside popup
+    close.onclick = function() {
+        popup.style.display = "none";
+    }
+    window.onclick = function(event) {
+        if (event.target === popup) {
+            popup.style.display = "none";
+        }
+    }
+}
 function openAppsPopup(dayID) {
     document.getElementById("appsPopup").style.display = "block";
     document.getElementById("appsPopupHeader").innerText = dayID;
@@ -112,6 +175,7 @@ function openAppsPopup(dayID) {
             switch (app.status){
                 case "upcoming":
                     label = "<span class='accept'>" + app.status + "</span>";
+
                     break;
                 case "pending":
                     label = "<span class='pending' >" + app.status + "</span>";
@@ -134,12 +198,134 @@ function openAppsPopup(dayID) {
                 "<th class='appCard'>Reason for appointment: </th>" +
                 "<td class='appCard'>" + app.reason_for_appointment + "</td>" +
                 "</tr>" +
+
                 "</table>"
                 +"</div>"
                 +"<br/>";
         }
     }
+
+
+
+
+
     document.getElementById("dayAppCards").innerHTML = content;
+    let button = document.getElementById("confirm__app_btn");
+    button.addEventListener('click', function() {
+        //rejectAppointment(appID);
+        // #TODO Create Cancel appointment function
+        openAppsPopup_(dayID)
+
+
+    })
+
+}
+
+function openAppsPopup_(dayID) {
+    document.getElementById("appsPopup").style.display = "none";
+    document.getElementById("appsPopup_").style.display = "block";
+    document.getElementById("appsPopupHeader_").innerText = dayID;
+    let close = document.getElementsByClassName("close_")[0];
+    close.onclick = function() {
+        document.getElementById("appsPopup_").style.display = "none";
+    }
+    window.onclick = function(event) {
+        if (event.target === document.getElementById("appsPopup_")) {
+            document.getElementById("appsPopup_").style.display = "none";
+        }
+    }
+
+    let content = "";
+    let app;
+    let keys;
+    for (let i = 0; i < appointments.length; i++) {
+        if (appointments[i].date_for_appointment === dayID) {
+            app = appointments[i];
+            let label;
+            keys = appointmentsKeys[i];
+            switch (app.status){
+                case "upcoming":
+                    label = "<span class='accept'>" + app.status + "</span>";
+                    content +=
+                        "<div class = 'card'>" +
+                        label +
+                        "<h2>Appointment with " + app.patient_Name + "</h2>" +
+                        "<p id='app_id' style='display:none;'>" + app.id + "</p>" +
+                        "<p>" + app.date_for_appointment + " - " + app.time_for_appointment + "</p>" +
+                        "<table class='appCard_'>" +
+                        "<tr class='appCard_'>" +
+                        "<th class='appCard_'>Reason for appointment: </th>" +
+                        "<td class='appCard_'>" + app.reason_for_appointment + "</td>" +
+                        "</tr>" +
+                        "<tr>"+
+                        "<button class='appCard_' id='" + keys + "' onClick='openRejectAppPopup(this.id)'> Cancel </button>" +
+                        //insert popup here to make it more dynamic (next sprint)
+                        "</tr>" +
+                        "</table>"
+                        +"</div>"
+                        +"<br/>";
+                    break;
+
+            }
+            // content +=
+            //     "<div class = 'card'>" +
+            //     label +
+            //     "<h2>Appointment with " + app.patient_Name + "</h2>" +
+            //     "<p id='app_id' style='display:none;'>" + app.id + "</p>" +
+            //     "<p>" + app.date_for_appointment + " - " + app.time_for_appointment + "</p>" +
+            //     "<table class='appCard'>" +
+            //     "<tr class='appCard'>" +
+            //     "<th class='appCard'>Reason for appointment: </th>" +
+            //     "<td class='appCard'>" + app.reason_for_appointment + "</td>" +
+            //     "</tr>" +
+            //
+            //     "</table>"
+            //     +"</div>"
+            //     +"<br/>";
+        }
+    }
+
+    // const getAppointmentDetails = (uid) => {
+    //     let database = firebase.database();
+    //     let ref = database.ref().child('Appointments');
+    //     ref.orderByKey().once("value",snapshot => {
+    //         if (snapshot.exists()) {
+    //             snapshot.forEach(function (childSnapshot) {
+    //                 let id_app = childSnapshot.key;
+    //                 let app = childSnapshot.val();
+    //
+    //                 if (uid === app.doctorUid && app.status === "upcoming") {
+    //                     //console.log(id_app);
+    //
+    //                     let label = "<span class='upcoming'>" + app.status + "</span>"; // only displays the pending appointments
+    //
+    //                     content +=
+    //                         "<div class = 'card'>" +
+    //                         label +
+    //                         "<h2>Appointment with " + app.patient_Name + "</h2>" +
+    //                         "<p id='app_id' style='display:none;'>" + app.id + "</p>" +
+    //                         "<p>" + app.date_for_appointment + " - " + app.time_for_appointment + "</p>" +
+    //                         "<table>" +
+    //                         "<tr>" +
+    //                         "<th>Reason for appointment: </th>" +
+    //                         "<td>" + app.reason_for_appointment + "</td>" +
+    //                         "</br>"+
+    //                         "<button class='r' id='" + id_app + "' onClick='openRejectAppPopup(this.id)'> Cancel </button>" +
+    //                         //insert popup here to make it more dynamic (next sprint)
+    //                         "</tr>" +
+    //                         "</table>"
+    //                         +"</div>"
+    //                         +"<br/>"
+    //                     ;
+    //                 }
+    //             });
+    //         }
+    //     });
+    // }
+
+    document.getElementById("dayAppCards_").innerHTML = content;
+
+
 }
 
 function getDatesBetween(startDate, endDate) {
