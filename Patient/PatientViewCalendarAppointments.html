@@ -221,6 +221,7 @@
         <div class="modal-header">
             <span class="close">&times;</span>
             <h2 id="appsPopupHeader">Jan 1st 2021</h2>
+            <button id="confirm___app_btn" onclick=""> Cancel Appointment </button>
         </div>
         <div class="modal-body">
             <!--            <table id='dayTable' class="dayTable"></table>-->
@@ -232,6 +233,42 @@
     </div>
 
 </div>
+<div id="appsPopup_" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <span class="close_">&times;</span>
+            <h2 id="appsPopupHeader_">Jan 1st 2021</h2>
 
+        </div>
+        <div class="modal-body">
+            <!--            <table id='dayTable' class="dayTable"></table>-->
+            <dl id="dayAppCards_"></dl>
+        </div>
+        <!--        <div class="modal-footer">-->
+        <!--            <h3>Click on a slot to change its availability</h3>-->
+        <!--        </div>-->
+    </div>
+
+</div>
 </body>
+<div id="reject_app_popup" class="popup">
+    <div class="popup-content">
+        <div class="popup-header">
+            <h2 style="text-align:center">Cancel this appointment?</h2>
+            <span class="popup-close">&times;</span>
+        </div>
+        <div class="popup-body">
+            <div class="form__group field">
+                <textarea type="input" class="form__field" placeholder="Cancellation reason" cols="100" 100 name="Rejection reason" id = "app_rejection_reason" required></textarea>
+                <label for="app_rejection_reason" class="form__label">Cancellation reason</label>
+            </div>
+
+        </div>
+        <div class="popup-footer">
+            <button id="confirm_app_btn"> Cancel Appointment </button>
+            <p id = "error" class = "error" style="color: darkred"></p>
+        </div>
+    </div>
+</div>
+<script src="../email.js"></script>
 </html>
