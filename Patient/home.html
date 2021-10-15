@@ -50,11 +50,64 @@
             height: 50px;
             padding: 5px;
         }
+        table{
+            font-family: 'Quicksand', sans-serif;
+            width: 80%;
+            border-collapse: collapse;
+        }
+
+        .up_app .mss_app .can_app {
+            border-bottom: 3px solid lightgrey;
+        }
+
+        .up_app:hover{
+            font-weight: bold;
+            color:#127DB3;
+            border-bottom:3px solid  #127DB3;
+        }
+
+        .mss_app:hover{
+            color:gray;
+            border-bottom: 3px solid gray;
+        }
+
+        .can_app:hover{
+            font-weight: bold;
+            color: darkred;
+            border-bottom: 3px solid darkred;
+        }
+
+        .can_app.active{
+            border-bottom: 3px solid darkred;
+            color: black;
+        }
+
+        .mss_app.active{
+            border-bottom: 3px solid gray;
+            color: black;
+        }
+
+        .up_app.active{
+            border-bottom: 3px solid #127DB3;
+            color: black;
+        }
+
+        .tab{
+            color:black;
+        }
+        td.tab{
+            outline: none;
+            color: grey;
+            font-size: 20px;
+            text-align: center;
+            border-bottom: 2pt solid lightgrey;
+            padding: 1%;
+            font-weight: bold;
+        }
     </style>
 </head>
 
-
-
+<body>
 <div class="wrapper">
     <nav>
         <input type="checkbox" id="show-search">
@@ -97,7 +150,7 @@
         </div>
     </nav>
 </div>
-<div style="padding-bottom: 200px"></div>
+<div style="padding-bottom: 100px"></div>
 
 <!--Step 1 | style="display: none"-->
 <div id="log" style="display: none;padding-top: 100px;margin-left:40%">
@@ -125,7 +178,17 @@
         <div class="sk-chase-dot"></div>
     </div>
 </center>
-
+<!--<center>-->
+<!--    <table>-->
+<!--        <thead>-->
+<!--        <tr>-->
+<!--            <td id = "tab_upm_app" class="tab up_app"> Upcoming Appointments</td>-->
+<!--            <td id = "tab_can_app" class="tab can_app"> Cancelled Appointments</td>-->
+<!--            <td id = "tab_mss_app" class="tab mss_app"> Missed Appointments</td>-->
+<!--        </tr>-->
+<!--        </thead>-->
+<!--    </table>-->
+<!--</center>-->
 <center>
     <label for="src"></label><input class="search" id="src" type="search" placeholder="Type to Search..."/>
 </center>
@@ -148,8 +211,8 @@ measurementId: "G-JFPKMPTGZ5"
 firebase.initializeApp(firebaseConfig);
 
 </script>
-</body>
 
+</body>
 
 <script>
     // Appointment list
@@ -162,6 +225,9 @@ firebase.initializeApp(firebaseConfig);
             ShowLogin();
         }
     });
+
+    <!---- Responsible for the tab layout ----->
+
 
     <!--Responsible for showing the login feature to the user if they are not logged in-->
     function ShowLogin(){
@@ -245,6 +311,30 @@ firebase.initializeApp(firebaseConfig);
 
     }
 
+    // Added By Dylan : Missed Appointments :
+    function setGracePeriodDate(date){
+        let parts_of_date = date.split("/");
+        let grace = new Date(+parts_of_date[2], parts_of_date[1] - 1, +parts_of_date[0]);
+        grace.setDate(grace.getDate() + 2);
+        return grace;
+    }
+
+    const UpdateFirebase = (app_uid) =>{
+        let database = firebase.database();
+        let ref = database.ref().child('Appointments').child(app_uid).update({"status":"missed"});
+    }
+
+
+    const UpdateMissedAppointments = (app_id,date,status) =>{
+        let CurrentDate = new Date();
+        let GraceDate = setGracePeriodDate(date);
+        if((GraceDate < CurrentDate)){
+            UpdateFirebase(app_id);
+            return "missed";
+        }
+        return status;
+    }
+
     const getAppointmentDetails = (uid) => {
 
         let database = firebase.database();
@@ -254,7 +344,7 @@ firebase.initializeApp(firebaseConfig);
                 appList.innerHTML = "";
                 snapshot.forEach(function (childSnapshot) {
                     let app = childSnapshot.val();
-                    if (uid === app.patientUid && app.status !== "completed" && app.status !== "canceled") {
+                    if (uid === app.patientUid && app.status !== "completed" && app.status !== "canceled" && app.status !== "pending" ) {
                         let label;
 
                         switch (app.status) {
@@ -265,11 +355,11 @@ firebase.initializeApp(firebaseConfig);
                             case "rejected":
                                 label = "<span class='reject'>" + app.status + "</span>";
                                 break;
-                            case "pending":
-                                label = "<span class='pending' >" + app.status + "</span>";
-                                break;
                             case "upcoming":
                                 label = "<span class='upcoming' >" + app.status + "</span>";
+                                break;
+                            case "missed":
+                                label = "<span class='missed' >" + app.status + "</span>";
                                 break;
                         }
 
