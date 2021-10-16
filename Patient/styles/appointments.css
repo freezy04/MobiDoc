@@ -222,6 +222,20 @@ img{
     right: 0;
     bottom: 0;
 }
+
+.bgcard{
+    background: white;
+    padding: 15px 30px;
+    text-align: center;
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 0.9em;
+    font-family: sans-serif;
+    bottom: 0;
+    margin-left: 5%;
+    width: 90%;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
 /*Create the card effect*/
 .card{
     background: white;
@@ -232,10 +246,9 @@ img{
     margin: 25px 0;
     font-size: 0.9em;
     font-family: sans-serif;
-    left: 50%;
     bottom: 0;
-    transform: translateX(50%);
-    width: 50%;
+    margin-left: 20%;
+    width: 60%;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
 }
 
