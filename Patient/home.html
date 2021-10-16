@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
     <title> MobiDoc | Home </title>
@@ -7,7 +7,7 @@
     <link rel="icon" type="image/png" sizes="32x32" href="../favicon/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="../favicon/favicon-16x16.png">
     <link rel="manifest" href="../favicon/site.webmanifest">
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="styles/Nav_bar.css">
     <link rel="stylesheet" href="styles/appointments.css">
     <link rel="stylesheet" href="styles/login.css">
@@ -16,6 +16,7 @@
     <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-database.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-analytics.js"><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="scripts/nav.js"></script>
     <style>
         dl{
             margin-top: 5%;
@@ -26,47 +27,110 @@
             background: #0e468b;
         }
 
-        .search{
-            font-family: "Poppins", sans-serif;
-            border: 3px white groove;
-            color: black;
-            width: 30%;
+        .box{
+            box-sizing: border-box;
+        }
+        .search-box{
+            width: fit-content;
+            height: fit-content;
+            position: relative;
+        }
+        .input-search{
             height: 50px;
-            padding: 5px;
+            width: 50px;
+            border-style: none;
+            padding: 10px;
+            font-size: 18px;
+            letter-spacing: 2px;
+            outline: none;
+            border-radius: 25px;
+            transition: all .5s ease-in-out;
+            background-color: #22a6b3;
+            padding-right: 40px;
+            color:#fff;
+        }
+        .input-search::placeholder{
+            color:rgba(255,255,255,.5);
+            font-size: 18px;
+            letter-spacing: 2px;
+            font-weight: 100;
+        }
+        .btn-search{
+            width: 50px;
+            height: 50px;
+            border-style: none;
+            font-size: 20px;
+            font-weight: bold;
+            outline: none;
+            cursor: pointer;
+            border-radius: 50%;
+            position: absolute;
+            right: 0px;
+            color:#ffffff ;
+            background-color:transparent;
+            pointer-events: painted;
+        }
+        .btn-search:focus ~ .input-search{
+            width: 300px;
+            border-radius: 0px;
+            background-color: transparent;
+            border-bottom:1px solid rgba(255,255,255,.5);
+            transition: all 500ms cubic-bezier(0, 0.110, 0.35, 2);
+        }
+        .input-search:focus{
+            width: 300px;
+            border-radius: 0px;
+            background-color: transparent;
+            border-bottom:1px solid rgba(255,255,255,.5);
+            transition: all 500ms cubic-bezier(0, 0.110, 0.35, 2);
         }
 
-        .search:focus{
-            outline: none !important;
-            border-color: #62b2c2;
-            color: #0e0e0e;
-            width: 30%;
-            height: 50px;
-            padding: 5px;
-        }
-        .search:hover{
-            border-color: #62b2c2;
-            color: #0e0e0e;
-            width: 30%;
-            height: 50px;
-            padding: 5px;
-        }
+
+
+        /*.search{*/
+        /*    font-family: "Poppins", sans-serif;*/
+        /*    border: 3px white groove;*/
+        /*    color: black;*/
+        /*    width: 30%;*/
+        /*    height: 50px;*/
+        /*    padding: 5px;*/
+        /*}*/
+
+        /*.search:focus{*/
+        /*    outline: none !important;*/
+        /*    border-color: #62b2c2;*/
+        /*    color: #0e0e0e;*/
+        /*    width: 30%;*/
+        /*    height: 50px;*/
+        /*    padding: 5px;*/
+        /*}*/
+        /*.search:hover{*/
+        /*    border-color: #62b2c2;*/
+        /*    color: #0e0e0e;*/
+        /*    width: 30%;*/
+        /*    height: 50px;*/
+        /*    padding: 5px;*/
+        /*}*/
         table{
             font-family: 'Quicksand', sans-serif;
+            font-size: 15px;
             width: 80%;
             border-collapse: collapse;
         }
 
-        .up_app .mss_app .can_app {
+        .up_app .mss_app .can_app .all_app {
+            color: #2d2c2c;
             border-bottom: 3px solid lightgrey;
         }
 
         .up_app:hover{
             font-weight: bold;
-            color:#127DB3;
-            border-bottom:3px solid  #127DB3;
+            color:#22577A;
+            border-bottom:3px solid  #22577A;
         }
 
         .mss_app:hover{
+            font-weight: bold;
             color:gray;
             border-bottom: 3px solid gray;
         }
@@ -88,8 +152,18 @@
         }
 
         .up_app.active{
-            border-bottom: 3px solid #127DB3;
+            border-bottom: 3px solid #22577A;
             color: black;
+        }
+
+        .all_app.active{
+            color: black;
+            border-bottom: 3px solid #1E5128;
+        }
+
+        .all_app:hover{
+            color: #1E5128;
+            border-bottom: 3px solid #1E5128;
         }
 
         .tab{
@@ -98,47 +172,88 @@
         td.tab{
             outline: none;
             color: grey;
-            font-size: 20px;
+            font-size:18px;
             text-align: center;
             border-bottom: 2pt solid lightgrey;
             padding: 1%;
             font-weight: bold;
         }
+        form{
+            position: relative;
+            transition: all 1s;
+            width: 50px;
+            height: 50px;
+            background: white;
+            box-sizing: border-box;
+            border-radius: 25px;
+            border: 4px solid white;
+            padding: 5px;
+        }
+
+        input{
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;;
+            height: 42.5px;
+            line-height: 30px;
+            outline: 0;
+            border: 0;
+            display: none;
+            font-size: 1em;
+            border-radius: 20px;
+            padding: 0 20px;
+        }
+
+        .fa{
+            box-sizing: border-box;
+            padding: 10px;
+            width: 42.5px;
+            height: 42.5px;
+            position: absolute;
+            top: 0;
+            right: 0;
+            border-radius: 50%;
+            color: #07051a;
+            text-align: center;
+            font-size: 1.2em;
+            transition: all 1s;
+        }
+        form:hover{
+            width: 200px;
+            cursor: pointer;
+        }
+
+        form:hover input{
+            display: block;
+        }
+
+        form:hover .fa{
+            background: #065087;
+            color: white;
+        }
     </style>
 </head>
 
 <body>
-<div class="wrapper">
-    <nav>
-        <input type="checkbox" id="show-search">
-        <input type="checkbox" id="show-menu">
-        <label for="show-menu" class="menu-icon"><i class="fas fa-bars"></i></label>
-        <div class="content">
-            <div class="logo"><a href="#">MobiDoc</a></div>
-            <ul class="links">
-                <li><a href="home.html">Home</a></li>
-                <li><a href="PatientViewCalendarAppointments.html">View Appointments</a></li>
-                <li><a href="profile.html">Profile</a></li>
-                <li><a href="booking.html">Book Consultation</a></li>
-<!--                <li><a href="#" style="color: transparent">some blank string for some formatting so that it looks nice</a></li>-->
-                <li>
-                    <a href="appointments.html" class="desktop-link">Appointments</a>
-                    <input type="checkbox" id="show-features">
-                    <label for="show-features">Appointments</label>
-                    <ul>
-                        <li><a href="AppointmentTypes/CancelAppointments.html">Cancel Appointments</a></li>
-                        <li><a href="AppointmentTypes/CanceledAppointments.html">Canceled Appointments</a></li>
-                        <li><a href="AppointmentTypes/AcceptedAppointments.html">Accepted Appointments</a></li>
-                        <li><a href="AppointmentTypes/RejectedAppointments.html">Rejected Appointments</a></li>
-                        <li><a href="AppointmentTypes/PendingAppointments.html">Pending Appointment</a></li>
-                        <li><a href="AppointmentTypes/CompletedAppointments.html">Completed Appointments</a></li>
 
-                    </ul>
-                </li>
-                <li><a onclick="function SignOut() {
+
+<div class='wrapper'>
+    <nav>
+        <input type='checkbox' id='show-search'>
+        <input type='checkbox' id='show-menu'>
+        <label for='show-menu' class='menu-icon'><i class='fas fa-bars'></i></label>
+        <div class='content'>
+            <div class='logo'><a href='#'>MobiDoc</a></div>
+            <ul class='links'>
+                <li><a   class="active" href='home.html'>Home</a></li>
+                <li><a href='PatientViewCalendarAppointments.html'>Calendar</a></li>
+                <li><a href='booking.html'>Book Consultation</a></li>
+                <li><a href='profile.html'>Profile</a></li>
+                <li><a style="margin-left: 100%;background: #0b739c;cursor: pointer" onclick="function SignOut() {
                     firebase.auth().signOut()
                     .then(() => {
-                        window.location.href = '../index.html'; //Nthabi added on 28092021 09h43
+                        window.location.href = '../../index.html';
                         console.log('Signed Out');
                     })
                     .catch(e=>{
@@ -150,6 +265,8 @@
         </div>
     </nav>
 </div>
+
+
 <div style="padding-bottom: 100px"></div>
 
 <!--Step 1 | style="display: none"-->
@@ -178,23 +295,35 @@
         <div class="sk-chase-dot"></div>
     </div>
 </center>
-<!--<center>-->
-<!--    <table>-->
-<!--        <thead>-->
-<!--        <tr>-->
-<!--            <td id = "tab_upm_app" class="tab up_app"> Upcoming Appointments</td>-->
-<!--            <td id = "tab_can_app" class="tab can_app"> Cancelled Appointments</td>-->
-<!--            <td id = "tab_mss_app" class="tab mss_app"> Missed Appointments</td>-->
-<!--        </tr>-->
-<!--        </thead>-->
-<!--    </table>-->
-<!--</center>-->
+<div class="bgcard"  id="tabs" style="display: none;font-size: 15px">
 <center>
-    <label for="src"></label><input class="search" id="src" type="search" placeholder="Type to Search..."/>
+    <table>
+        <thead>
+        <tr style="font-size: 15px;">
+            <td  id = "tab_all_app" class="tab all_app active"> All Appointments</td>
+           <td id = "tab_upm_app" class="tab up_app"> Upcoming Appointments</td>
+           <td id = "tab_can_app" class="tab can_app"> Cancelled Appointments</td>
+            <td id = "tab_mss_app" class="tab mss_app"> Missed Appointments</td>
+            <td><form action="">
+                <input type="search"  id="src" placeholder="Search here ...">
+                <i class="fa fa-search" style="font-size: 25px"></i>
+            </form></td>
+       </tr>
+        </thead>
+    </table>
 </center>
+<!--    <center>-->
+<!--        <form action="">-->
+<!--            <input type="search" placeholder="Type to Search...">-->
+<!--            <i class="fa fa-search" style="font-size: 25px"></i>-->
+<!--        </form>-->
+<!--    </center>-->
+<!--<center>-->
+<!--    <label for="src"></label><input class="search" style="margin-top: 50px" id="src" type="search" placeholder="Type to Search..."/>-->
+<!--</center>-->
 <dl id="appList">
 </dl>
-
+</div>
 <script>
 
 let firebaseConfig = {
@@ -215,6 +344,16 @@ firebase.initializeApp(firebaseConfig);
 </body>
 
 <script>
+
+    // helper for getting elements:
+    function _id(name){
+        return document.getElementById(name);
+    }
+
+    function resetDl(){
+        _id("appList").innerHTML = "";
+    }
+
     // Appointment list
     let appList = document.getElementById("appList");
     firebase.auth().onAuthStateChanged(function (user) {
@@ -311,6 +450,75 @@ firebase.initializeApp(firebaseConfig);
 
     }
 
+    // Merge all Appointments into One:
+    let tab_mss  = _id("tab_mss_app");
+    let tab_upm  = _id("tab_upm_app");
+    let tab_can  = _id("tab_can_app");
+    let tab_all  = _id("tab_all_app");
+
+    let MSS_Container = [] ,UPM_Container = [],CAN_Container = [],ALL_Container = [];
+
+    function AddText(card){
+        let container;
+        let body = _id("appList");
+
+        switch (card){
+            case 'm':
+                container = MSS_Container;
+                break;
+            case 'u':
+                container = UPM_Container;
+                break;
+            case 'c':
+                container = CAN_Container;
+                break;
+            case 'a':
+                container = ALL_Container;
+                break;
+        }
+
+        body.style.animationName = "fadeIn";
+        body.style.animationDuration = "1s";
+
+        for(let child of container){
+            body.innerHTML += child;
+        }
+    }
+
+    tab_all.addEventListener('click', () =>{
+        tab_all.className += " active";
+        tab_can.className += "tab can_app";
+        tab_mss.className = "tab mss_app";
+        tab_upm.className = "tab up_app";
+        resetDl();
+        AddText('a');
+    });
+
+    tab_can.addEventListener("click", () =>{
+        tab_can.className += " active";
+        tab_mss.className = "tab mss_app";
+        tab_upm.className = "tab up_app";
+        tab_all.className = "tab all_app";
+        resetDl();
+        AddText('c');
+    });
+
+    tab_upm.addEventListener("click", () =>{
+        tab_upm.className += " active";
+        tab_can.className = "tab can_app";
+        tab_mss.className = "tab mss_app";
+        tab_all.className = "tab all_app";
+        resetDl();
+        AddText('u');
+    });
+
+    tab_mss.addEventListener("click", () =>{
+        tab_mss.className += " active"
+        tab_can.className = "tab can_app";
+        tab_upm.className = "tab up_app";
+        resetDl();
+        AddText('m');
+    });
     // Added By Dylan : Missed Appointments :
     function setGracePeriodDate(date){
         let parts_of_date = date.split("/");
@@ -335,87 +543,125 @@ firebase.initializeApp(firebaseConfig);
         return status;
     }
 
+    // Splitting up Appointments :
+    function Cancelled_App(app){
+        let pr
+
+        if(app.cancellation_done_by==="Doctor"){
+            pr = "You"
+        }
+        if(app.cancellation_done_by==="Patient"){
+            pr = "The doctor"
+        }
+
+        return "<div class = 'card'>" +
+            "<span class='canceled' >" + app.status + "</span>" +
+            "<h2>Appointment with Dr. " + app.doctor_Name + "</h2>" +
+            "<p id='app_id' style='display:none;'>" + app.id + "</p>" +
+            "<p>" + app.date_for_appointment + " - " + app.time_for_appointment + "</p>" +
+            "<table>" +
+            "<tr>" +
+            "<th>Reason for cancellation </th>" +
+            "<td>" + app.cancellation_reason + "</td>" +
+            "</tr>" +
+            "<tr>" +
+            "<th>Date of cancellation </th>" +
+            "<td>" + pr + " canceled this on: " + app.cancellation_date + "</td>" + "</tr>" +
+            "</table>"
+            + "</div>"
+            + "<br/>";
+    }
+
+    function Upcoming_app(app){
+        return "<div class='card'>"
+            + "<span class='upcoming' >" + app.status + "</span>" +
+            "<h2>Appointment with Dr " + app.doctor_Name + "</h2>" +
+            "<p>" + app.date_for_appointment + " - " + app.time_for_appointment + "</p>" +
+            "<table>" +
+            "<tr>" +
+            "<th>Reason for appointment: </th>" +
+            "<td>" + app.reason_for_appointment + "</td>" +
+            "</tr>" +
+            "<tr>" +
+            "<th>Consultation Cost: </th>" +
+            "<td>" + app.appointment_Cost + "</td>" +
+            "</tr>" +
+            "</table>"
+            +"</div>"
+            +"<br/>"
+            ;
+    }
+
+    function Missed_App(app){
+        return "<div class='card'>"
+            + "<span class='missed' >" + app.status + "</span>" +
+            "<h2>Appointment with Dr " + app.doctor_Name + "</h2>" +
+            "<p>" + app.date_for_appointment + " - " + app.time_for_appointment + "</p>" +
+            "<table>" +
+            "<tr>" +
+            "<th>Reason for appointment: </th>" +
+            "<td>" + app.reason_for_appointment + "</td>" +
+            "</tr>" +
+            "</table>"
+            +"</div>"
+            +"<br/>"
+            ;
+    }
+
     const getAppointmentDetails = (uid) => {
 
         let database = firebase.database();
         let ref = database.ref().child('Appointments');
         ref.orderByChild('date_for_appointment').on("value", snapshot => {
             if (snapshot.exists()) {
+                _id("tabs").style.display = "table";
                 appList.innerHTML = "";
                 snapshot.forEach(function (childSnapshot) {
                     let app = childSnapshot.val();
-                    if (uid === app.patientUid && app.status !== "completed" && app.status !== "canceled" && app.status !== "pending" ) {
+                    if (uid === app.patientUid && app.status !== "completed" ) {
                         let label;
 
                         switch (app.status) {
-                            case "accepted":
-                                console.log(app.status)
-                                label = "<span class='accept'>" + app.status + "</span>";
-                                break;
-                            case "rejected":
-                                label = "<span class='reject'>" + app.status + "</span>";
+                            case "cancelled":
+                                let can = Cancelled_App(app);
+                                appList.innerHTML += can;
+                                CAN_Container.push(can);
+                                ALL_Container.push(can);
                                 break;
                             case "upcoming":
-                                label = "<span class='upcoming' >" + app.status + "</span>";
+                                let upm = Upcoming_app(app);
+                                appList.innerHTML += upm;
+                                UPM_Container.push(upm);
+                                ALL_Container.push(upm);
                                 break;
                             case "missed":
-                                label = "<span class='missed' >" + app.status + "</span>";
+                                let mss = Missed_App(app);
+                                appList.innerHTML += mss;
+                                MSS_Container.push(mss);
+                                ALL_Container.push(mss);
                                 break;
                         }
 
-                        appList.innerHTML +=
-                            "<div class='card'>"
-                            + label +
-                            "<h2>Appointment with Dr " + app.doctor_Name + "</h2>" +
-                            "<p>" + app.date_for_appointment + " - " + app.time_for_appointment + "</p>" +
-                            "<table>" +
-                            "<tr>" +
-                            "<th>Reason for appointment: </th>" +
-                            "<td>" + app.reason_for_appointment + "</td>" +
-                            "</tr>" +
-                            "<tr>" +
-                            "<th>Consultation Cost: </th>" +
-                            "<td>" + app.appointment_Cost + "</td>" +
-                            "</tr>" +
-                            "</table>"
-                            +"</div>"
-                            +"<br/>"
-                        ;
+                        // appList.innerHTML +=
+                        //     "<div class='card'>"
+                        //     + label +
+                        //     "<h2>Appointment with Dr " + app.doctor_Name + "</h2>" +
+                        //     "<p>" + app.date_for_appointment + " - " + app.time_for_appointment + "</p>" +
+                        //     "<table>" +
+                        //     "<tr>" +
+                        //     "<th>Reason for appointment: </th>" +
+                        //     "<td>" + app.reason_for_appointment + "</td>" +
+                        //     "</tr>" +
+                        //     "<tr>" +
+                        //     "<th>Consultation Cost: </th>" +
+                        //     "<td>" + app.appointment_Cost + "</td>" +
+                        //     "</tr>" +
+                        //     "</table>"
+                        //     +"</div>"
+                        //     +"<br/>"
+                        // ;
                     }
-                    if (uid === app.patientUid && app.status === "canceled" ) {
-                        let label;
-                        switch (app.status){
 
-                            case "canceled":
-                                label = "<span class='canceled' >" + app.status + "</span>";
-                                break;
-                        }
-                        let pr
-                        if(app.cancellation_done_by==="Doctor"){
-                            pr = "You"
-                        }
-                        if(app.cancellation_done_by==="Patient"){
-                            pr = "The doctor"
-                        }
-
-
-                        appList.innerHTML +=
-                            "<div class = 'card'>" +
-                            label +
-                            "<h2>Appointment with Dr. " + app.doctor_Name + "</h2>" +
-                            "<p id='app_id' style='display:none;'>" + app.id + "</p>" +
-                            "<p>" + app.date_for_appointment + " - " + app.time_for_appointment + "</p>" +
-                            "<table>" +
-                            "<tr>" +
-                            "<th>Reason for cancellation </th>" +
-                            "<td>" + app.cancellation_reason + "</td>" +
-                            "</tr>" +
-
-                            "</table>"
-                            +"</div>"
-                            +"<br/>"
-                        ;
-                    }
                 });
             }
             document.getElementById("loader").style.display = "none";
@@ -429,6 +675,7 @@ firebase.initializeApp(firebaseConfig);
             var value = $(this).val().toLowerCase();
             $("#appList div").filter(function() {
                 $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                $("appList").animate({opacity : 0.5},'slow');
             });
         });
     });
