@@ -8,7 +8,7 @@
     <link rel="icon" type="image/png" sizes="32x32" href="../../favicon/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="../../favicon/favicon-16x16.png">
     <link rel="manifest" href="../../favicon/site.webmanifest">
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <!-- The core Firebase JS SDK is always required and must be listed first -->
     <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-auth.js"></script>
@@ -131,6 +131,7 @@
     </center>
 </div>
 
+
 <center>
     <label for="src"></label><input class="search" id="src" type="search" placeholder="Type to Search..."/>
 </center>
@@ -164,7 +165,7 @@
 </body>
 
 <!--popup for rejecting appointment-->
-<div id="reject_app_popup" class="popup">
+<div id="reject_app_popup" class="popup" style="display:none">
     <div class="popup-content">
         <div class="popup-header">
             <h2 style="text-align:center">Cancel your appointment?</h2>
@@ -358,6 +359,7 @@
     }
 
     function rejectAppointment(appID) {
+        console.log("rej");
         let rejection_reason = document.getElementById("app_rejection_reason").value;
         console.log(appID);
 
@@ -368,11 +370,13 @@
     }
 
     function openRejectAppPopup(appID){
+        console.log("Click");
         let popup = document.getElementById("reject_app_popup");
         let close = document.getElementsByClassName("popup-close")[0];
 
         let button = document.getElementById("confirm_app_btn");
         button.addEventListener('click', function() {
+            console.log("rej");
             rejectAppointment(appID);
 
         })

@@ -53,6 +53,11 @@ nav .content .links{
 .content .links li label:hover{
     background: #323c4e;
 }
+
+.active {
+    border-bottom: 5px solid white;
+}
+
 .content .links li a .active,.content .links li label .active{
     border-bottom: 10px burlywood;
     background: #323c4e;

@@ -23,36 +23,22 @@
 <body >
 
 
-<div class="wrapper">
+<div class='wrapper'>
     <nav>
-        <input type="checkbox" id="show-search">
-        <input type="checkbox" id="show-menu">
-        <label for="show-menu" class="menu-icon"><i class="fas fa-bars"></i></label>
-        <div class="content">
-            <div class="logo"><a href="#">MobiDoc</a></div>
-            <ul class="links">
-                <li><a href="home.html">Home</a></li>
-                <li><a href="PatientViewCalendarAppointments.html">View Appointments</a></li>
-                <li><a href="profile.html">Profile</a></li>
-                <li><a href="booking.html">Book Consultation</a></li>
-<!--                <li><a href="#" style="color: transparent;padding-left: 600px"></a></li>-->
-                <li>
-                    <a href="appointments.html" class="desktop-link">Appointments</a>
-                    <input type="checkbox" id="show-features">
-                    <label for="show-features">Appointments</label>
-                    <ul>
-                        <li><a href="AppointmentTypes/CancelAppointments.html">Cancel Appointments</a></li>
-                        <li><a href="AppointmentTypes/CanceledAppointments.html">Canceled Appointments</a></li>
-                        <li><a href="AppointmentTypes/AcceptedAppointments.html">Accepted Appointments</a></li>
-                        <li><a href="AppointmentTypes/RejectedAppointments.html">Rejected Appointments</a></li>
-                        <li><a href="AppointmentTypes/PendingAppointments.html">Pending Appointment</a></li>
-                        <li><a href="AppointmentTypes/CompletedAppointments.html">Completed Appointments</a></li>
-                    </ul>
-                </li>
-                <li><a onclick="function SignOut() {
+        <input type='checkbox' id='show-search'>
+        <input type='checkbox' id='show-menu'>
+        <label for='show-menu' class='menu-icon'><i class='fas fa-bars'></i></label>
+        <div class='content'>
+            <div class='logo'><a href='#'>MobiDoc</a></div>
+            <ul class='links'>
+                <li><a  href='home.html'>Home</a></li>
+                <li><a href='PatientViewCalendarAppointments.html'>Calendar</a></li>
+                <li><a href='booking.html'>Book Consultation</a></li>
+                <li><a class="active"  href='profile.html'>Profile</a></li>
+                <li><a style="margin-left: 100%;background: #0b739c;cursor: pointer" onclick="function SignOut() {
                     firebase.auth().signOut()
                     .then(() => {
-                        window.location.href = '../index.html'; //Nthabi added on 28092021 09h43
+                        window.location.href = '../../index.html';
                         console.log('Signed Out');
                     })
                     .catch(e=>{

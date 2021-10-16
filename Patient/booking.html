@@ -9,7 +9,7 @@
     <link rel="icon" type="image/png" sizes="32x32" href="../favicon/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="../favicon/favicon-16x16.png">
     <link rel="manifest" href="../favicon/site.webmanifest">
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <!-- The core Firebase JS SDK is always required and must be listed first -->
     <!--    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase.js"></script>-->
     <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
@@ -27,12 +27,15 @@
         }
 
         .search{
+            outline: none !important;
             font-family: "Poppins", sans-serif;
-            border: 3px white groove;
             color: black;
             width: 30%;
             height: 50px;
-            padding: 5px;
+            padding-left: 1%;
+            border: 0;
+            border-bottom:2px black solid ;
+            background: transparent;
         }
 
         .search:focus{
@@ -41,14 +44,13 @@
             color: #0e0e0e;
             width: 30%;
             height: 50px;
-            padding: 5px;
         }
+
         .search:hover{
             border-color: #62b2c2;
             color: #0e0e0e;
             width: 30%;
             height: 50px;
-            padding: 5px;
         }
     </style>
 
@@ -57,36 +59,22 @@
 <body>
 
 <!-- for the nav bar -->
-<div class="wrapper">
+<div class='wrapper'>
     <nav>
-        <input type="checkbox" id="show-search">
-        <input type="checkbox" id="show-menu">
-        <label for="show-menu" class="menu-icon"><i class="fas fa-bars"></i></label>
-        <div class="content">
-            <div class="logo"><a href="#">MobiDoc</a></div>
-            <ul class="links">
-                <li><a href="home.html">Home</a></li>
-                <li><a href="PatientViewCalendarAppointments.html">View Appointments</a></li>
-                <li><a href="profile.html">Profile</a></li>
-                <li><a href="booking.html" class="active">Book Consultation</a></li>
-<!--                <li><a href="#" style="color: transparent">some blank string for some formatting so that it looks nice</a></li>-->
-                <li>
-                    <a href="appointments.html" class="desktop-link">Appointments</a>
-                    <input type="checkbox" id="show-features">
-                    <label for="show-features">Appointments</label>
-                    <ul>
-                        <li><a href="AppointmentTypes/CancelAppointments.html">Cancel Appointments</a></li>
-                        <li><a href="AppointmentTypes/CanceledAppointments.html">Canceled Appointments</a></li>
-                        <li><a href="AppointmentTypes/AcceptedAppointments.html">Accepted Appointments</a></li>
-                        <li><a href="AppointmentTypes/RejectedAppointments.html">Rejected Appointments</a></li>
-                        <li><a href="AppointmentTypes/PendingAppointments.html">Pending Appointment</a></li>
-                        <li><a href="AppointmentTypes/CompletedAppointments.html">Completed Appointments</a></li>
-                    </ul>
-                </li>
-                <li><a onclick="function SignOut() {
+        <input type='checkbox' id='show-search'>
+        <input type='checkbox' id='show-menu'>
+        <label for='show-menu' class='menu-icon'><i class='fas fa-bars'></i></label>
+        <div class='content'>
+            <div class='logo'><a href='#'>MobiDoc</a></div>
+            <ul class='links'>
+                <li><a  href='home.html'>Home</a></li>
+                <li><a href='PatientViewCalendarAppointments.html'>Calendar</a></li>
+                <li><a class="active"   href='booking.html'>Book Consultation</a></li>
+                <li><a href='profile.html'>Profile</a></li>
+                <li><a  style="margin-left: 100%;background: #0b739c;cursor: pointer" onclick="function SignOut() {
                     firebase.auth().signOut()
                     .then(() => {
-                        window.location.href = '../index.html'; //Nthabi added on 28092021 09h43
+                        window.location.href = '../../index.html';
                         console.log('Signed Out');
                     })
                     .catch(e=>{
@@ -98,7 +86,7 @@
         </div>
     </nav>
 </div>
-<div style="padding-bottom: 200px"></div>
+<div style="padding-bottom: 100px"></div>
 
 <!--Step 1 | style="display: none"-->
 <div id="log" style="display: none;padding-top: 100px;margin-left:40%">
@@ -119,7 +107,8 @@
 
 </div>
 <center>
-<label for="src"></label><input class="search" id="src" type="search" placeholder="Search..."/>
+    <i class="fa fa-search" style="font-size: 25px"></i>
+<label for="src"></label><input class="search" id="src" type="search" placeholder="Type to Search"/>
 </center>
 <!-- links this project to firebase -->
 
