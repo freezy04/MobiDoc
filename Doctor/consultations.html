@@ -8,7 +8,7 @@
     <link rel="icon" type="image/png" sizes="32x32" href="../favicon/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="../favicon/favicon-16x16.png">
     <link rel="manifest" href="../favicon/site.webmanifest">
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <!-- The core Firebase JS SDK is always required and must be listed first -->
     <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-auth.js"></script>
@@ -28,12 +28,15 @@
         }
 
         .search{
+            outline: none !important;
             font-family: "Poppins", sans-serif;
-            border: 3px white groove;
             color: black;
             width: 30%;
             height: 50px;
-            padding: 5px;
+            padding-left: 1%;
+            border: 0;
+            border-bottom:2px black solid ;
+            background: transparent;
         }
 
         .search:focus{
@@ -42,14 +45,13 @@
             color: #0e0e0e;
             width: 30%;
             height: 50px;
-            padding: 5px;
         }
+
         .search:hover{
             border-color: #62b2c2;
             color: #0e0e0e;
             width: 30%;
             height: 50px;
-            padding: 5px;
         }
     </style>
 
@@ -65,32 +67,15 @@
         <div class="content">
             <div class="logo"><a href="#">MobiDoc</a></div>
             <ul class="links">
-                <li><a href="home.html">Home</a></li>
-                <li>
-                    <a href="profile.html" class="desktop-link">Profile</a>
-                    <input type="checkbox" id="show-services">
-                    <label for="show-services">Profile</label>
-                </li>
+                <li><a href='home.html'>Home</a></li>
                 <li><a href="DoctorViewCalendarAppointments.html">View Appointments</a></li>
                 <li><a href="DoctorCalendar.html">Set Available Date</a></li>
                 <li><a href="DoctorCalendarUpdate.html">Update Available Dates</a></li>
-                <li><a href="consultations.html">Complete Appointment</a></li>
-                <li><a href="AppointmentTypes/CancelAppointments.html">Cancel Appointment</a></li>
-                <li><a href="AppointmentTypes/CanceledAppointments.html">Canceled Appointment</a></li>
-<!--                <li><a href="Appointments.html">Accept Appointments</a></li>-->
-<!--                <li><a href="AppointmentTypes/PendingAppointments.html">Reject Appointments</a></li>-->
-<!--                <li><a href="consultations.html">Complete Appointment</a></li>-->
-<!--                <li>-->
-<!--                    <a href="#" class="desktop-link" style="padding-left: 50px">Appointments</a>-->
-<!--                    <input type="checkbox" id="show-features">-->
-<!--                    <label for="show-features">Appointments</label>-->
-<!--                    <ul>-->
-<!--                        <li><a style="padding-left: 60px" href="AppointmentTypes/RejectedAppointments.html">Rejected Appointments</a></li>-->
-<!--                        <li><a style="padding-left: 60px" href="AppointmentTypes/PendingAppointments.html">Pending Appointments</a></li>-->
-<!--                        <li><a style="padding-left: 60px" href="AppointmentTypes/CompletedAppointments.html">Completed Appointments</a></li>-->
-<!--                    </ul>-->
-<!--                </li>-->
-                <li><a onclick="function SignOut() {
+                <li><a class="active" href="consultations.html">Complete Appointment</a></li>
+                <li>
+                    <a href="profile.html">Profile</a>
+                </li>
+                <li><a style="background: #0b739c;cursor: pointer" onclick="function SignOut() {
                     firebase.auth().signOut()
                     .then(() => {
                         window.location.href = '../index.html'; //Nthabi added on 28092021 09h43
@@ -104,11 +89,10 @@
             </ul>
         </div>
     </nav>
-<!--    <button  class="button" id="testbtn" onClick="testing1()"> test </button>-->
 </div>
 
 
-<div style="padding-bottom: 200px"></div>
+<div style="padding-bottom: 150px"></div>
 
 <!--[Nthabi] Login popup | style="display: none" edited by Dylan-->
 <div id="log" style="display: none;padding-top: 100px;margin-left:40%;margin-top:300px">
@@ -137,6 +121,7 @@
 </center>
 
 <center>
+    <i class="fa fa-search" style="font-size: 25px"></i>
     <label for="src"></label><input class="search" id="src" type="search" placeholder="Type to Search..."/>
 </center>
 
@@ -298,20 +283,11 @@
 
                     //Gabe Tidy removed pending appointments on home screen
 
-                    if (uid === app.doctorUid && app.status === "accepted") {
+                    if (uid === app.doctorUid && app.status === "upcoming") {
                         console.log(appID);
 
                         // if (uid === app.doctorUid && ( app.status === "accepted" || app.status === "pending" )) {
-                        let label = "<span class='accept'>" + app.status + "</span>";
-                        // let label;
-                        // switch (app.status){
-                        //     case "accepted":
-                        //         label = "<span class='accept'>" + app.status + "</span>";
-                        //         break;
-                        //     case "pending":
-                        //         label = "<span class='pending' >" + app.status + "</span>";
-                        //         break;
-                        // }
+                        let label = "<span class='upcoming'>" + app.status + "</span>";
                         appList.innerHTML +=
                             "<div class = 'card'>" +
                             label +
@@ -319,10 +295,10 @@
                             "<p id='app_id' style='display:none;'>" + app.id + "</p>" +
                             "<p>" + app.date_for_appointment + " - " + app.time_for_appointment + "</p>" +
                             "<table>" +
-                            "<tr>" +
+                            "<br>" +
                             "<th>Reason for appointment: </th>" +
                             "<td>" + app.reason_for_appointment + "</td>" +
-                            "<button id='" + appID + "' onClick='openCompleteAppPopup(this.id)'> Complete Appointment </button>" +
+                            "<br/><button id='" + appID + "' onClick='openCompleteAppPopup(this.id)'> Complete Appointment </button>" +
                             "</tr>" +
                             "</table>"
                             +"</div>"

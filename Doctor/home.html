@@ -8,7 +8,7 @@
     <link rel="icon" type="image/png" sizes="32x32" href="../favicon/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="../favicon/favicon-16x16.png">
     <link rel="manifest" href="../favicon/site.webmanifest">
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <!-- The core Firebase JS SDK is always required and must be listed first -->
     <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-auth.js"></script>
@@ -28,29 +28,227 @@
             background: #0e468b;
         }
 
-        .search{
-            font-family: "Poppins", sans-serif;
-            border: 3px white groove;
-            color: black;
-            width: 30%;
+        .box{
+            box-sizing: border-box;
+        }
+        .search-box{
+            width: fit-content;
+            height: fit-content;
+            position: relative;
+        }
+        .input-search{
             height: 50px;
+            width: 50px;
+            border-style: none;
+            padding: 10px;
+            font-size: 18px;
+            letter-spacing: 2px;
+            outline: none;
+            border-radius: 25px;
+            transition: all .5s ease-in-out;
+            background-color: #22a6b3;
+            padding-right: 40px;
+            color:#fff;
+        }
+        .input-search::placeholder{
+            color:rgba(255,255,255,.5);
+            font-size: 18px;
+            letter-spacing: 2px;
+            font-weight: 100;
+        }
+        .btn-search{
+            width: 50px;
+            height: 50px;
+            border-style: none;
+            font-size: 20px;
+            font-weight: bold;
+            outline: none;
+            cursor: pointer;
+            border-radius: 50%;
+            position: absolute;
+            right: 0px;
+            color:#ffffff ;
+            background-color:transparent;
+            pointer-events: painted;
+        }
+        .btn-search:focus ~ .input-search{
+            width: 300px;
+            border-radius: 0px;
+            background-color: transparent;
+            border-bottom:1px solid rgba(255,255,255,.5);
+            transition: all 500ms cubic-bezier(0, 0.110, 0.35, 2);
+        }
+        .input-search:focus{
+            width: 300px;
+            border-radius: 0px;
+            background-color: transparent;
+            border-bottom:1px solid rgba(255,255,255,.5);
+            transition: all 500ms cubic-bezier(0, 0.110, 0.35, 2);
+        }
+
+
+
+        /*.search{*/
+        /*    font-family: "Poppins", sans-serif;*/
+        /*    border: 3px white groove;*/
+        /*    color: black;*/
+        /*    width: 30%;*/
+        /*    height: 50px;*/
+        /*    padding: 5px;*/
+        /*}*/
+
+        /*.search:focus{*/
+        /*    outline: none !important;*/
+        /*    border-color: #62b2c2;*/
+        /*    color: #0e0e0e;*/
+        /*    width: 30%;*/
+        /*    height: 50px;*/
+        /*    padding: 5px;*/
+        /*}*/
+        /*.search:hover{*/
+        /*    border-color: #62b2c2;*/
+        /*    color: #0e0e0e;*/
+        /*    width: 30%;*/
+        /*    height: 50px;*/
+        /*    padding: 5px;*/
+        /*}*/
+        table{
+            font-family: 'Quicksand', sans-serif;
+            font-size: 15px;
+            width: 80%;
+            border-collapse: collapse;
+        }
+
+        .up_app .mss_app .can_app .all_app {
+            color: #2d2c2c;
+            border-bottom: 3px solid lightgrey;
+        }
+
+        .up_app:hover{
+            font-weight: bold;
+            color:#22577A;
+            border-bottom:3px solid  #22577A;
+        }
+
+        .mss_app:hover{
+            font-weight: bold;
+            color:#64C9CF;
+            border-bottom: 3px solid #64C9CF;
+        }
+
+        .can_app:hover{
+            font-weight: bold;
+            color: darkred;
+            border-bottom: 3px solid darkred;
+        }
+
+        .can_app.active{
+            border-bottom: 3px solid darkred;
+            color: black;
+        }
+
+        .mss_app.active{
+            border-bottom: 3px solid #64C9CF;
+            color: black;
+        }
+
+        .up_app.active{
+            border-bottom: 3px solid #22577A;
+            color: black;
+        }
+
+        .all_app.active{
+            color: black;
+            border-bottom: 3px solid #1E5128;
+        }
+
+        .all_app:hover{
+            color: #1E5128;
+            border-bottom: 3px solid #1E5128;
+        }
+
+        .tab{
+            color:black;
+        }
+        td.tab{
+            outline: none;
+            color: grey;
+            font-size:18px;
+            text-align: center;
+            border-bottom: 2pt solid lightgrey;
+            padding: 1%;
+            font-weight: bold;
+        }
+        form{
+            position: relative;
+            transition: all 1s;
+            width: 50px;
+            height: 50px;
+            background: white;
+            box-sizing: border-box;
+            border-radius: 25px;
+            border: 4px solid white;
             padding: 5px;
         }
 
-        .search:focus{
-            outline: none !important;
-            border-color: #62b2c2;
-            color: #0e0e0e;
-            width: 30%;
-            height: 50px;
+        input{
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;;
+            height: 42.5px;
+            line-height: 30px;
+            outline: 0;
+            border: 0;
+            display: none;
+            font-size: 1em;
+            border-radius: 20px;
+            padding: 0 20px;
+        }
+
+        .fa{
+            box-sizing: border-box;
+            padding: 10px;
+            width: 42.5px;
+            height: 42.5px;
+            position: absolute;
+            top: 0;
+            right: 0;
+            border-radius: 50%;
+            color: #07051a;
+            text-align: center;
+            font-size: 1.2em;
+            transition: all 1s;
+        }
+        form:hover{
+            width: 200px;
+            cursor: pointer;
+        }
+
+        form:hover input{
+            display: block;
+        }
+
+        form:hover .fa{
+            background: #065087;
+            color: white;
+        }
+        ::placeholder {
+            font-style: italic;
+            font-size: 16px;
             padding: 5px;
         }
-        .search:hover{
-            border-color: #62b2c2;
-            color: #0e0e0e;
-            width: 30%;
-            height: 50px;
-            padding: 5px;
+        @keyframes fadeIn {
+            0%   {opacity: 0;background: lightgoldenrodyellow}
+            25%  {opacity: 0.25;}
+            50%  {opacity: 0.5;}
+            75%  {opacity: .75;}
+            100% {opacity: 1; background: transparent}
+        }
+        .test{
+            animation: ease-out;
+            animation-name:fadeIn;
+            animation-duration: 3s;
         }
     </style>
 
@@ -66,32 +264,15 @@
         <div class="content">
             <div class="logo"><a href="#">MobiDoc</a></div>
             <ul class="links">
-                <li><a href="home.html">Home</a></li>
-                <li>
-                    <a href="profile.html" class="desktop-link">Profile</a>
-                    <input type="checkbox" id="show-services">
-                    <label for="show-services">Profile</label>
-                </li>
+                <li><a class="active" href='home.html'>Home</a></li>
                 <li><a href="DoctorViewCalendarAppointments.html">View Appointments</a></li>
                 <li><a href="DoctorCalendar.html">Set Available Date</a></li>
                 <li><a href="DoctorCalendarUpdate.html">Update Available Dates</a></li>
-                <li><a href="consultations.html">Complete Appointment</a></li>
-                <li><a href="AppointmentTypes/CancelAppointments.html">Cancel Appointment</a></li>
-                <li><a href="AppointmentTypes/CanceledAppointments.html">Canceled Appointment</a></li>
-<!--                <li><a href="Appointments.html">Accept Appointments</a></li>-->
-<!--                <li><a href="AppointmentTypes/PendingAppointments.html">Reject Appointments</a></li>-->
-
-<!--                <li>-->
-<!--                    <a href="#" class="desktop-link" style="padding-left: 50px">Appointments</a>-->
-<!--                    <input type="checkbox" id="show-features">-->
-<!--                    <label for="show-features">Appointments</label>-->
-<!--                    <ul>-->
-<!--                        <li><a style="padding-left: 60px" href="AppointmentTypes/RejectedAppointments.html">Rejected Appointments</a></li>-->
-<!--                        <li><a style="padding-left: 60px" href="AppointmentTypes/PendingAppointments.html">Pending Appointments</a></li>-->
-<!--                        <li><a style="padding-left: 60px" href="AppointmentTypes/CompletedAppointments.html">Completed Appointments</a></li>-->
-<!--                    </ul>-->
-<!--                </li>-->
-                <li><a onclick="function SignOut() {
+                <li><a  href="consultations.html">Complete Appointment</a></li>
+                <li>
+                    <a href="profile.html">Profile</a>
+                </li>
+                <li><a style="background: #0b739c;cursor: pointer" onclick="function SignOut() {
                     firebase.auth().signOut()
                     .then(() => {
                         window.location.href = '../index.html'; //Nthabi added on 28092021 09h43
@@ -108,7 +289,7 @@
 </div>
 
 
-<div style="padding-bottom: 200px"></div>
+<div style="padding-bottom: 100px"></div>
 
 <!--[Nthabi] Login popup | style="display: none" edited by Dylan-->
 <div id="log" style="display: none;padding-top: 100px;margin-left:40%">
@@ -137,12 +318,26 @@
         </div>
     </center>
 </div>
-
+<div class="bgcard"  id="tabs" style="display:none;font-size: 15px">
 <center>
-    <label for="src"></label><input class="search" id="src" type="search" placeholder="Type to Search..."/>
+    <table>
+        <thead>
+        <tr style="font-size: 15px;">
+            <td  id = "tab_all_app" class="tab all_app active"> All Appointments</td>
+            <td id = "tab_upm_app" class="tab up_app"> Upcoming Appointments</td>
+            <td id = "tab_can_app" class="tab can_app"> Cancelled Appointments</td>
+            <td id = "tab_mss_app" class="tab mss_app"> Completed Appointments</td>
+            <td><form action="">
+                <input type="search"  id="src" placeholder="Type to Search">
+                <i class="fa fa-search" style="font-size: 25px"></i>
+            </form></td>
+        </tr>
+        </thead>
+    </table>
 </center>
 <dl id="appList">
 </dl>
+</div>
 <script>
 
     let firebaseConfig = {
@@ -265,6 +460,150 @@
         });
     }
 //end of login from any page
+    // helper for getting elements:
+    function _id(name){
+        return document.getElementById(name);
+    }
+
+    function resetDl(){
+        _id("appList").innerHTML = "";
+    }
+
+    // Start Tabs Functionality
+    let tab_mss  = _id("tab_mss_app");
+    let tab_upm  = _id("tab_upm_app");
+    let tab_can  = _id("tab_can_app");
+    let tab_all  = _id("tab_all_app");
+
+    let MSS_Container = [] ,UPM_Container = [],CAN_Container = [],ALL_Container = [];
+
+    function AddText(card){
+        let container;
+        let body = _id("appList");
+
+        switch (card){
+            case 'm':
+                container = MSS_Container;
+                break;
+            case 'u':
+                container = UPM_Container;
+                break;
+            case 'c':
+                container = CAN_Container;
+                break;
+            case 'a':
+                container = ALL_Container;
+                break;
+        }
+
+        body.style.animationName = "fadeIn";
+        body.style.animationDuration = "1s";
+
+        for(let child of container){
+            body.innerHTML += child;
+        }
+    }
+
+    tab_all.addEventListener('click', () =>{
+        tab_all.className += " active";
+        tab_can.className += "tab can_app";
+        tab_mss.className = "tab mss_app";
+        tab_upm.className = "tab up_app";
+        resetDl();
+        AddText('a');
+    });
+
+    tab_can.addEventListener("click", () =>{
+        tab_can.className += " active";
+        tab_mss.className = "tab mss_app";
+        tab_upm.className = "tab up_app";
+        tab_all.className = "tab all_app";
+        resetDl();
+        AddText('c');
+    });
+
+    tab_upm.addEventListener("click", () =>{
+        tab_upm.className += " active";
+        tab_can.className = "tab can_app";
+        tab_mss.className = "tab mss_app";
+        tab_all.className = "tab all_app";
+        resetDl();
+        AddText('u');
+    });
+
+    tab_mss.addEventListener("click", () =>{
+        tab_mss.className += " active"
+        tab_can.className = "tab can_app";
+        tab_upm.className = "tab up_app";
+        resetDl();
+        AddText('m');
+    });
+
+    function UPM_Appointment(app){
+        return "<div class = 'card'>" +
+            "<span class='upcoming'>" + app.status + "</span>" +
+        "<h2>Appointment with " + app.patient_Name + "</h2>" +
+        "<p id='app_id' style='display:none;'>" + app.id + "</p>" +
+        "<p>" + app.date_for_appointment + " - " + app.time_for_appointment + "</p>" +
+        "<table>" +
+        "<tr>" +
+        "<th>Reason for appointment: </th>" +
+        "<td>" + app.reason_for_appointment + "</td>" +
+        "</tr>" +
+        "</table>"
+        +"</div>"
+        +"<br/>"
+        ;
+    }
+
+    function CAN_Appointment(app){
+        let pr
+
+        if(app.cancellation_done_by==="Doctor"){
+            pr = "You"
+        }
+        if(app.cancellation_done_by==="Patient"){
+            pr = "The doctor"
+        }
+        return "<div class = 'card'>" +
+            "<span class='canceled' >" + app.status + "</span>"+
+            "<h2>Appointment with " + app.patient_Name + "</h2>" +
+            "<p id='app_id' style='display:none;'>" + app.id + "</p>" +
+            "<p>" + app.date_for_appointment + " - " + app.time_for_appointment + "</p>" +
+            "<table>" +
+            "<tr>" +
+            "<th>Reason for cancellation </th>" +
+            "<td>" + app.cancellation_reason + "</td>" +
+            "</tr>" +
+            "</table>"
+            +"</div>"
+            +"<br/>"
+    }
+
+    function COMP_Appointment(app){
+        return "<div class='card' >"+
+            "<span class='completed'>Completed</span>" +
+            "<h2>Appointment with " + app.patient_Name + "</h2>" +
+            "<p>" + app.date_for_appointment + " - " + app.time_for_appointment + "</p>" +
+            "<table>" +
+            "<tr>" +
+            "<th>Appointment notes: </th>" +
+            "<td>" + app.notes + "</td>" +
+            "</tr>" +
+            "<tr>" +
+            "<th>Consulation cost: </th>" +
+            "<td>R" + app.appointment_Cost + "</td>" +
+            "</tr>" +
+            "<tr>" +
+            "<th>Reason for appointment: </th>" +
+            "<td>" + app.reason_for_appointment + "</td>" +
+            "</tr>" +
+            "</table>"
+            +"</div>"
+            +"<br/>"
+    }
+
+    // End Tabs Functionality
 
     const getAppointmentDetails = (uid) => {
         let database = firebase.database();
@@ -272,67 +611,36 @@
         ref.orderByKey().on("value",snapshot => {
             document.getElementById("loader").style.display = "block";
             if (snapshot.exists()) {
+                _id("tabs").style.display = "table";
+                appList.innerHTML = "";
                 snapshot.forEach(function (childSnapshot) {
                     //console.log(JSON.stringify(childSnapshot.val()));
                     let app = childSnapshot.val();
                     //Gabe Tidy removed pending appointments on home screen
-                    if (uid === app.doctorUid && ( app.status === "upcoming" ) ){
+                    if (uid === app.doctorUid && app.status !== "missed"){
                         let label;
                         switch (app.status){
                             case "upcoming":
-                                label = "<span class='accept'>" + app.status + "</span>";
+                                let upm = UPM_Appointment(app);
+                                appList.innerHTML += upm;
+                                UPM_Container.push(upm);
+                                ALL_Container.push(upm);
+                                break;
+                            case "cancelled":
+                                let can = CAN_Appointment(app);
+                                appList.innerHTML += can;
+                                CAN_Container.push(can);
+                                ALL_Container.push(can);
+                                break;
+                            case "completed":
+                                let comp = COMP_Appointment(app);
+                                appList.innerHTML += comp;
+                                MSS_Container.push(comp);
+                                ALL_Container.push(comp);
                                 break;
 
                         }
-                        appList.innerHTML +=
-                            "<div class = 'card'>" +
-                            label +
-                            "<h2>Appointment with " + app.patient_Name + "</h2>" +
-                            "<p id='app_id' style='display:none;'>" + app.id + "</p>" +
-                            "<p>" + app.date_for_appointment + " - " + app.time_for_appointment + "</p>" +
-                            "<table>" +
-                            "<tr>" +
-                            "<th>Reason for appointment: </th>" +
-                            "<td>" + app.reason_for_appointment + "</td>" +
-                            "</tr>" +
-                            "</table>"
-                            +"</div>"
-                            +"<br/>"
-                        ;
-                    }
-                    if (uid === app.doctorUid && app.status === "canceled" ) {
-                        let label;
-                        switch (app.status){
 
-                            case "canceled":
-                                label = "<span class='canceled' >" + app.status + "</span>";
-                                break;
-                        }
-                        let pr
-                        if(app.cancellation_done_by==="Doctor"){
-                            pr = "You"
-                        }
-                        if(app.cancellation_done_by==="Patient"){
-                            pr = "The patient"
-                        }
-
-
-                        appList.innerHTML +=
-                            "<div class = 'card'>" +
-                            label +
-                            "<h2>Appointment with " + app.patient_Name + "</h2>" +
-                            "<p id='app_id' style='display:none;'>" + app.id + "</p>" +
-                            "<p>" + app.date_for_appointment + " - " + app.time_for_appointment + "</p>" +
-                            "<table>" +
-                            "<tr>" +
-                            "<th>Reason for cancellation </th>" +
-                            "<td>" + app.cancellation_reason + "</td>" +
-                            "</tr>" +
-
-                            "</table>"
-                            +"</div>"
-                            +"<br/>"
-                        ;
                     }
 
                 });
@@ -436,6 +744,8 @@
             document.getElementById('menu').style.borderRadius = '0px';
         }
     }
+
+
 
 </script>
 </html>

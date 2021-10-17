@@ -174,17 +174,13 @@ function openAppsPopup(dayID) {
             let label;
             switch (app.status){
                 case "upcoming":
-                    label = "<span class='accept'>" + app.status + "</span>";
-
+                    label = "<span class='upcoming'>" + app.status + "</span>";
                     break;
-                case "pending":
-                    label = "<span class='pending' >" + app.status + "</span>";
-                    break;
-                case "rejected":
-                    label = "<span class='reject' >" + app.status + "</span>";
+                case "missed":
+                    label = "<span class='missed' >" + app.status + "</span>";
                     break;
                 case "canceled":
-                    label = "<span class='reject' >" + app.status + "</span>";
+                    label = "<span class='canceled' >" + app.status + "</span>";
                     break;
             }
             content +=
@@ -239,13 +235,13 @@ function openAppsPopup_(dayID) {
     let app;
     let keys;
     for (let i = 0; i < appointments.length; i++) {
-        if (appointments[i].date_for_appointment === dayID) {
+        if (appointments[i].date_for_appointment === dayID && app.status === "upcoming") {
             app = appointments[i];
             let label;
             keys = appointmentsKeys[i];
             switch (app.status){
                 case "upcoming":
-                    label = "<span class='accept'>" + app.status + "</span>";
+                    label = "<span class='upcoming'>" + app.status + "</span>";
                     content +=
                         "<div class = 'card'>" +
                         label +

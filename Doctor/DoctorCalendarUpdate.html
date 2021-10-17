@@ -115,32 +115,15 @@
         <div class="content">
             <div class="logo"><a href="#">MobiDoc</a></div>
             <ul class="links">
-                <li><a href="home.html">Home</a></li>
-                <li>
-                    <a href="profile.html" class="desktop-link">Profile</a>
-                    <input type="checkbox" id="show-services">
-                    <label for="show-services">Profile</label>
-                </li>
+                <li><a href='home.html'>Home</a></li>
                 <li><a href="DoctorViewCalendarAppointments.html">View Appointments</a></li>
                 <li><a href="DoctorCalendar.html">Set Available Date</a></li>
-                <li><a href="DoctorCalendarUpdate.html">Update Available Dates</a></li>
-                <li><a href="consultations.html">Complete Appointment</a></li>
-                <li><a href="AppointmentTypes/CancelAppointments.html">Cancel Appointment</a></li>
-                <li><a href="AppointmentTypes/CanceledAppointments.html">Canceled Appointment</a></li>
-                <!--                <li><a href="Appointments.html">Accept Appointments</a></li>-->
-                <!--                <li><a href="AppointmentTypes/PendingAppointments.html">Reject Appointments</a></li>-->
-                <!--                <li><a href="consultations.html">Complete Appointment</a></li>-->
-                <!--                <li>-->
-                <!--                    <a href="#" class="desktop-link" style="padding-left: 50px">Appointments</a>-->
-                <!--                    <input type="checkbox" id="show-features">-->
-                <!--                    <label for="show-features">Appointments</label>-->
-                <!--                    <ul>-->
-                <!--                        <li><a style="padding-left: 60px" href="AppointmentTypes/RejectedAppointments.html">Rejected Appointments</a></li>-->
-                <!--                        <li><a style="padding-left: 60px" href="AppointmentTypes/PendingAppointments.html">Pending Appointments</a></li>-->
-                <!--                        <li><a style="padding-left: 60px" href="AppointmentTypes/CompletedAppointments.html">Completed Appointments</a></li>-->
-                <!--                    </ul>-->
-                <!--                </li>-->
-                <li><a onclick="function SignOut() {
+                <li><a class="active" href="DoctorCalendarUpdate.html">Update Available Dates</a></li>
+                <li><a  href="consultations.html">Complete Appointment</a></li>
+                <li>
+                    <a href="profile.html">Profile</a>
+                </li>
+                <li><a style="background: #0b739c;cursor: pointer" onclick="function SignOut() {
                     firebase.auth().signOut()
                     .then(() => {
                         window.location.href = '../index.html'; //Nthabi added on 28092021 09h43

@@ -231,6 +231,23 @@
             background: #065087;
             color: white;
         }
+        ::placeholder {
+            font-style: italic;
+            font-size: 16px;
+            padding: 5px;
+        }
+        @keyframes fadeIn {
+            0%   {opacity: 0;background: lightgoldenrodyellow}
+            25%  {opacity: 0.25;}
+            50%  {opacity: 0.5;}
+            75%  {opacity: .75;}
+            100% {opacity: 1; background: transparent}
+        }
+        .test{
+            animation: ease-out;
+            animation-name:fadeIn;
+            animation-duration: 3s;
+        }
     </style>
 </head>
 
@@ -304,7 +321,7 @@
            <td id = "tab_can_app" class="tab can_app"> Cancelled Appointments</td>
             <td id = "tab_mss_app" class="tab mss_app"> Missed Appointments</td>
             <td><form action="">
-                <input type="search"  id="src" placeholder="Search here ...">
+                <input type="search"  id="src" placeholder="Type to Search">
                 <i class="fa fa-search" style="font-size: 25px"></i>
             </form></td>
        </tr>
@@ -621,7 +638,7 @@ firebase.initializeApp(firebaseConfig);
                         let label;
 
                         switch (app.status) {
-                            case "cancelled":
+                            case "canceled":
                                 let can = Cancelled_App(app);
                                 appList.innerHTML += can;
                                 CAN_Container.push(can);
@@ -669,15 +686,16 @@ firebase.initializeApp(firebaseConfig);
 
     // nav bar
 
+
     $(document).ready(function(){
         $("#src").on("keyup", function() {
             var value = $(this).val().toLowerCase();
             $("#appList div").filter(function() {
-                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-                $("appList").animate({opacity : 0.5},'slow');
-            });
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+            }).addClass("test");
         });
     });
+
     function updatemenu() {
         if (document.getElementById('responsive-menu').checked === true) {
             document.getElementById('menu').style.borderBottomRightRadius = '0';
