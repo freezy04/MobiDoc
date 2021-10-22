@@ -549,14 +549,12 @@ firebase.initializeApp(firebaseConfig);
     }
 
 
-    const UpdateMissedAppointments = (app_id,date,status) =>{
+    const UpdateMissedAppointments = (app_id,date) =>{
         let CurrentDate = new Date();
         let GraceDate = setGracePeriodDate(date);
         if((GraceDate < CurrentDate)){
             UpdateFirebase(app_id);
-            return "missed";
         }
-        return status;
     }
 
     // Splitting up Appointments :
@@ -636,7 +634,10 @@ firebase.initializeApp(firebaseConfig);
                     let app = childSnapshot.val();
                     if (uid === app.patientUid && app.status !== "completed" ) {
                         let label;
-
+                        // check for missed appointments :
+                        if(app.status === "upcoming"){
+                            UpdateMissedAppointments(childSnapshot.key,app.date_for_appointment);
+                        }
                         switch (app.status) {
                             case "canceled":
                                 let can = Cancelled_App(app);

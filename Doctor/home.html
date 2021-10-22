@@ -604,6 +604,27 @@
     }
 
     // End Tabs Functionality
+    // Added By Dylan : Missed Appointments :
+    function setGracePeriodDate(date){
+        let parts_of_date = date.split("/");
+        let grace = new Date(+parts_of_date[2], parts_of_date[1] - 1, +parts_of_date[0]);
+        grace.setDate(grace.getDate() + 2);
+        return grace;
+    }
+
+    const UpdateFirebase = (app_uid) =>{
+        let database = firebase.database();
+        let ref = database.ref().child('Appointments').child(app_uid).update({"status":"missed"});
+    }
+
+
+    const UpdateMissedAppointments = (app_id,date) =>{
+        let CurrentDate = new Date();
+        let GraceDate = setGracePeriodDate(date);
+        if((GraceDate < CurrentDate)){
+            UpdateFirebase(app_id);
+        }
+    }
 
     const getAppointmentDetails = (uid) => {
         let database = firebase.database();
@@ -619,6 +640,10 @@
                     //Gabe Tidy removed pending appointments on home screen
                     if (uid === app.doctorUid && app.status !== "missed"){
                         let label;
+                        // update missed appointments
+                        if(app.status === "upcoming"){
+                            UpdateMissedAppointments(childSnapshot.key,app.date_for_appointment);
+                        }
                         switch (app.status){
                             case "upcoming":
                                 let upm = UPM_Appointment(app);
