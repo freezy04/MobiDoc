@@ -42,7 +42,12 @@ function login(){
                     // Signed in
                     document.getElementById("loader").style.display = "block";
                     let user = userCredential.user;
-                    LoginUserAs(user.uid);
+                    if(user.emailVerified == true) {
+                        LoginUserAs(user.uid);
+                    }else{
+                        alert('Email not verified, please verify email to be able to login! ');
+                        location.href = "emailnotverified.html";
+                    }
                 })
                 .catch((error) => {
                     var errorCode = error.code;

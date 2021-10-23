@@ -299,6 +299,20 @@
     // toggle the eye slash icon
     pt_togglePasswordC.classList.toggle('fa-eye-slash');
   }
+
+  // function CheckIfPasswordsMatch(userPass,userConfirmPass){
+  //   return userPass === userConfirmPass;
+  // }
+  //
+  // const ValidateDetails = (Details) =>{
+  //   return Details === null || Details === "";
+  // }
+  //
+  //
+  // function ValidateEmail(Email){
+  //   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(Email);
+  // }
+
   function register_doctor(){
 
     let docEmail = document.getElementById("doc_email").value;
@@ -329,6 +343,7 @@
                   uid: user.uid,
                   user_type: "Doctor"
                 });
+                send_verification();
                 console.log("Doctor registered");
                 setTimeout(() => {  window.location.href = "index.html"; }, 2000);
               })
@@ -345,6 +360,136 @@
       errorWindow.innerHTML = DocErrorMessage;
     }
   }
+
+  // let Patient_errorMessage="";
+  // function CheckPatientInfoNotNull(){
+  //
+  //
+  //   let isValid = true;
+  //   let userEmail = document.getElementById("pt_email").value;
+  //   let userPass = document.getElementById("pt_password").value;
+  //   let userConfirmPass = document.getElementById("pt_confirmPassword").value;
+  //   let userAge = document.getElementById("pt_age").value;
+  //   let userGender = document.getElementById("pt_gender").value;
+  //   let userName = document.getElementById("pt_name").value;
+  //   let userSurname = document.getElementById("pt_surname").value;
+  //   let userMedicationHistory = document.getElementById("pt_curr_med").value;
+  //   let userDiseaseHistory = document.getElementById("pt_disease_historu").value;
+  //
+  //
+  //   if(!ValidateEmail(userEmail)){
+  //     Patient_errorMessage += "The email is invalid";
+  //     isValid = false;
+  //
+  //   }
+  //
+  //   if(ValidateDetails(userName)){
+  //     Patient_errorMessage += "\n" + "The Name is invalid";
+  //     isValid = false;
+  //
+  //   }
+  //   if(ValidateDetails(userSurname)){
+  //     Patient_errorMessage += "\n" + "The Surname is invalid";
+  //     isValid = false;
+  //
+  //   }
+  //   if(ValidateDetails(userPass)){
+  //     Patient_errorMessage += "\n" + "The Password is invalid";
+  //     isValid = false;
+  //
+  //   }
+  //   if(ValidateDetails(userPass)){
+  //     Patient_errorMessage += "\n" + "The Confirm Password is invalid";
+  //     isValid = false;
+  //   }
+  //   if(ValidateDetails(userAge)){
+  //     Patient_errorMessage += "\n" + "The Age is invalid";
+  //     isValid = false;
+  //   }
+  //   if(ValidateDetails(userGender)){
+  //     Patient_errorMessage += "\n" + "The Gender is invalid";
+  //     isValid = false;
+  //   }
+  //   if(ValidateDetails(userDiseaseHistory)){
+  //     Patient_errorMessage += "\n" + "The Disease History is invalid";
+  //     isValid = false;
+  //   }
+  //   if(ValidateDetails(userMedicationHistory)){
+  //     Patient_errorMessage += "\n" + "The Current Medication is invalid";
+  //     isValid = false;
+  //   }
+  //
+  //   return isValid;
+  // }
+
+
+  // Register Patient Function
+  // function register_patient(){
+  //
+  //   let userEmail = document.getElementById("pt_email").value;
+  //   let userPass = document.getElementById("pt_password").value;
+  //   let userConfirmPass = document.getElementById("pt_confirmPassword").value;
+  //   let userAge = document.getElementById("pt_age").value;
+  //   let userGender = document.getElementById("pt_gender").value;
+  //   let userName = document.getElementById("pt_name").value;
+  //   let userSurname = document.getElementById("pt_surname").value;
+  //   let userMedicationHistory = document.getElementById("pt_curr_med").value;
+  //   let userDiseaseHistory = document.getElementById("pt_disease_historu").value;
+  //   let userAllergies = document.getElementById("pt_allergies").value;
+  //
+  //   if(CheckPatientInfoNotNull() && CheckIfPasswordsMatch(userPass,userConfirmPass)){
+  //     let database = firebase.database();
+  //     firebase.auth().createUserWithEmailAndPassword(userEmail,userPass)
+  //
+  //             .then((userCredential) => {
+  //               // Signed in
+  //               document.getElementById("pt_loader").style.display = "block";
+  //               let user = userCredential.user;
+  //               database.ref().child('Patients').child(user.uid).set({
+  //                 age:userAge,
+  //                 allergies:userAllergies,
+  //                 diseaseHistory:userDiseaseHistory,
+  //                 email:userEmail,
+  //                 first_name:userName,
+  //                 last_name:userSurname,
+  //                 medicationHistory:userMedicationHistory,
+  //                 sex:userGender,
+  //                 uid:user.uid,
+  //                 user_type:"Patient"
+  //               });
+  //               send_verification();
+  //               console.log("Patient Registered");
+  //               setTimeout(() => { window.location.href = "index.html"; }, 2000);
+  //             })
+  //             .catch((error) => {
+  //               let errorCode = error.code;
+  //               let errorMessage = error.message;
+  //             });
+  //
+  //   }
+  //   else{
+  //     let errorWindow = document.getElementById("error_text");
+  //     errorWindow.style.display = "block";
+  //     errorWindow.innerHTML = Patient_errorMessage;
+  //   }
+  //
+  // }
+
+  //initialize firebase
+  const user = firebase.auth().currentUser;
+
+  // send verification email
+  function   send_verification() {
+    // extracting the user from the firebase
+    var user = firebase.auth().currentUser;
+
+    user.sendEmailVerification().then(function() {
+      alert("Verification link sent to your email. Kindly check to verify your account")
+    }).catch(function(error) {
+      // An error happened.
+    });
+  }
+
 </script>
 </body>
 </html>

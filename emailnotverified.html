@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title> MobiDoc | Email NOT VERIFIED </title>
+
+    <link rel="apple-touch-icon" sizes="180x180" href="../favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../favicon/favicon-16x16.png">
+    <link rel="manifest" href="../favicon/site.webmanifest">
+
+
+    <script src="https://smtpjs.com/v3/smtp.js"></script>
+
+    <link rel="stylesheet" href="./forgotpassword.css">
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-database.js"></script>
+
+    <!--  <link rel="stylesheet" href="styles/login.css">-->
+
+
+
+</head>
+<body>
+
+<script>
+
+    let firebaseConfig = {
+        apiKey: "AIzaSyB-ckD1wmZWj5c7RQIOyBvwFmQApBfEEMU",
+        authDomain: "mobidoc-6a3ac.firebaseapp.com",
+        databaseURL: "https://mobidoc-6a3ac-default-rtdb.firebaseio.com/",
+        projectId: "mobidoc-6a3ac",
+        storageBucket: "mobidoc-6a3ac.appspot.com",
+        messagingSenderId: "311373483549",
+        appId: "1:311373483549:web:3c840b29b14029ac4680f4",
+        measurementId: "G-JFPKMPTGZ5"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+
+</script>
+
+<main>
+    <section class="container reset-container">
+        <fieldset>
+            <div>
+                <p>Email not verified</p>
+                <p>Enter email to get verification link</p>
+            </div>
+            <div>
+                <input type="text" id="mail" name="mail" placeholder="email"/>
+            </div>
+            <button id="verificationEmail" onclick="send_verification()">Send</button>
+        </fieldset>
+    </section>
+</main>
+
+</body>
+
+<script>
+
+    function ValidateEmail(Email){
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(Email);
+    }
+
+    const user = firebase.auth().currentUser;
+
+    // send verification email
+    function   send_verification() {
+        // extracting the user from the firebase
+        let email_vec = document.getElementById("mail").value;
+        if(!ValidateEmail(email_vec)){
+            alert("Invalid email");
+        }else {
+            var user = firebase.auth().currentUser;
+
+            user.sendEmailVerification().then(function () {
+                alert("Verification link sent to your email. Kindly check to verify your account")
+                location.href="index.html"
+            }).catch(function (error) {
+                // An error happened.
+            });
+        }
+    }
+
+
+
+</script>
+</html>

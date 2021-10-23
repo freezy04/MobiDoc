@@ -168,6 +168,7 @@ function register_patient(){
                     uid:user.uid,
                     user_type:"Patient"
                 });
+                send_verification();
                 console.log("Patient Registered");
                 setTimeout(() => { window.location.href = "index.html"; }, 2000);
             })
