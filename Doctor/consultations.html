@@ -120,11 +120,6 @@
     </div>
 </center>
 
-<center>
-    <i class="fa fa-search" style="font-size: 25px"></i>
-    <label for="src"></label><input class="search" id="src" type="search" placeholder="Type to Search..."/>
-</center>
-
 <dl id="appList">
 </dl>
 <script>
@@ -185,8 +180,7 @@
             <input id = "app_cost" type="number" class="field" placeholder="Appointment total cost">
         </div>
         <div class="popup-footer">
-            <button  class="button" id="confirm_app_btn"> Complete Appointment </button>
-            <!--            <button id="confirm_app" onClick="confirmAppointment()"> Complete Appointment </button>-->
+            <button id="confirm_app_btn"> Complete Appointment </button>
             <p id = "error" class = "error" style="color: darkred"></p>
         </div>
     </div>
@@ -298,8 +292,8 @@
                             "<br>" +
                             "<th>Reason for appointment: </th>" +
                             "<td>" + app.reason_for_appointment + "</td>" +
-                            "<br/><button id='" + appID + "' onClick='openCompleteAppPopup(this.id)'> Complete Appointment </button>" +
-                            "</tr>" +
+                            "<button class='r' id='" + appID + "' onClick='openCompleteAppPopup(this.id)'> Complete </button>"
+                        "</tr>" +
                             "</table>"
                             +"</div>"
                             +"<br/>"
@@ -312,7 +306,7 @@
     }
 
     function validateDetails(notes, cost) {
-        let error = document.getElementById("error");
+        //let error = document.getElementById("error");
         if (notes === "") {
             error.style.display = "block";
             error.innerHTML = "Notes cannot be empty";
