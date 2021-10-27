@@ -53,6 +53,19 @@ td{
     border: 1px solid white;
     cursor:pointer;
     background-color: rgba(236, 236, 236, 0);
+    min-height: 200px;
+    min-width: 200px;
+    position: relative;
+}
+
+.updateSlotBtn {
+    height: 40px;
+    width: 75px;
+    line-height: 10px;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    font-size: 75%;
 }
 
 

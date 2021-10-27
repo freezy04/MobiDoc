@@ -907,19 +907,17 @@ function  nextMonth() {
     }
 }
 
-function closeDayPopup(popup) {
-    popup.style.display = "none";
-}
+
 
 function popupInit() {
     let popup = document.getElementById("dayPopup");
     let popupClose = document.getElementsByClassName("close")[0];
     popupClose.onclick = function() {
-        closeDayPopup(popup);
+        popup.style.display = "none";
     }
     window.onclick = function(event) {
         if (event.target === popup) {
-            closeDayPopup(popup);
+            popup.style.display = "none";
         }
     }
 }
