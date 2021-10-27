@@ -226,6 +226,11 @@ function openRejectAppPopup(appID) {
         }
     }
 }
+
+function bookNewApp() {
+    window.location.href = "booking.html";
+}
+
 function getDatesBetween(startDate, endDate) {
     let startRange = new Date(startDate);
     let endRange = new Date(endDate);
@@ -252,7 +257,8 @@ function getDatesBetween(startDate, endDate) {
     }
     // console.log(dates);
 
-    let content = "<div class='calendarBtn'><button id='calendarPrev' onclick='prevMonth()' disabled>Prev</button> | <button id='calendarNext' onclick='nextMonth()'>Next</button></div>";
+    let content = "<div class='calendarBtn'><button id='calendarPrev' onclick='prevMonth()' disabled>Prev</button> | " +
+        "<button id='calendarNext' onclick='nextMonth()'>Next</button> | <button id='newBooking' onclick='bookNewApp()'>Book new appointment</button></div>";
 
     let lastDate, firstDate;
     for (let i = 0; i < dates.length; i++) {
