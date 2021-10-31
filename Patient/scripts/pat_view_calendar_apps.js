@@ -72,31 +72,82 @@ function openAppsPopup(dayID) {
         if (appointments[i].date_for_appointment === dayID) {
             app = appointments[i];
             let label;
+            let keys;
+            keys = appointmentsKeys[i];
             switch (app.status){
                 case "upcoming":
                     label = "<span class='upcoming'>" + app.status + "</span>";
+                    content +=
+                        "<div class = 'card'>" +
+                        label +
+                        "<h2>Appointment with " + app.doctor_Name + "</h2>" +
+                        "<p id='app_id' style='display:none;'>" + app.id + "</p>" +
+                        "<p>" + app.date_for_appointment + " - " + app.time_for_appointment + "</p>" +
+                        "<table class='appCard'>" +
+                        "<tr class='appCard'>" +
+                        "<th class='appCard'>Reason for appointment: </th>" +
+                        "<td class='appCard'>" + app.reason_for_appointment + "</td>" +
+                        "</tr>" +
+                        "<tr>"+
+                        "<p class='appCard'>" +
+                        "<br/>"+
+                        "<button class='appCard' id='" + keys + "' onClick='openRejectAppPopup(this.id)'> Cancel </button>" +
+                        //insert popup here to make it more dynamic (next sprint)
+                        "</p>" +
+                        "</tr>"+
+                        "</table>"
+                        +"</div>"
+                        +"<br/>";
                     break;
                 case "canceled":
                     label = "<span class='canceled' >" + app.status + "</span>";
+                    content +=
+                        "<div class = 'card'>" +
+                        label +
+                        "<h2>Appointment with " + app.doctor_Name + "</h2>" +
+                        "<p id='app_id' style='display:none;'>" + app.id + "</p>" +
+                        "<p>" + app.date_for_appointment + " - " + app.time_for_appointment + "</p>" +
+                        "<table class='appCard'>" +
+                        "<tr class='appCard'>" +
+                        "<th class='appCard'>Reason for appointment: </th>" +
+                        "<td class='appCard'>" + app.reason_for_appointment + "</td>" +
+                        "</tr>" +
+                        "</table>"
+                        +"</div>"
+                        +"<br/>";
                     break;
                 case "missed":
                     label = "<span class='missed' >" + app.status + "</span>";
+                    content +=
+                        "<div class = 'card'>" +
+                        label +
+                        "<h2>Appointment with " + app.doctor_Name + "</h2>" +
+                        "<p id='app_id' style='display:none;'>" + app.id + "</p>" +
+                        "<p>" + app.date_for_appointment + " - " + app.time_for_appointment + "</p>" +
+                        "<table class='appCard'>" +
+                        "<tr class='appCard'>" +
+                        "<th class='appCard'>Reason for appointment: </th>" +
+                        "<td class='appCard'>" + app.reason_for_appointment + "</td>" +
+                        "</tr>" +
+                        "</table>"
+                        +"</div>"
+                        +"<br/>";
                     break;
             }
-            content +=
-                "<div class = 'card'>" +
-                label +
-                "<h2>Appointment with " + app.doctor_Name + "</h2>" +
-                "<p id='app_id' style='display:none;'>" + app.id + "</p>" +
-                "<p>" + app.date_for_appointment + " - " + app.time_for_appointment + "</p>" +
-                "<table class='appCard'>" +
-                "<tr class='appCard'>" +
-                "<th class='appCard'>Reason for appointment: </th>" +
-                "<td class='appCard'>" + app.reason_for_appointment + "</td>" +
-                "</tr>" +
-                "</table>"
-                +"</div>"
-                +"<br/>";
+            // content +=
+            //     "<div class = 'card'>" +
+            //     label +
+            //     "<h2>Appointment with " + app.doctor_Name + "</h2>" +
+            //     "<p id='app_id' style='display:none;'>" + app.id + "</p>" +
+            //     "<p>" + app.date_for_appointment + " - " + app.time_for_appointment + "</p>" +
+            //     "<table class='appCard'>" +
+            //     "<tr class='appCard'>" +
+            //     "<th class='appCard'>Reason for appointment: </th>" +
+            //     "<td class='appCard'>" + app.reason_for_appointment + "</td>" +
+            //     "</tr>" +
+            //     "</table>"
+            //     +"</div>"
+            //     +"<br/>";
         }
     }
     document.getElementById("dayAppCards").innerHTML = content;
