@@ -73,9 +73,12 @@ function openAppsPopup(dayID) {
             app = appointments[i];
             let label;
             let keys;
+            let D_UID,P_UID;
             keys = appointmentsKeys[i];
             switch (app.status){
                 case "upcoming":
+                    D_UID = app.doctorUid;
+                    P_UID = app.patientUid;
                     label = "<span class='upcoming'>" + app.status + "</span>";
                     content +=
                         "<div class = 'card'>" +
@@ -91,7 +94,7 @@ function openAppsPopup(dayID) {
                         "<tr>"+
                         "<p class='appCard'>" +
                         "<br/>"+
-                        "<button class='appCard' id='" + keys + "' onClick='openRejectAppPopup(this.id)'> Cancel </button>" +
+                        "<button class='appCard' id = '" + keys + "," + P_UID + "," + D_UID + "," + app.date_for_appointment + "' onClick='openRejectAppPopup(this.id)'> Cancel </button>" +
                         //insert popup here to make it more dynamic (next sprint)
                         "</p>" +
                         "</tr>"+
@@ -182,9 +185,12 @@ function openAppsPopup_(dayID) {
             app = appointments[i];
             let label;
             keys = appointmentsKeys[i];
+            let D_UID , P_UID;
             switch (app.status){
                 case "upcoming":
-                    label = "<span class='accept'>" + app.status + "</span>";
+                    label = "<span class='upcoming'>" + app.status + "</span>";
+                    D_UID = app.doctorUid;
+                    P_UID = app.patientUid;
                     content +=
                         "<div class = 'card'>" +
                         label +
@@ -197,7 +203,8 @@ function openAppsPopup_(dayID) {
                         "<td class='appCard'>" + app.reason_for_appointment + "</td>" +
                         "</tr>" +
                         "<tr>"+
-                        "<button class='appCard_' id='" + keys + "' onClick='openRejectAppPopup(this.id)'> Cancel </button>" +
+                        //id = '" + "Potato"  + keys + "white"+ "," + P_UID + "," + D_UID + "," + app.date_for_appointment + "'
+                        "<button class='appCard_'  id = 'wow' onClick='openRejectAppPopup(this.id)'> Cancel </button>" +
                         //insert popup here to make it more dynamic (next sprint)
                         "</tr>" +
                         "</table>"
@@ -226,13 +233,28 @@ function validateDetails(rejection_reason) {
 }
 
 function updateAppointment(appID, rejection_reason) {
+    let Arr = appID.split(',');
     let database = firebase.database();
+
+    // Added By Dylan
+    // Arr[1] - Patient UID
+    // Arr[2] - Doctor UID
+    // Arr[3] - Date for appointment
+    database.ref().child('Patients').child(Arr[1]).once("value",snapshot => {
+        let Patient = snapshot.val();
+        ComposeAndSendEmail(Patient.last_name,Arr[3],Patient.email);
+    });
+    database.ref().child('Doctors').child(Arr[2]).once("value",SnapShot =>{
+        let Doctor = SnapShot.val();
+        ComposeAndSendEmail(Doctor.last_name,Arr[3],Doctor.email);
+    });
+
     const d = new Date();
     let ref = database.ref().child('Appointments');
-    ref.child(appID).update({"cancellation_done_by":"Patient"});
-    ref.child(appID).update({"cancellation_date":d.getDate()+"/"+d.getMonth()+"/"+d.getFullYear()});
-    ref.child(appID).update({"cancellation_reason":rejection_reason});
-    ref.child(appID).update({"status":"canceled"});
+    ref.child(Arr[0]).update({"cancellation_done_by":"Patient"});
+    ref.child(Arr[0]).update({"cancellation_date":d.getDate()+"/"+d.getMonth()+"/"+d.getFullYear()});
+    ref.child(Arr[0]).update({"cancellation_reason":rejection_reason});
+    ref.child(Arr[0]).update({"status":"canceled"});
 
 
     let popup = document.getElementById("reject_app_popup");
@@ -252,6 +274,8 @@ function rejectAppointment(appID) {
 }
 
 function openRejectAppPopup(appID) {
+    console.log("kshdkasjdkasd");
+    console.log(appID);
     let popup = document.getElementById("reject_app_popup");
     let close = document.getElementsByClassName("popup-close")[0];
 
@@ -488,3 +512,17 @@ const LoginUserAs = (uid) => {
     });
 }
 
+function ComposeAndSendEmail(surname,date,email) {
+    Email.send({
+        Host: "smtp.gmail.com",
+        Username: "noreply.mobidoc@gmail.com",
+        Password: "mobidoc2021",
+        To: email,
+        From: "noreply.mobidoc@gmail.com",
+        Subject: "MobiDoc Appointment Cancelled ",
+        Body: generateCancelEmailTemplate(surname,date),
+    })
+        .then(function (message) {
+            console.log("notification email sent");
+        });
+}

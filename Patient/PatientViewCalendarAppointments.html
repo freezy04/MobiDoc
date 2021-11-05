@@ -17,9 +17,9 @@
     <link rel="stylesheet" href="styles/Nav_bar.css">
     <link rel="stylesheet" href="styles/calendar.css">
     <link rel="stylesheet" href="styles/login.css">
-
+    <script src="https://smtpjs.com/v3/smtp.js"></script>
+    <script src="../email.js"></script>
     <style>
-
         html, body{
             height: 100%;
         }
@@ -246,9 +246,6 @@
     </div>
 </center>
 
-<script src="scripts/pat_view_calendar_apps.js" async=""></script>
-<div id="calendar"></div>
-
 <script>
 
     <!--[Nthabi] login from any page moved to related js file-->
@@ -267,6 +264,10 @@
     firebase.initializeApp(firebaseConfig);
 
 </script>
+
+<script src="scripts/pat_view_calendar_apps.js" async=""></script>
+<div id="calendar"></div>
+
 
 <div id="appsPopup" class="modal">
     <div class="modal-content">
@@ -322,5 +323,5 @@
         </div>
     </div>
 </div>
-<script src="../email.js"></script>
+
 </html>

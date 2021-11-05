@@ -2,13 +2,12 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title> MobiDoc | Email NOT VERIFIED </title>
+    <title> MobiDoc | Email Verification </title>
 
     <link rel="apple-touch-icon" sizes="180x180" href="../favicon/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="../favicon/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="../favicon/favicon-16x16.png">
     <link rel="manifest" href="../favicon/site.webmanifest">
-
 
     <script src="https://smtpjs.com/v3/smtp.js"></script>
 
@@ -19,9 +18,71 @@
     <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-database.js"></script>
 
     <!--  <link rel="stylesheet" href="styles/login.css">-->
+<style>
 
+    body{
+        background-color: whitesmoke;
+    }
 
+    .btn{
+        width: 80%;
+        border: 2px solid black;
+        background-color: white;
+        color: black;
+        font-size: 16px;
+        cursor: pointer;
+        transition: all .5s ease-out;
+        margin-bottom: 10px;
+    }
 
+   .btn:hover {
+        background: #0d3579;
+        color: white;
+    }
+
+    .f{
+        width:100%;
+        border: 1px solid rgba(81, 130, 142, 0.78);
+        outline-color: black;
+        background-color: rgba(255, 248, 248, 0);
+        padding: 0.5rem 1rem;
+        font-size: 14px;
+        margin-bottom: 10px;
+        transition: .3s;
+    }
+
+    .f:hover{
+        border: 2px solid rgba(30,85,250,0.47);
+        background-color: #fff;
+    }
+    .f:focus{
+        border: 2px solid rgba(30,85,250,0.47);
+        background-color: #fff;
+    }
+
+    .f::placeholder{
+        color: black;
+        font-size: 16px;
+    }
+
+    .container {
+        background-color: white;
+        width: 50%;
+        height: 50%;
+    }
+
+    h1{
+        font-size: 30px;
+        padding-bottom: 5%;
+        color: #0d3579;
+        text-decoration: underline;
+    }
+
+    p{
+        font-size: 16px;
+        color: black;
+    }
+</style>
 </head>
 <body>
 
@@ -42,20 +103,25 @@
 
 </script>
 
-<main>
-    <section class="container reset-container">
-        <fieldset>
-            <div>
-                <p>Email not verified</p>
-                <p>Enter email to get verification link</p>
-            </div>
-            <div>
-                <input type="text" id="mail" name="mail" placeholder="email"/>
-            </div>
-            <button id="verificationEmail" onclick="send_verification()">Send</button>
-        </fieldset>
-    </section>
-</main>
+<div style="padding-bottom: 50%"></div>
+<!--    <div class="container">-->
+<!--                <h1>Email not verified</h1>-->
+<!--                <p> Please enter your valid email address to receive the verification link</p>-->
+<!--        <div class="input-field">-->
+<!--&lt;!&ndash;                <input type="text" id="mail" name="mail" placeholder="email"/>&ndash;&gt;-->
+<!--        </div>-->
+<!--            <button id="verificationEmail" onclick="send_verification()">Send</button>-->
+<!--    </div>-->
+
+<div class="container">
+            <center>
+                <img style="padding-bottom: 5%" src="https://www.kindpng.com/picc/m/285-2852276_email-id-verification-reminder-plugin-verify-email-illustration.png" alt="mail">
+                <h1> Please Verify Your Email </h1>
+                <p style="padding-bottom: 10px"> Please enter your valid email address to receive the verification link. </p>
+                <input class="f" type="text" id="mail" name="mail" placeholder="Email"/>
+                <button class="btn" id="verificationEmail" onclick="send_verification()"> Send Email </button>
+            </center>
+</div>
 
 </body>
 
