@@ -122,22 +122,22 @@
       <div class="logo"><a href="#">MobiDoc</a></div>
       <ul class="links">
         <li><a href="home.html">Home</a></li>
-        <li><a href="PatientViewCalendarAppointments.html">View Appointments</a></li>
+        <li><a href="PatientViewCalendarAppointments.html">Calendar</a></li>
         <li><a href="profile.html">Profile</a></li>
         <li><a href="booking.html">Book Consultation</a></li>
-        <li>
-          <a href="appointments.html" class="desktop-link">Appointments</a>
-          <input type="checkbox" id="show-features">
-          <label for="show-features">Appointments</label>
-          <ul>
-            <li><a href="AppointmentTypes/CancelAppointments.html">Cancel Appointments</a></li>
-            <li><a href="AppointmentTypes/CanceledAppointments.html">Canceled Appointments</a></li>
-            <li><a href="AppointmentTypes/AcceptedAppointments.html">Accepted Appointments</a></li>
-            <li><a href="AppointmentTypes/RejectedAppointments.html">Rejected Appointments</a></li>
-            <li><a href="AppointmentTypes/PendingAppointments.html">Pending Appointment</a></li>
-            <li><a href="AppointmentTypes/CompletedAppointments.html">Completed Appointments</a></li>
-          </ul>
-        </li>
+<!--        <li>-->
+<!--          <a href="appointments.html" class="desktop-link">Appointments</a>-->
+<!--          <input type="checkbox" id="show-features">-->
+<!--          <label for="show-features">Appointments</label>-->
+<!--&lt;!&ndash;          <ul>&ndash;&gt;-->
+<!--&lt;!&ndash;            <li><a href="AppointmentTypes/CancelAppointments.html">Cancel Appointments</a></li>&ndash;&gt;-->
+<!--&lt;!&ndash;            <li><a href="AppointmentTypes/CanceledAppointments.html">Canceled Appointments</a></li>&ndash;&gt;-->
+<!--&lt;!&ndash;            <li><a href="AppointmentTypes/AcceptedAppointments.html">Accepted Appointments</a></li>&ndash;&gt;-->
+<!--&lt;!&ndash;            <li><a href="AppointmentTypes/RejectedAppointments.html">Rejected Appointments</a></li>&ndash;&gt;-->
+<!--&lt;!&ndash;            <li><a href="AppointmentTypes/PendingAppointments.html">Pending Appointment</a></li>&ndash;&gt;-->
+<!--&lt;!&ndash;            <li><a href="AppointmentTypes/CompletedAppointments.html">Completed Appointments</a></li>&ndash;&gt;-->
+<!--&lt;!&ndash;          </ul>&ndash;&gt;-->
+<!--        </li>-->
         <li><a onclick="function SignOut() {
                     firebase.auth().signOut()
                     .then(() => {
@@ -225,21 +225,21 @@
     <label for="text"><b>Reason</b></label>
     <input id="notesField" type="text" placeholder="Enter reason" name="notes" required>
 
-    <p>Duration:</p>
-    <form>
-      <label class="radio-inline">
-        <input id="radio1" type="radio" name="optradio" checked>30M
-      </label>
-      <label class="radio-inline">
-        <input id="radio2" type="radio" name="optradio" disabled>1H
-      </label>
-      <label class="radio-inline">
-        <input id="radio3" type="radio" name="optradio" disabled>1H:30M
-      </label>
-      <label class="radio-inline">
-        <input id="radio4" type="radio" name="optradio" disabled>2H
-      </label>
-    </form>
+  <p>Duration:</p>
+<!--    <form>-->
+<!--      <label class="radio-inline">-->
+<!--        <input id="radio1" type="radio" name="optradio" checked>30M-->
+<!--      </label>-->
+<!--      <label class="radio-inline">-->
+<!--        <input id="radio2" type="radio" name="optradio" disabled>1H-->
+<!--      </label>-->
+<!--      <label class="radio-inline">-->
+<!--        <input id="radio3" type="radio" name="optradio" disabled>1H:30M-->
+<!--      </label>-->
+<!--      <label class="radio-inline">-->
+<!--        <input id="radio4" type="radio" name="optradio" disabled>2H-->
+<!--      </label>-->
+<!--    </form>-->
 
     <button type="button" id="book-btn" class="btn">Book</button>
     <button type="button" id="cancel-btn" class="cancel">Close</button>

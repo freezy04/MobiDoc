@@ -329,6 +329,7 @@ function getDatesBetween(startDate, endDate) {
 
 function bookAppointmentPopup(slotID) {//patient func
     let popup = document.getElementById("bookingPopup");
+
     window.onclick = function(event) {
         if (event.target === popup) {
             popup.style.display = "none";
@@ -339,32 +340,32 @@ function bookAppointmentPopup(slotID) {//patient func
     }
 
 
-    document.getElementById("radio1").checked = true;
-    let r2 = document.getElementById("radio2");
-    let r3 = document.getElementById("radio3");
-    let r4 = document.getElementById("radio3");
-    r2.disabled = true;
-    r3.disabled = true;
-    r4.disabled = true;
+    // document.getElementById("radio1").checked = true;
+    // let r2 = document.getElementById("radio2");
+    // let r3 = document.getElementById("radio3");
+    // let r4 = document.getElementById("radio3");
+    // r2.disabled = true;
+    // r3.disabled = true;
+    // r4.disabled = true;
 
     let ids = slotID.split("#");
 
     let slots = eventsDict[ids[1]];
     let slotNum = parseInt(ids[0]);
     console.log(slots);
-    if (slots[slotNum] === "1") {
-        r2.disabled = false;
-       // console.log(slots[slotNum]);
-        if (slots[slotNum + 1] === "1") {
-            //console.log(slots[slotNum + 1]);
-            r3.disabled = false;
-            if (slots[slotNum + 2] === "1") {
-                //console.log(r4.disabled);
-                r4.disabled = false;
-                //todo: Gabe - fix 2 hour radio button
-            }
-        }
-    }
+    // if (slots[slotNum] === "1") {
+    //     r2.disabled = false;
+    //    // console.log(slots[slotNum]);
+    //     if (slots[slotNum + 1] === "1") {
+    //         //console.log(slots[slotNum + 1]);
+    //         r3.disabled = false;
+    //         if (slots[slotNum + 2] === "1") {
+    //             //console.log(r4.disabled);
+    //             r4.disabled = false;
+    //             //todo: Gabe - fix 2 hour radio button
+    //         }
+    //     }
+    // }
 
     popup.style.display = "block";
 
@@ -508,6 +509,9 @@ const getDoctorList1 = (uid) => {
                   }
                   console.log(localStorage.getItem("updatedStr"))
                   ref.child(localStorage.getItem("OUR_ID")).update({"slots":localStorage.getItem("updatedStr")});
+
+                  let popup = document.getElementById("bookingPopup");
+                  popup.style.display = "none";
                   //console.log( app.slots)
                   // localStorage.removeItem("updatedStr");
                     //updateDocInfo(doc_id,sre)
