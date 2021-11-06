@@ -20,6 +20,7 @@
 
     <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.8.0/firebase-ui-auth.css" />
     <link rel="stylesheet" href="./styles/bookAppointments.css">
+    <link rel="stylesheet" href="styles/login.css">
 
     <style>
         ::selection {
@@ -74,7 +75,7 @@
                 <li><a  style="margin-left: 100%;background: #0b739c;cursor: pointer" onclick="function SignOut() {
                     firebase.auth().signOut()
                     .then(() => {
-                        window.location.href = '../../index.html';
+                        window.location.href = '../index.html';
                         console.log('Signed Out');
                     })
                     .catch(e=>{
@@ -103,13 +104,23 @@
     </center>
     <div style="padding-bottom: 400px"></div>
 
-
-
 </div>
 <center>
     <i class="fa fa-search" style="font-size: 25px"></i>
 <label for="src"></label><input class="search" id="src" type="search" placeholder="Type to Search"/>
 </center>
+
+<center>
+    <div class="sk-chase" style="display: none" id="loader">
+        <div class="sk-chase-dot"></div>
+        <div class="sk-chase-dot"></div>
+        <div class="sk-chase-dot"></div>
+        <div class="sk-chase-dot"></div>
+        <div class="sk-chase-dot"></div>
+        <div class="sk-chase-dot"></div>
+    </div>
+</center>
+
 <!-- links this project to firebase -->
 
 <script>
