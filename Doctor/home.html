@@ -191,11 +191,24 @@
             padding: 5px;
         }
 
-        input{
+        .in{
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;;
+            height: 42.5px;
+            line-height: 30px;
+            outline: 0;
+            border: 0;
+            display: none;
+            font-size: 1em;
+            border-radius: 20px;
+            padding: 0 20px;
+        }
+
+        .inputs{
+            position: relative;
+            width: 100%;
             height: 42.5px;
             line-height: 30px;
             outline: 0;
@@ -249,6 +262,33 @@
             animation: ease-out;
             animation-name:fadeIn;
             animation-duration: 3s;
+        }
+
+        .search{
+            margin-top: 50px;
+            font-family: "Poppins", sans-serif;
+            color: black;
+            width: 30%;
+            height: 50px;
+            padding-left: 1%;
+            border: 2px rgba(59, 67, 69, 0.78) solid;
+            background: transparent;
+            font-size: 16px;
+        }
+
+        .search:focus{
+            outline: none !important;
+            border-color: #62b2c2;
+            color: #0e0e0e;
+            width: 30%;
+            height: 50px;
+        }
+
+        .search:hover{
+            border-color: #62b2c2;
+            color: #0e0e0e;
+            width: 30%;
+            height: 50px;
         }
     </style>
 
@@ -328,14 +368,18 @@
             <td id = "tab_can_app" class="tab can_app"> Cancelled Appointments</td>
             <td id = "tab_mss_app" class="tab mss_app"> Completed Appointments</td>
             <td><form action="">
-                <input type="search"  id="src" placeholder="Type to Search">
+                <input class="in" type="search"  id="src" placeholder="Type to Search">
                 <i class="fa fa-search" style="font-size: 25px"></i>
             </form></td>
         </tr>
         </thead>
     </table>
 </center>
-<dl id="appList">
+    <center>
+        <div class="search-icon"></div>
+        <label for="src2"></label><input class="search" id="src2" type="search" placeholder="Type to search by Patient , date or reason"/>
+    </center>
+    <dl id="appList">
 </dl>
 </div>
 <script>
@@ -745,6 +789,14 @@
         });
     });
 
+    $(document).ready(function(){
+        $("#src2").on("keyup", function() {
+            var value = $(this).val().toLowerCase();
+            $("#appList div").filter(function() {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+    });
     function searchToggle(obj, evt){
         let container = $(obj).closest('.search-wrapper');
         if(!container.hasClass('active')){

@@ -189,7 +189,7 @@
             padding: 5px;
         }
 
-        input{
+        .in{
             position: absolute;
             top: 0;
             left: 0;
@@ -247,6 +247,45 @@
             animation: ease-out;
             animation-name:fadeIn;
             animation-duration: 3s;
+        }
+
+        .search{
+            margin-top: 50px;
+            font-family: "Poppins", sans-serif;
+            color: black;
+            width: 30%;
+            height: 50px;
+            padding-left: 1%;
+            border: 2px rgba(59, 67, 69, 0.78) solid;
+            background: transparent;
+            font-size: 16px;
+        }
+
+        .search:focus{
+            outline: none !important;
+            border-color: #62b2c2;
+            color: #0e0e0e;
+            width: 30%;
+            height: 50px;
+        }
+
+        .search:hover{
+            border-color: #62b2c2;
+            color: #0e0e0e;
+            width: 30%;
+            height: 50px;
+        }
+        .inputs{
+            position: relative;
+            width: 100%;
+            height: 42.5px;
+            line-height: 30px;
+            outline: 0;
+            border: 0;
+            display: none;
+            font-size: 1em;
+            border-radius: 20px;
+            padding: 0 20px;
         }
     </style>
 </head>
@@ -321,7 +360,7 @@
            <td id = "tab_can_app" class="tab can_app"> Cancelled Appointments</td>
             <td id = "tab_mss_app" class="tab mss_app"> Missed Appointments</td>
             <td><form action="">
-                <input type="search"  id="src" placeholder="Type to Search">
+                <input type="search" class="in"  id="src" placeholder="Type to Search">
                 <i class="fa fa-search" style="font-size: 25px"></i>
             </form></td>
        </tr>
@@ -337,6 +376,9 @@
 <!--<center>-->
 <!--    <label for="src"></label><input class="search" style="margin-top: 50px" id="src" type="search" placeholder="Type to Search..."/>-->
 <!--</center>-->
+    <center>
+        <label for="src2"></label><input class="search" id="src2" type="search" placeholder="Type to search by Doctor , date or reason"/>
+    </center>
 <dl id="appList">
 </dl>
 </div>
@@ -698,6 +740,14 @@ firebase.initializeApp(firebaseConfig);
         });
     });
 
+    $(document).ready(function(){
+        $("#src2").on("keyup", function() {
+            var value = $(this).val().toLowerCase();
+            $("#appList div").filter(function() {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+    });
     function updatemenu() {
         if (document.getElementById('responsive-menu').checked === true) {
             document.getElementById('menu').style.borderBottomRightRadius = '0';
