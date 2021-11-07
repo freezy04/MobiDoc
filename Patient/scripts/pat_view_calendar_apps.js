@@ -252,7 +252,7 @@ function updateAppointment(appID, rejection_reason) {
     const d = new Date();
     let ref = database.ref().child('Appointments');
     ref.child(Arr[0]).update({"cancellation_done_by":"Patient"});
-    ref.child(Arr[0]).update({"cancellation_date":d.getDate()+"/"+d.getMonth()+"/"+d.getFullYear()});
+    ref.child(Arr[0]).update({"cancellation_date":d.getDate()+"/"+(d.getMonth()+1)+"/"+d.getFullYear()});
     ref.child(Arr[0]).update({"cancellation_reason":rejection_reason});
     ref.child(Arr[0]).update({"status":"canceled"});
 

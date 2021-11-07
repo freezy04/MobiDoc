@@ -562,10 +562,11 @@ firebase.initializeApp(firebaseConfig);
         let pr
 
         if(app.cancellation_done_by==="Doctor"){
-            pr = "You"
+            pr = "The doctor"
         }
         if(app.cancellation_done_by==="Patient"){
-            pr = "The doctor"
+
+            pr = "You"
         }
 
         return "<div class = 'card'>" +
