@@ -117,9 +117,20 @@
             border-collapse: collapse;
         }
 
-        .up_app .mss_app .can_app .all_app {
+        .up_app .mss_app .can_app .all_app .cmp_app {
             color: #2d2c2c;
             border-bottom: 3px solid lightgrey;
+        }
+
+        .cmp_app:hover{
+            font-weight: bold;
+            color:#699b2c;
+            border-bottom: 3px solid #699b2c;
+        }
+
+        .cmp_app.active{
+            border-bottom: 3px solid #699b2c;
+            color: black;
         }
 
         .up_app:hover{
@@ -357,8 +368,10 @@
         <tr style="font-size: 15px;">
             <td  id = "tab_all_app" class="tab all_app active"> All Appointments</td>
            <td id = "tab_upm_app" class="tab up_app"> Upcoming Appointments</td>
+            <td id = "tab_comp_app" class="tab cmp_app"> Completed Appointments</td>
            <td id = "tab_can_app" class="tab can_app"> Cancelled Appointments</td>
             <td id = "tab_mss_app" class="tab mss_app"> Missed Appointments</td>
+
             <td><form action="">
                 <input type="search" class="in"  id="src" placeholder="Type to Search">
                 <i class="fa fa-search" style="font-size: 25px"></i>
@@ -513,8 +526,9 @@ firebase.initializeApp(firebaseConfig);
     let tab_upm  = _id("tab_upm_app");
     let tab_can  = _id("tab_can_app");
     let tab_all  = _id("tab_all_app");
+    let tab_cmp =_id("tab_comp_app");
 
-    let MSS_Container = [] ,UPM_Container = [],CAN_Container = [],ALL_Container = [];
+    let MSS_Container = [] ,UPM_Container = [],CAN_Container = [],ALL_Container = [],CMP_Container = [];
 
     function AddText(card){
         let container;
@@ -533,6 +547,9 @@ firebase.initializeApp(firebaseConfig);
             case 'a':
                 container = ALL_Container;
                 break;
+            case 'p':
+                container = CMP_Container;
+                break;
         }
 
         body.style.animationName = "fadeIn";
@@ -548,6 +565,7 @@ firebase.initializeApp(firebaseConfig);
         tab_can.className += "tab can_app";
         tab_mss.className = "tab mss_app";
         tab_upm.className = "tab up_app";
+        tab_cmp.className = "tab cmp_app";
         resetDl();
         AddText('a');
     });
@@ -557,6 +575,7 @@ firebase.initializeApp(firebaseConfig);
         tab_mss.className = "tab mss_app";
         tab_upm.className = "tab up_app";
         tab_all.className = "tab all_app";
+        tab_cmp.className = "tab cmp_app";
         resetDl();
         AddText('c');
     });
@@ -566,14 +585,26 @@ firebase.initializeApp(firebaseConfig);
         tab_can.className = "tab can_app";
         tab_mss.className = "tab mss_app";
         tab_all.className = "tab all_app";
+        tab_cmp.className = "tab cmp_app";
         resetDl();
         AddText('u');
+    });
+
+    tab_cmp.addEventListener("click", () =>{
+        tab_cmp.className += " active";
+        tab_can.className = "tab can_app";
+        tab_mss.className = "tab mss_app";
+        tab_all.className = "tab all_app";
+        tab_upm.className = "tab up_app";
+        resetDl();
+        AddText('p');
     });
 
     tab_mss.addEventListener("click", () =>{
         tab_mss.className += " active"
         tab_can.className = "tab can_app";
-        tab_upm.className = "tab up_app";
+        tab_upm.className = "tab up_app"
+        tab_cmp.className = "tab cmp_app";
         resetDl();
         AddText('m');
     });
@@ -629,6 +660,30 @@ firebase.initializeApp(firebaseConfig);
             + "<br/>";
     }
 
+    function COMP_Appointment(app){
+        return "<div class='card' >"+
+            "<span class='completed'>Completed</span>" +
+            "<h2>Appointment with " + app.patient_Name + "</h2>" +
+            "<p>" + app.date_for_appointment + " - " + app.time_for_appointment + "</p>" +
+            "<table>" +
+            "<tr>" +
+            "<th>Appointment notes: </th>" +
+            "<td>" + app.notes + "</td>" +
+            "</tr>" +
+            "<tr>" +
+            "<th>Consulation cost: </th>" +
+            "<td>R" + app.appointment_Cost + "</td>" +
+            "</tr>" +
+            "<tr>" +
+            "<th>Reason for appointment: </th>" +
+            "<td>" + app.reason_for_appointment + "</td>" +
+            "</tr>" +
+            "</table>"
+            +"</div>"
+            +"<br/>"
+    }
+
+
     function Upcoming_app(app){
         return "<div class='card'>"
             + "<span class='upcoming' >" + app.status + "</span>" +
@@ -670,12 +725,16 @@ firebase.initializeApp(firebaseConfig);
         let database = firebase.database();
         let ref = database.ref().child('Appointments');
         ref.orderByChild('date_for_appointment').on("value", snapshot => {
+            CAN_Container.length = 0;
+            ALL_Container.length = 0;
+            MSS_Container.length = 0;
+            UPM_Container.length = 0;
             if (snapshot.exists()) {
                 _id("tabs").style.display = "table";
                 appList.innerHTML = "";
                 snapshot.forEach(function (childSnapshot) {
                     let app = childSnapshot.val();
-                    if (uid === app.patientUid && app.status !== "completed" ) {
+                    if (uid === app.patientUid) {
                         let label;
                         // check for missed appointments :
                         if(app.status === "upcoming"){
@@ -699,6 +758,12 @@ firebase.initializeApp(firebaseConfig);
                                 appList.innerHTML += mss;
                                 MSS_Container.push(mss);
                                 ALL_Container.push(mss);
+                                break;
+                            case "completed":
+                                let cmp = COMP_Appointment(app);
+                                appList.innerHTML += cmp;
+                                CMP_Container.push(cmp);
+                                ALL_Container.push(cmp);
                                 break;
                         }
 

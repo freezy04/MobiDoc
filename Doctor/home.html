@@ -674,6 +674,11 @@
         let database = firebase.database();
         let ref = database.ref().child('Appointments');
         ref.orderByKey().on("value",snapshot => {
+            CAN_Container.length = 0;
+            MSS_Container.length = 0;
+            UPM_Container.length = 0;
+            ALL_Container.length = 0;
+
             document.getElementById("loader").style.display = "block";
             if (snapshot.exists()) {
                 _id("tabs").style.display = "table";
