@@ -154,7 +154,6 @@
             <input id = "p_aller" type="text" class="field" placeholder="Allergies">
             <input id = "p_diseaseHis" type="text" class="field" placeholder="Disease History">
             <input id = "p_medicalHis" type="text" class="field" placeholder="Medical History">
-            <input id = "p_meds" type="text" class="field" placeholder="Current Medication">
             <br/>
             <button onclick="SendUpdatedInformationToFirebase()"> Update </button>
             <div id = "spinner" class="lds-roller" style="display: none"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
@@ -173,7 +172,6 @@ let p_age = document.getElementById("age")
     let p_allergies = document.getElementById("allergies");
     let p_disHist = document.getElementById("disease_history");
     let p_medHist = document.getElementById("medical_history");
-    let p_currMed = document.getElementById("current_medication");
 
 
     const UpDateInformation = (uid,value,key) => {
@@ -197,9 +195,6 @@ let p_age = document.getElementById("age")
                 break;
             case "medicationHistory":
                 ref.child(uid).update({"medicationHistory":value});
-                break;
-            case "currentMedication":
-                ref.child(uid).update({"currentMedication":value});
                 break;
         }
     }
@@ -282,14 +277,15 @@ let p_age = document.getElementById("age")
         ref.orderByKey().equalTo(uid).once("value",snapshot => {
             if (snapshot.exists()){
                 snapshot.forEach(function(childSnapshot) {
+                    console.log(childSnapshot.key);
                     var Patient = childSnapshot.val();
+                    console.log(Patient);
                     p_name.innerText = Patient.first_name + " " + Patient.last_name;
                     p_age.innerText = Patient.age;
                     p_sex.innerText = Patient.sex;
                     p_allergies.innerText = Patient.allergies;
-                p_disHist.innerText = Patient.diseaseHistory;
-                p_medHist.innerText = Patient.medicationHistory;
-                p_currMed.innerText = Patient.currentMedication;
+                    p_disHist.innerText = Patient.diseaseHistory;
+                    p_medHist.innerText = Patient.medicationHistory;
                     p_email.innerText = Patient.email;
                 });
             }
@@ -320,7 +316,6 @@ let p_age = document.getElementById("age")
         let p_aller = document.getElementById("p_aller").value;
         let p_diseaseHis = document.getElementById("p_diseaseHis").value;
         let p_medicalHis = document.getElementById("p_medicalHis").value;
-      let p_meds = document.getElementById("p_meds").value;
 
 
 
@@ -330,7 +325,6 @@ let p_age = document.getElementById("age")
         CheckIfEdited(p_aller,"allergies");
         CheckIfEdited(p_diseaseHis,"diseaseHistory");
         CheckIfEdited(p_medicalHis,"medicationHistory");
-        CheckIfEdited(p_meds,"currentMedication");
 
         Toast();
 
