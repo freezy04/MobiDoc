@@ -21,11 +21,11 @@ test("Update Menu where the menu is unresponsive", () => {
 });
 
 test("Testing whether the value is valid", () =>{
-    expect(Doc.ValidateDetails("Some_String")).toBe(false);
+    expect(Doc.ValidateDetails("Some_String")).toBe(true);
 })
 
 test("Testing whether the value is invalid", () =>{
-    expect(Doc.ValidateDetails(null)).toBe(true);
+    expect(Doc.ValidateDetails(null)).toBe(false);
 })
 
 test("Testing the ChangeView Function", () => {

@@ -9,7 +9,8 @@ function updatemenu() {
 }
 
 const ValidateDetails = (Details) =>{
-    return Details.length > 0;
+    let t = Details === null;
+    return !t && Details.length > 0;
 }
 
 function ChangeView(){
