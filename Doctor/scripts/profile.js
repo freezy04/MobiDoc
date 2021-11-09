@@ -9,7 +9,7 @@ function updatemenu() {
 }
 
 const ValidateDetails = (Details) =>{
-    return Details === null;
+    return Details.length > 0;
 }
 
 function ChangeView(){

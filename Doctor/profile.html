@@ -153,6 +153,7 @@
 
 
     const UpDateInformation = (uid,value,key) => {
+        console.log("here ?");
         let database = firebase.database();
         let ref = database.ref().child('Doctors');
         switch (key) {
